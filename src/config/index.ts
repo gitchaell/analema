@@ -24,7 +24,7 @@ export const CAMERAS: Record<CameraType, string> = {
 };
 
 /** Time to wait for the webcam stream to fully load (in milliseconds) */
-export const STREAM_LOAD_WAIT_MS = 5 * 60 * 1000; // 5 minutes - camera service is slow to load
+export const STREAM_LOAD_WAIT_MS = 3 * 60 * 1000; // 3 minutes - camera service is slow to load
 
 /** Directory for saving captured screenshots */
 export const CAPTURES_DIR = path.join(process.cwd(), 'captures');

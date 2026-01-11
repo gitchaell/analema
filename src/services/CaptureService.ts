@@ -99,7 +99,7 @@ export class CaptureService {
 
 		await page.goto(cameraUrl, {
 			waitUntil: 'networkidle2',
-			timeout: 120000, // 2 minute timeout for slow connections
+			timeout: 2 * 60 * 1000, // 2 minute timeout for slow connections
 		});
 
 		Logger.log(`⏳ [${camera.toUpperCase()}] Page loaded, waiting for stream...`);
@@ -210,7 +210,7 @@ export class CaptureService {
 
 			await page.goto(cameraUrl, {
 				waitUntil: 'networkidle2',
-				timeout: 120000,
+				timeout: 2 * 60 * 1000,
 			});
 
 			// Wait for the stream to fully load
