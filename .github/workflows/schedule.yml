@@ -61,7 +61,7 @@ jobs:
           fetch-depth: 0
 
       # =========================================================================
-      # STEP 2: Setup Node.js 20
+      # STEP 2: Setup Node.js 20 with npm cache
       # =========================================================================
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -70,7 +70,19 @@ jobs:
           cache: 'npm'
 
       # =========================================================================
-      # STEP 3: Install Dependencies
+      # STEP 3: Cache Puppeteer Browser
+      # Puppeteer downloads Chromium (~170MB), caching saves significant time
+      # =========================================================================
+      - name: Cache Puppeteer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/puppeteer
+          key: puppeteer-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            puppeteer-${{ runner.os }}-
+
+      # =========================================================================
+      # STEP 4: Install Dependencies
       # =========================================================================
       - name: Install dependencies
         run: npm ci
