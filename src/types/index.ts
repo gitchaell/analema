@@ -4,8 +4,8 @@
  * =============================================================================
  */
 
-/** Camera type - north or west */
-export type CameraType = 'north' | 'west';
+/** Camera type - north, northeast, or west */
+export type CameraType = 'north' | 'northeast' | 'west';
 
 /** Capture type - solar or lunar */
 export type CaptureType = 'solar' | 'lunar';
@@ -16,7 +16,7 @@ export type CaptureType = 'solar' | 'lunar';
 export interface ScheduleEntry {
 	date: string; // Format: YYYY-MM-DD (Bolivia date)
 	time: string; // Format: HH:MM (24-hour, Bolivian time)
-	camera: CameraType;
+	camera?: CameraType; // Optional - if omitted, capture all cameras
 	phoenix_time?: string; // Original Phoenix time
 	phoenix_date?: string; // Phoenix date if different from Bolivia date (crosses midnight)
 	illumination?: string; // For lunar entries

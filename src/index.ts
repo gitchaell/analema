@@ -8,6 +8,11 @@
  * This script RELIES on the system timezone being set to 'America/La_Paz' (Bolivia).
  * In GitHub Actions, this is configured via the TZ environment variable.
  *
+ * TIMING LOGIC:
+ * The camera stream takes ~5 minutes to load. To capture at the exact scheduled time,
+ * we start the browser/navigation 5 minutes BEFORE the scheduled time. This way,
+ * when the stream finishes loading, it's exactly the moment to take the photo.
+ *
  * TIMEZONE CONFIGURATION:
  * - User Location: Santa Cruz, Bolivia (UTC-4 / America/La_Paz)
  * - Target Location: Phoenix, Arizona, USA (UTC-7 / No DST)
@@ -15,7 +20,7 @@
  * =============================================================================
  */
 
-import { CAMERAS } from './config';
+import { STREAM_LOAD_WAIT_MS } from './config';
 import { CaptureService } from './services/CaptureService';
 import { ScheduleService } from './services/ScheduleService';
 import { Logger } from './utils/Logger';
@@ -40,60 +45,71 @@ async function main(): Promise<void> {
 		process.exit(1);
 	}
 
-	// Check for scheduled capture this hour
-	const scheduled = scheduleService.findScheduledCaptureThisHour(allSchedules);
+	// Check for scheduled capture in current 30-minute window
+	const scheduled = scheduleService.findScheduledCaptureThisWindow(allSchedules);
 
 	if (!scheduled) {
 		console.log('');
-		Logger.log('⏸️  No capture scheduled for this hour.');
-		Logger.log('💤 Exiting to save resources. Will check again next hour.');
+		Logger.log('⏸️  No capture scheduled for this window.');
+		Logger.log('💤 Exiting to save resources. Will check again in 30 minutes.');
 		console.log('');
 		process.exit(0);
 	}
 
 	const { entry, waitMs } = scheduled;
 
+	// Calculate when to START the capture (5 min before scheduled time for stream to load)
+	const streamLoadTimeMs = STREAM_LOAD_WAIT_MS;
+	const startCaptureInMs = Math.max(0, waitMs - streamLoadTimeMs);
+
 	console.log('');
-	Logger.log('🎯 CAPTURE SCHEDULED THIS HOUR');
+	Logger.log('🎯 CAPTURE SCHEDULED');
 	Logger.log(`   Type: ${entry.type.toUpperCase()}`);
-	Logger.log(`   Scheduled time: ${entry.time} (Bolivia, UTC-4)`);
-	Logger.log(`   Camera: ${entry.camera.toUpperCase()} - ${CAMERAS[entry.camera]}`);
+	Logger.log(`   Scheduled photo time: ${entry.time} (Bolivia, UTC-4)`);
+	Logger.log(`   Cameras: ALL (north, northeast, west)`);
 	if (entry.phoenix_time) {
 		Logger.log(`   Phoenix time: ${entry.phoenix_time} (UTC-7)`);
 	}
 	if (entry.illumination) {
 		Logger.log(`   Moon illumination: ${entry.illumination}`);
 	}
-	if (entry.notes) {
-		Logger.log(`   Notes: ${entry.notes}`);
-	}
 	console.log('');
 
-	// Wait until the scheduled time
-	if (waitMs > 0) {
-		const waitMinutes = Math.round(waitMs / 60000);
-		const waitSeconds = Math.round((waitMs % 60000) / 1000);
+	Logger.log('⏱️  TIMING CALCULATION');
+	Logger.log(`   Stream load time: ${Math.round(streamLoadTimeMs / 60000)} minutes`);
+	Logger.log(`   Time until scheduled capture: ${Math.round(waitMs / 60000)} minutes`);
+	Logger.log(`   Will start browser in: ${Math.round(startCaptureInMs / 60000)} minutes`);
+	console.log('');
+
+	// Wait until it's time to START the capture (accounting for stream load time)
+	if (startCaptureInMs > 0) {
+		const waitMinutes = Math.round(startCaptureInMs / 60000);
+		const waitSeconds = Math.round((startCaptureInMs % 60000) / 1000);
 		Logger.log(
-			`⏰ Waiting ${waitMinutes} minutes and ${waitSeconds} seconds until capture time...`,
+			`⏰ Waiting ${waitMinutes} minutes and ${waitSeconds} seconds before starting capture...`,
 		);
-		Logger.log(`   (${waitMs.toLocaleString()} milliseconds)`);
+		Logger.log(`   (${startCaptureInMs.toLocaleString()} milliseconds)`);
+		Logger.log(`   Stream will load while waiting, photo taken at exactly ${entry.time}`);
 
-		await new Promise((resolve) => setTimeout(resolve, waitMs));
+		await new Promise((resolve) => setTimeout(resolve, startCaptureInMs));
 
-		Logger.success('Wait complete. Initiating capture...');
+		Logger.success('Wait complete. Starting browser now...');
 	} else {
-		Logger.success('Capture time reached. Initiating capture immediately...');
+		Logger.success('Starting capture immediately (stream will load for photo time)...');
 	}
 
 	console.log('');
 
-	// Execute capture
+	// Execute capture on ALL cameras
 	try {
-		const filepath = await captureService.capture(entry.camera, entry.type);
+		const filepaths = await captureService.captureAll(entry.type);
 
 		console.log('');
 		Logger.log('🎉 CAPTURE COMPLETE');
-		Logger.log(`   File: ${filepath}`);
+		Logger.log(`   Total files: ${filepaths.length}`);
+		for (const fp of filepaths) {
+			Logger.log(`   - ${fp}`);
+		}
 		captureService.logTimezoneInfo();
 		console.log('');
 

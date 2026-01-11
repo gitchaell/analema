@@ -19,20 +19,51 @@ import type { CameraType } from '../types';
  */
 export const CAMERAS: Record<CameraType, string> = {
 	north: 'https://www.myearthcam.com/insideoutaerial/lowercam2',
+	northeast: 'https://www.myearthcam.com/insideoutaerial/lowercam3',
 	west: 'https://myearthcam.com/insideoutaerial',
 };
 
 /** Time to wait for the webcam stream to fully load (in milliseconds) */
-export const STREAM_LOAD_WAIT_MS = 20000; // 20 seconds (between 15-20 seconds)
+export const STREAM_LOAD_WAIT_MS = 5 * 60 * 1000; // 5 minutes - camera service is slow to load
 
 /** Directory for saving captured screenshots */
 export const CAPTURES_DIR = path.join(process.cwd(), 'captures');
 
-/** Path to the solar schedule data file */
-export const SOLAR_SCHEDULE_FILE = path.join(process.cwd(), 'data', 'solar-schedule.json');
+/** Base directory for schedule data */
+export const DATA_DIR = path.join(process.cwd(), 'data');
 
-/** Path to the lunar schedule data file */
-export const LUNAR_SCHEDULE_FILE = path.join(process.cwd(), 'data', 'lunar-schedule.json');
+/**
+ * Get the path to the data directory for a specific type and month
+ * Format: data/solar/YYYY-MM/ or data/lunar/YYYY-MM/
+ */
+export function getMonthDir(type: 'solar' | 'lunar', year: number, month: number): string {
+	const monthStr = month.toString().padStart(2, '0');
+	return path.join(DATA_DIR, type, `${year}-${monthStr}`);
+}
+
+/**
+ * Get the path to the schedule file for a specific type and month
+ * Format: data/solar/YYYY-MM/schedule.json
+ */
+export function getScheduleFile(type: 'solar' | 'lunar', year: number, month: number): string {
+	return path.join(getMonthDir(type, year, month), 'schedule.json');
+}
+
+/**
+ * Get the path to the input file for a specific type and month
+ * Format: data/solar/YYYY-MM/input.json
+ */
+export function getInputFile(type: 'solar' | 'lunar', year: number, month: number): string {
+	return path.join(getMonthDir(type, year, month), 'input.json');
+}
+
+/**
+ * Get the current year and month
+ */
+export function getCurrentYearMonth(): { year: number; month: number } {
+	const now = new Date();
+	return { year: now.getFullYear(), month: now.getMonth() + 1 };
+}
 
 /** Timezone configuration */
 export const TIMEZONE = {
@@ -44,7 +75,7 @@ export const TIMEZONE = {
 
 /** Puppeteer launch options - optimized for GitHub Actions */
 export const PUPPETEER_OPTIONS: PuppeteerLaunchOptions = {
-	headless: true,
+	headless: 'new', // Use new headless mode (Chrome 112+)
 	args: [
 		'--no-sandbox',
 		'--disable-setuid-sandbox',

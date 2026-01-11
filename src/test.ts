@@ -4,21 +4,20 @@
  * =============================================================================
  *
  * Test script for immediate capture without waiting for scheduled time.
- * Useful for development and testing Puppeteer functionality.
+ * Captures from ALL cameras for a random type (solar/lunar).
  *
  * Usage: npm run test
  * =============================================================================
  */
 
-import { CAMERAS } from './config';
 import { CaptureService } from './services/CaptureService';
 import { ScheduleService } from './services/ScheduleService';
-import type { CameraType, CaptureType } from './types';
+import type { CaptureType } from './types';
 import { Logger } from './utils/Logger';
 
 async function test(): Promise<void> {
 	Logger.header('ANALEMA SOLAR Y LUNAR - Test Mode');
-	Logger.log('🧪 Running in TEST MODE - Immediate capture, no waiting');
+	Logger.log('🧪 Running in TEST MODE - Immediate capture on ALL cameras');
 	Logger.log(`📅 Current time: ${new Date().toString()}`);
 	console.log('');
 
@@ -26,40 +25,39 @@ async function test(): Promise<void> {
 	const scheduleService = new ScheduleService();
 	const captureService = new CaptureService();
 
-	// Try to get first schedule entry, or use defaults
+	// Try to get a random schedule entry for the type, or use default
 	Logger.log('📖 Loading schedules...');
 	const randomEntry = scheduleService.getRandomEntry();
 
-	let camera: CameraType;
 	let type: CaptureType;
 
 	if (randomEntry) {
-		camera = randomEntry.camera;
 		type = randomEntry.type;
-		Logger.success(`Using first schedule entry: ${type} - ${camera}`);
+		Logger.success(`Using schedule entry type: ${type.toUpperCase()}`);
 	} else {
-		// Default test values
-		camera = 'north';
 		type = 'solar';
-		Logger.warn('No schedule entries found. Using defaults: solar - north');
+		Logger.warn('No schedule entries found. Using default: solar');
 	}
 
 	console.log('');
 	Logger.log('🎯 TEST CAPTURE CONFIGURATION');
 	Logger.log(`   Type: ${type.toUpperCase()}`);
-	Logger.log(`   Camera: ${camera.toUpperCase()} - ${CAMERAS[camera]}`);
+	Logger.log('   Cameras: ALL (north, northeast, west)');
 	console.log('');
 
-	// Execute capture immediately (no waiting)
+	// Execute capture on ALL cameras immediately
 	try {
-		Logger.log('🚀 Starting immediate capture...');
+		Logger.log('🚀 Starting immediate capture on all cameras...');
 		console.log('');
 
-		const filepath = await captureService.capture(camera, type);
+		const filepaths = await captureService.captureAll(type);
 
 		console.log('');
 		Logger.log('🎉 TEST CAPTURE COMPLETE');
-		Logger.log(`   File: ${filepath}`);
+		Logger.log(`   Total files: ${filepaths.length}`);
+		for (const fp of filepaths) {
+			Logger.log(`   - ${fp}`);
+		}
 		captureService.logTimezoneInfo();
 		console.log('');
 

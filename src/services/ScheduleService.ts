@@ -6,7 +6,7 @@
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { LUNAR_SCHEDULE_FILE, SOLAR_SCHEDULE_FILE } from '../config';
+import { getCurrentYearMonth, getScheduleFile } from '../config';
 import type { CombinedEntry, ScheduledCapture, ScheduleFile } from '../types';
 import { Logger } from '../utils/Logger';
 
@@ -16,6 +16,14 @@ import { Logger } from '../utils/Logger';
 export class ScheduleService {
 	private solarSchedule: ScheduleFile | null = null;
 	private lunarSchedule: ScheduleFile | null = null;
+	private currentYear: number;
+	private currentMonth: number;
+
+	constructor() {
+		const { year, month } = getCurrentYearMonth();
+		this.currentYear = year;
+		this.currentMonth = month;
+	}
 
 	/**
 	 * Load a schedule file from disk
@@ -31,10 +39,14 @@ export class ScheduleService {
 	}
 
 	/**
-	 * Load solar schedule from file
+	 * Load solar schedule for the current month
 	 */
 	loadSolarSchedule(): ScheduleFile | null {
-		this.solarSchedule = this.loadFile(SOLAR_SCHEDULE_FILE);
+		const filePath = getScheduleFile('solar', this.currentYear, this.currentMonth);
+		Logger.log(
+			`📂 Loading from: data/solar/${this.currentYear}-${this.currentMonth.toString().padStart(2, '0')}/`,
+		);
+		this.solarSchedule = this.loadFile(filePath);
 		if (this.solarSchedule) {
 			Logger.log(`☀️  Loaded ${this.solarSchedule.schedule.length} solar entries`);
 		}
@@ -42,10 +54,11 @@ export class ScheduleService {
 	}
 
 	/**
-	 * Load lunar schedule from file
+	 * Load lunar schedule for the current month
 	 */
 	loadLunarSchedule(): ScheduleFile | null {
-		this.lunarSchedule = this.loadFile(LUNAR_SCHEDULE_FILE);
+		const filePath = getScheduleFile('lunar', this.currentYear, this.currentMonth);
+		this.lunarSchedule = this.loadFile(filePath);
 		if (this.lunarSchedule) {
 			Logger.log(`🌙 Loaded ${this.lunarSchedule.schedule.length} lunar entries`);
 		}
@@ -79,13 +92,24 @@ export class ScheduleService {
 	}
 
 	/**
-	 * Find a scheduled capture within the current hour
+	 * Find a scheduled capture within the current 30-minute window
+	 * GitHub Actions runs every 30 min (at :00 and :30)
+	 * Window 1: minutes 00-29, Window 2: minutes 30-59
 	 * Returns the matching entry and milliseconds to wait, or null if none found
 	 */
-	findScheduledCaptureThisHour(schedule: CombinedEntry[]): ScheduledCapture | null {
+	findScheduledCaptureThisWindow(schedule: CombinedEntry[]): ScheduledCapture | null {
 		const now = new Date();
 		const currentDate = now.toISOString().split('T')[0]; // YYYY-MM-DD
 		const currentHour = now.getHours();
+		const currentMinute = now.getMinutes();
+
+		// Determine which 30-minute window we're in (0-29 or 30-59)
+		const windowStart = currentMinute < 30 ? 0 : 30;
+		const windowEnd = currentMinute < 30 ? 29 : 59;
+
+		Logger.log(
+			`🔍 Checking for captures in window ${currentHour}:${windowStart.toString().padStart(2, '0')}-${currentHour}:${windowEnd.toString().padStart(2, '0')}`,
+		);
 
 		for (const entry of schedule) {
 			// Check if the entry is for today
@@ -101,14 +125,20 @@ export class ScheduleService {
 				continue;
 			}
 
+			// Check if it's within the current 30-minute window
+			if (scheduledMinute < windowStart || scheduledMinute > windowEnd) {
+				continue;
+			}
+
 			// Calculate milliseconds until the scheduled time
 			const scheduledTime = new Date(now);
 			scheduledTime.setHours(scheduledHour, scheduledMinute, 0, 0);
 
 			const waitMs = scheduledTime.getTime() - now.getTime();
 
-			// Allow 1 minute grace period for slight timing issues
-			if (waitMs >= -60000) {
+			// Allow 7 minute grace period (2 min GitHub delay + 5 min stream load time)
+			// This ensures captures are detected even if we're slightly past the scheduled time
+			if (waitMs >= -420000) {
 				return { entry, waitMs: Math.max(0, waitMs) };
 			}
 		}
@@ -117,7 +147,7 @@ export class ScheduleService {
 	}
 
 	/**
-	 * Get the random schedule entry (for testing)
+	 * Get a random schedule entry (for testing)
 	 */
 	getRandomEntry(): CombinedEntry | null {
 		const schedules = this.getAllSchedules();
