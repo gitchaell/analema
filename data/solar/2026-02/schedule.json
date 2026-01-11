@@ -1,0 +1,39 @@
+{
+	"type": "solar",
+	"description": "Solar capture schedule - Sun at solar noon from Phoenix, Arizona webcam. All 3 cameras captured.",
+	"timezone": {
+		"display": "America/La_Paz (Bolivia, UTC-4)",
+		"target_location": "Ahwatukee - Phoenix, Arizona, USA (UTC-7)",
+		"offset_difference": "+3 hours (Bolivia is ahead of Phoenix)"
+	},
+	"schedule": [
+		{ "date": "2026-02-01", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-02", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-03", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-04", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-05", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-06", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-07", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-08", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-09", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-10", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-11", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-12", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-13", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-14", "time": "15:42", "phoenix_time": "12:42" },
+		{ "date": "2026-02-15", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-16", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-17", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-18", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-19", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-20", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-21", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-22", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-23", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-24", "time": "15:41", "phoenix_time": "12:41" },
+		{ "date": "2026-02-25", "time": "15:40", "phoenix_time": "12:40" },
+		{ "date": "2026-02-26", "time": "15:40", "phoenix_time": "12:40" },
+		{ "date": "2026-02-27", "time": "15:40", "phoenix_time": "12:40" },
+		{ "date": "2026-02-28", "time": "15:40", "phoenix_time": "12:40" }
+	]
+}

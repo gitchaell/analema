@@ -1,0 +1,71 @@
+{
+	"type": "lunar",
+	"description": "Lunar capture schedule - Moon at meridian from Phoenix, Arizona webcam. All 3 cameras captured.",
+	"timezone": {
+		"display": "America/La_Paz (Bolivia, UTC-4)",
+		"target_location": "Ahwatukee - Phoenix, Arizona, USA (UTC-7)",
+		"offset_difference": "+3 hours (Bolivia is ahead of Phoenix)"
+	},
+	"schedule": [
+		{
+			"date": "2026-03-02",
+			"time": "02:44",
+			"phoenix_time": "23:44",
+			"phoenix_date": "2026-03-01",
+			"illumination": "98.3%"
+		},
+		{ "date": "2026-03-03", "time": "03:31", "phoenix_time": "00:31", "illumination": "100.0%" },
+		{ "date": "2026-03-04", "time": "04:16", "phoenix_time": "01:16", "illumination": "99.2%" },
+		{ "date": "2026-03-05", "time": "04:59", "phoenix_time": "01:59", "illumination": "96.1%" },
+		{ "date": "2026-03-06", "time": "05:41", "phoenix_time": "02:41", "illumination": "91.1%" },
+		{ "date": "2026-03-07", "time": "06:25", "phoenix_time": "03:25", "illumination": "84.4%" },
+		{ "date": "2026-03-08", "time": "07:10", "phoenix_time": "04:10", "illumination": "76.6%" },
+		{ "date": "2026-03-09", "time": "07:57", "phoenix_time": "04:57", "illumination": "67.7%" },
+		{ "date": "2026-03-10", "time": "08:47", "phoenix_time": "05:47", "illumination": "58.3%" },
+		{ "date": "2026-03-11", "time": "09:38", "phoenix_time": "06:38", "illumination": "48.6%" },
+		{ "date": "2026-03-12", "time": "10:30", "phoenix_time": "07:30", "illumination": "38.8%" },
+		{ "date": "2026-03-13", "time": "11:22", "phoenix_time": "08:22", "illumination": "29.3%" },
+		{ "date": "2026-03-14", "time": "12:12", "phoenix_time": "09:12", "illumination": "20.4%" },
+		{ "date": "2026-03-15", "time": "13:01", "phoenix_time": "10:01", "illumination": "12.7%" },
+		{ "date": "2026-03-16", "time": "13:49", "phoenix_time": "10:49", "illumination": "6.4%" },
+		{ "date": "2026-03-17", "time": "14:35", "phoenix_time": "11:35", "illumination": "2.0%" },
+		{ "date": "2026-03-18", "time": "15:21", "phoenix_time": "12:21", "illumination": "0.1%" },
+		{ "date": "2026-03-19", "time": "16:08", "phoenix_time": "13:08", "illumination": "0.9%" },
+		{ "date": "2026-03-20", "time": "16:58", "phoenix_time": "13:58", "illumination": "4.4%" },
+		{ "date": "2026-03-21", "time": "17:51", "phoenix_time": "14:51", "illumination": "10.7%" },
+		{ "date": "2026-03-22", "time": "18:48", "phoenix_time": "15:48", "illumination": "19.4%" },
+		{ "date": "2026-03-23", "time": "19:49", "phoenix_time": "16:49", "illumination": "29.8%" },
+		{ "date": "2026-03-24", "time": "20:51", "phoenix_time": "17:51", "illumination": "41.4%" },
+		{ "date": "2026-03-25", "time": "21:54", "phoenix_time": "18:54", "illumination": "53.3%" },
+		{ "date": "2026-03-26", "time": "22:54", "phoenix_time": "19:54", "illumination": "64.8%" },
+		{ "date": "2026-03-27", "time": "23:49", "phoenix_time": "20:49", "illumination": "75.3%" },
+		{
+			"date": "2026-03-29",
+			"time": "00:40",
+			"phoenix_time": "21:40",
+			"phoenix_date": "2026-03-28",
+			"illumination": "84.3%"
+		},
+		{
+			"date": "2026-03-30",
+			"time": "01:26",
+			"phoenix_time": "22:26",
+			"phoenix_date": "2026-03-29",
+			"illumination": "91.5%"
+		},
+		{
+			"date": "2026-03-31",
+			"time": "02:11",
+			"phoenix_time": "23:11",
+			"phoenix_date": "2026-03-30",
+			"illumination": "96.5%"
+		},
+		{
+			"date": "2026-04-01",
+			"time": "02:53",
+			"phoenix_time": "23:53",
+			"phoenix_date": "2026-03-31",
+			"illumination": "99.3%"
+		}
+	]
+}

@@ -1,0 +1,42 @@
+{
+	"type": "solar",
+	"description": "Solar capture schedule - Sun at solar noon from Phoenix, Arizona webcam. All 3 cameras captured.",
+	"timezone": {
+		"display": "America/La_Paz (Bolivia, UTC-4)",
+		"target_location": "Ahwatukee - Phoenix, Arizona, USA (UTC-7)",
+		"offset_difference": "+3 hours (Bolivia is ahead of Phoenix)"
+	},
+	"schedule": [
+		{ "date": "2026-08-01", "time": "15:34", "phoenix_time": "12:34" },
+		{ "date": "2026-08-02", "time": "15:34", "phoenix_time": "12:34" },
+		{ "date": "2026-08-03", "time": "15:34", "phoenix_time": "12:34" },
+		{ "date": "2026-08-04", "time": "15:34", "phoenix_time": "12:34" },
+		{ "date": "2026-08-05", "time": "15:33", "phoenix_time": "12:33" },
+		{ "date": "2026-08-06", "time": "15:33", "phoenix_time": "12:33" },
+		{ "date": "2026-08-07", "time": "15:33", "phoenix_time": "12:33" },
+		{ "date": "2026-08-08", "time": "15:33", "phoenix_time": "12:33" },
+		{ "date": "2026-08-09", "time": "15:33", "phoenix_time": "12:33" },
+		{ "date": "2026-08-10", "time": "15:33", "phoenix_time": "12:33" },
+		{ "date": "2026-08-11", "time": "15:33", "phoenix_time": "12:33" },
+		{ "date": "2026-08-12", "time": "15:32", "phoenix_time": "12:32" },
+		{ "date": "2026-08-13", "time": "15:32", "phoenix_time": "12:32" },
+		{ "date": "2026-08-14", "time": "15:32", "phoenix_time": "12:32" },
+		{ "date": "2026-08-15", "time": "15:32", "phoenix_time": "12:32" },
+		{ "date": "2026-08-16", "time": "15:32", "phoenix_time": "12:32" },
+		{ "date": "2026-08-17", "time": "15:31", "phoenix_time": "12:31" },
+		{ "date": "2026-08-18", "time": "15:31", "phoenix_time": "12:31" },
+		{ "date": "2026-08-19", "time": "15:31", "phoenix_time": "12:31" },
+		{ "date": "2026-08-20", "time": "15:31", "phoenix_time": "12:31" },
+		{ "date": "2026-08-21", "time": "15:31", "phoenix_time": "12:31" },
+		{ "date": "2026-08-22", "time": "15:30", "phoenix_time": "12:30" },
+		{ "date": "2026-08-23", "time": "15:30", "phoenix_time": "12:30" },
+		{ "date": "2026-08-24", "time": "15:30", "phoenix_time": "12:30" },
+		{ "date": "2026-08-25", "time": "15:29", "phoenix_time": "12:29" },
+		{ "date": "2026-08-26", "time": "15:29", "phoenix_time": "12:29" },
+		{ "date": "2026-08-27", "time": "15:29", "phoenix_time": "12:29" },
+		{ "date": "2026-08-28", "time": "15:29", "phoenix_time": "12:29" },
+		{ "date": "2026-08-29", "time": "15:28", "phoenix_time": "12:28" },
+		{ "date": "2026-08-30", "time": "15:28", "phoenix_time": "12:28" },
+		{ "date": "2026-08-31", "time": "15:28", "phoenix_time": "12:28" }
+	]
+}
