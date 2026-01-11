@@ -99,9 +99,21 @@ export class ScheduleService {
 	 */
 	findScheduledCaptureThisWindow(schedule: CombinedEntry[]): ScheduledCapture | null {
 		const now = new Date();
-		const currentDate = now.toISOString().split('T')[0]; // YYYY-MM-DD
+
+		// Get current date in LOCAL timezone (Bolivia when TZ=America/La_Paz)
+		// Note: toISOString() always returns UTC, so we use local methods instead
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, '0');
+		const day = String(now.getDate()).padStart(2, '0');
+		const currentDate = `${year}-${month}-${day}`; // YYYY-MM-DD in local TZ
+
 		const currentHour = now.getHours();
 		const currentMinute = now.getMinutes();
+
+		Logger.log(`📅 Current date (local TZ): ${currentDate}`);
+		Logger.log(
+			`⏰ Current time (local TZ): ${currentHour}:${currentMinute.toString().padStart(2, '0')}`,
+		);
 
 		// Determine which 30-minute window we're in (0-29 or 30-59)
 		const windowStart = currentMinute < 30 ? 0 : 30;

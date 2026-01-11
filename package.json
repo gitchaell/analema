@@ -5,7 +5,9 @@
 	"main": "src/index.ts",
 	"scripts": {
 		"start": "ts-node src/index.ts",
-		"test": "ts-node src/test.ts",
+		"test": "ts-node test/capture-test.ts",
+		"test:capture": "ts-node test/capture-test.ts",
+		"test:timezone": "ts-node test/timezone-test.ts",
 		"build": "tsc",
 		"dev": "ts-node-dev src/index.ts",
 		"format": "biome format --write .",

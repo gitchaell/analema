@@ -1,22 +1,22 @@
 /**
  * =============================================================================
- * ANALEMA SOLAR Y LUNAR - Test Script
+ * ANALEMA SOLAR Y LUNAR - Capture Test Script
  * =============================================================================
  *
  * Test script for immediate capture without waiting for scheduled time.
  * Captures from ALL cameras for a random type (solar/lunar).
  *
- * Usage: npm run test
+ * Usage: npm run test:capture
  * =============================================================================
  */
 
-import { CaptureService } from './services/CaptureService';
-import { ScheduleService } from './services/ScheduleService';
-import type { CaptureType } from './types';
-import { Logger } from './utils/Logger';
+import { CaptureService } from '../src/services/CaptureService';
+import { ScheduleService } from '../src/services/ScheduleService';
+import type { CaptureType } from '../src/types';
+import { Logger } from '../src/utils/Logger';
 
 async function test(): Promise<void> {
-	Logger.header('ANALEMA SOLAR Y LUNAR - Test Mode');
+	Logger.header('ANALEMA SOLAR Y LUNAR - Capture Test');
 	Logger.log('🧪 Running in TEST MODE - Immediate capture on ALL cameras');
 	Logger.log(`📅 Current time: ${new Date().toString()}`);
 	console.log('');
