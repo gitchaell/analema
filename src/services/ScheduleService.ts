@@ -92,20 +92,25 @@ export class ScheduleService {
 	}
 
 	/**
-	 * Find a scheduled capture within the current 30-minute window
-	 * GitHub Actions runs every 30 min (at :00 and :30)
-	 * Window 1: minutes 00-29, Window 2: minutes 30-59
-	 * Returns the matching entry and milliseconds to wait, or null if none found
+	 * Find a scheduled capture for the current 30-minute window.
+	 *
+	 * Workflow timing:
+	 * - Cron runs at :27 and :57
+	 * - Each run covers a 30-minute window:
+	 *   - :27 covers captures from :00 to :29 (first half of hour)
+	 *   - :57 covers captures from :30 to :59 (second half of hour)
+	 * - Stream loads for 3 min before capture
+	 * - Grace period of 5 min for late starts
 	 */
 	findScheduledCaptureThisWindow(schedule: CombinedEntry[]): ScheduledCapture | null {
 		const now = new Date();
+		const GRACE_PERIOD_MS = 5 * 60 * 1000; // 5 minutes
 
 		// Get current date in LOCAL timezone (Bolivia when TZ=America/La_Paz)
-		// Note: toISOString() always returns UTC, so we use local methods instead
 		const year = now.getFullYear();
 		const month = String(now.getMonth() + 1).padStart(2, '0');
 		const day = String(now.getDate()).padStart(2, '0');
-		const currentDate = `${year}-${month}-${day}`; // YYYY-MM-DD in local TZ
+		const currentDate = `${year}-${month}-${day}`;
 
 		const currentHour = now.getHours();
 		const currentMinute = now.getMinutes();
@@ -115,12 +120,15 @@ export class ScheduleService {
 			`⏰ Current time (local TZ): ${currentHour}:${currentMinute.toString().padStart(2, '0')}`,
 		);
 
-		// Determine which 30-minute window we're in (0-29 or 30-59)
-		const windowStart = currentMinute < 30 ? 0 : 30;
-		const windowEnd = currentMinute < 30 ? 29 : 59;
+		// Determine which 30-minute window we're in
+		// First half: minutes 00-29 (cron runs at :27)
+		// Second half: minutes 30-59 (cron runs at :57)
+		const inFirstHalf = currentMinute < 30;
+		const windowStart = inFirstHalf ? 0 : 30;
+		const windowEnd = inFirstHalf ? 29 : 59;
 
 		Logger.log(
-			`🔍 Checking for captures in window ${currentHour}:${windowStart.toString().padStart(2, '0')}-${currentHour}:${windowEnd.toString().padStart(2, '0')}`,
+			`🔍 Checking for captures in window ${currentHour}:${String(windowStart).padStart(2, '0')}-${currentHour}:${String(windowEnd).padStart(2, '0')}`,
 		);
 
 		for (const entry of schedule) {
@@ -148,13 +156,14 @@ export class ScheduleService {
 
 			const waitMs = scheduledTime.getTime() - now.getTime();
 
-			// Allow 5 minute grace period (2 min GitHub delay + 3 min stream load time)
-			// This ensures captures are detected even if we're slightly past the scheduled time
-			if (waitMs >= -(5 * 60 * 1000)) {
+			// Allow detection if we're within grace period (5 min past scheduled time still OK)
+			if (waitMs >= -GRACE_PERIOD_MS) {
+				Logger.success(`✅ Found: ${entry.type} at ${entry.time}`);
 				return { entry, waitMs: Math.max(0, waitMs) };
 			}
 		}
 
+		Logger.log(`⏸️  No capture scheduled in current window.`);
 		return null;
 	}
 
