@@ -24,10 +24,10 @@ name: Sky Photographer - Scheduled Capture
 
 on:
   schedule:
-    # Run at :27 and :57 of each hour
-    # Stream loads 3 min → captures at :30 and :00 exactly
+    # Run every hour at minute 0
+    # The script will check if there's a capture scheduled this hour and wait for it
     # Cron format: minute hour day month weekday (GitHub uses UTC time)
-    - cron: '27,57 * * * *'
+    - cron: '0 * * * *'
 
   # Allow manual trigger for testing
   workflow_dispatch:

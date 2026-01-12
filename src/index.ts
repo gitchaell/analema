@@ -45,13 +45,13 @@ async function main(): Promise<void> {
 		process.exit(1);
 	}
 
-	// Check for scheduled capture in current 30-minute window
+	// Check for scheduled capture in current hour
 	const scheduled = scheduleService.findScheduledCaptureThisWindow(allSchedules);
 
 	if (!scheduled) {
 		console.log('');
-		Logger.log('⏸️  No capture scheduled for this window.');
-		Logger.log('💤 Exiting to save resources. Will check again in 30 minutes.');
+		Logger.log('⏸️  No capture scheduled for this hour.');
+		Logger.log('💤 Exiting to save resources. Will check again next hour.');
 		console.log('');
 		process.exit(0);
 	}

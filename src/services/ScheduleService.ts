@@ -92,19 +92,15 @@ export class ScheduleService {
 	}
 
 	/**
-	 * Find a scheduled capture for the current 30-minute window.
+	 * Find a scheduled capture for the current hour.
 	 *
 	 * Workflow timing:
-	 * - Cron runs at :27 and :57
-	 * - Each run covers a 30-minute window:
-	 *   - :27 covers captures from :00 to :29 (first half of hour)
-	 *   - :57 covers captures from :30 to :59 (second half of hour)
-	 * - Stream loads for 3 min before capture
-	 * - Grace period of 5 min for late starts
+	 * - Cron runs every hour at minute 0
+	 * - Script checks for any capture scheduled this hour
+	 * - If found, waits for the scheduled time, loads stream 3 min before, captures at exact time
 	 */
 	findScheduledCaptureThisWindow(schedule: CombinedEntry[]): ScheduledCapture | null {
 		const now = new Date();
-		const GRACE_PERIOD_MS = 5 * 60 * 1000; // 5 minutes
 
 		// Get current date in LOCAL timezone (Bolivia when TZ=America/La_Paz)
 		const year = now.getFullYear();
@@ -119,17 +115,7 @@ export class ScheduleService {
 		Logger.log(
 			`⏰ Current time (local TZ): ${currentHour}:${currentMinute.toString().padStart(2, '0')}`,
 		);
-
-		// Determine which 30-minute window we're in
-		// First half: minutes 00-29 (cron runs at :27)
-		// Second half: minutes 30-59 (cron runs at :57)
-		const inFirstHalf = currentMinute < 30;
-		const windowStart = inFirstHalf ? 0 : 30;
-		const windowEnd = inFirstHalf ? 29 : 59;
-
-		Logger.log(
-			`🔍 Checking for captures in window ${currentHour}:${String(windowStart).padStart(2, '0')}-${currentHour}:${String(windowEnd).padStart(2, '0')}`,
-		);
+		Logger.log(`🔍 Checking for captures in hour ${currentHour}:00-${currentHour}:59`);
 
 		for (const entry of schedule) {
 			// Check if the entry is for today
@@ -145,25 +131,18 @@ export class ScheduleService {
 				continue;
 			}
 
-			// Check if it's within the current 30-minute window
-			if (scheduledMinute < windowStart || scheduledMinute > windowEnd) {
-				continue;
-			}
-
 			// Calculate milliseconds until the scheduled time
 			const scheduledTime = new Date(now);
 			scheduledTime.setHours(scheduledHour, scheduledMinute, 0, 0);
-
 			const waitMs = scheduledTime.getTime() - now.getTime();
 
-			// Allow detection if we're within grace period (5 min past scheduled time still OK)
-			if (waitMs >= -GRACE_PERIOD_MS) {
-				Logger.success(`✅ Found: ${entry.type} at ${entry.time}`);
-				return { entry, waitMs: Math.max(0, waitMs) };
-			}
+			// Always return the capture if it's in the current hour
+			// waitMs may be negative if we're past the scheduled time
+			Logger.success(`✅ Found: ${entry.type} at ${entry.time}`);
+			return { entry, waitMs: Math.max(0, waitMs) };
 		}
 
-		Logger.log(`⏸️  No capture scheduled in current window.`);
+		Logger.log(`⏸️  No capture scheduled in current hour.`);
 		return null;
 	}
 
