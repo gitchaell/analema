@@ -24,10 +24,10 @@ name: Sky Photographer - Scheduled Capture
 
 on:
   schedule:
-    # Run every 30 minutes (at minute 0 and 30 of each hour)
-    # Cron format: minute hour day month weekday
-    # Note: GitHub Actions uses UTC time
-    - cron: '0,30 * * * *'
+    # Run at :27 and :57 of each hour
+    # Stream loads 3 min → captures at :30 and :00 exactly
+    # Cron format: minute hour day month weekday (GitHub uses UTC time)
+    - cron: '27,57 * * * *'
 
   # Allow manual trigger for testing
   workflow_dispatch:

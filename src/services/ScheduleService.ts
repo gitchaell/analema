@@ -148,9 +148,9 @@ export class ScheduleService {
 
 			const waitMs = scheduledTime.getTime() - now.getTime();
 
-			// Allow 7 minute grace period (2 min GitHub delay + 5 min stream load time)
+			// Allow 5 minute grace period (2 min GitHub delay + 3 min stream load time)
 			// This ensures captures are detected even if we're slightly past the scheduled time
-			if (waitMs >= -420000) {
+			if (waitMs >= -(5 * 60 * 1000)) {
 				return { entry, waitMs: Math.max(0, waitMs) };
 			}
 		}
