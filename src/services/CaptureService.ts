@@ -139,13 +139,13 @@ export class CaptureService {
 		console.log('');
 
 		// Step 1: Launch all browsers in PARALLEL and navigate to camera URLs
-		Logger.log('🔄 Launching all 3 browsers in parallel...');
+		Logger.log(`🔄 Launching all ${ALL_CAMERAS.length} browsers in parallel...`);
 		const preparePromises = ALL_CAMERAS.map((camera) => this.prepareCamera(camera, type));
 
 		let preparedCameras: Awaited<ReturnType<typeof this.prepareCamera>>[] = [];
 		try {
 			preparedCameras = await Promise.all(preparePromises);
-			Logger.success('All 3 browsers launched and pages loaded.');
+			Logger.success(`All ${ALL_CAMERAS.length} browsers launched and pages loaded.`);
 		} catch (error) {
 			Logger.error(`Failed to prepare cameras: ${error}`);
 			// Close any browsers that were opened
