@@ -12,7 +12,9 @@
 		"dev": "ts-node-dev src/index.ts",
 		"format": "biome format --write .",
 		"lint": "biome lint --write .",
-		"check": "biome check --write ."
+		"check": "biome check --write .",
+		"generate:calendar": "ts-node scripts/generate-calendar.ts",
+		"generate:animation": "ts-node scripts/generate-animation.ts"
 	},
 	"keywords": [
 		"puppeteer",
