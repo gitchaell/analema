@@ -20,6 +20,7 @@ import type { CameraType } from '../types';
 export const CAMERAS: Record<CameraType, string> = {
 	north: 'https://www.myearthcam.com/insideoutaerial/lowercam2',
 	northeast: 'https://www.myearthcam.com/insideoutaerial/lowercam3',
+	southeast: 'https://www.myearthcam.com/insideoutaerial/phxweather',
 	west: 'https://myearthcam.com/insideoutaerial',
 };
 

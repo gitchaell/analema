@@ -25,7 +25,7 @@ import type { CameraType, CaptureType } from '../types';
 import { Logger } from '../utils/Logger';
 
 /** All available cameras */
-const ALL_CAMERAS: CameraType[] = ['north', 'northeast', 'west'];
+const ALL_CAMERAS: CameraType[] = ['north', 'northeast', 'southeast', 'west'];
 
 /**
  * Service for capturing screenshots from webcams using Puppeteer
