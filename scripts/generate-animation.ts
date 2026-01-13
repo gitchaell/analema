@@ -16,9 +16,9 @@
  *   npx ts-node scripts/generate-animation.ts all all gif
  */
 
-import { execSync } from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
+import { execSync } from 'node:child_process';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 const CAPTURES_DIR = path.join(__dirname, '..', 'captures');
 const OUTPUT_DIR = path.join(__dirname, '..', 'animations');
@@ -35,6 +35,15 @@ interface GenerateOptions {
 	camera: CameraType | 'all';
 	format: OutputFormat;
 	fps?: number;
+}
+
+function checkFfmpeg(): boolean {
+	try {
+		execSync('ffmpeg -version', { stdio: 'pipe' });
+		return true;
+	} catch {
+		return false;
+	}
 }
 
 function ensureDir(dir: string): void {
@@ -104,6 +113,15 @@ function generateAnimation(
 
 function generate(options: GenerateOptions): void {
 	const { type, camera, format, fps = 4 } = options;
+
+	// Check if ffmpeg is installed
+	if (!checkFfmpeg()) {
+		console.error('❌ ffmpeg is not installed or not in PATH');
+		console.error('   Install it with: sudo apt install ffmpeg (Linux)');
+		console.error('                  : brew install ffmpeg (macOS)');
+		console.error('                  : https://ffmpeg.org/download.html (Windows)');
+		process.exit(1);
+	}
 
 	ensureDir(OUTPUT_DIR);
 
