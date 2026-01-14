@@ -50,15 +50,11 @@ analema/
 │       ├── north/            # Lunar captures from north camera
 │       ├── northeast/        # Lunar captures from northeast camera
 │       └── west/             # Lunar captures from west camera
-├── data/                      # Schedule data organized by type/month
+├── data/                      # Schedule data organized by type
 │   ├── solar/
-│   │   └── 2026-01/
-│   │       ├── input.json    # Raw astronomical data from web
-│   │       └── schedule.json # Prepared schedule for script
+│   │   └── 2026-01.json      # Solar schedule for January 2026
 │   └── lunar/
-│       └── 2026-01/
-│           ├── input.json
-│           └── schedule.json
+│       └── 2026-01.json      # Lunar schedule for January 2026
 ├── src/
 │   ├── index.ts              # Production entry (scheduled captures)
 │   ├── test.ts               # Test entry (immediate capture)
@@ -106,39 +102,43 @@ npm run check    # Format + Lint
 
 ### Data Folder Structure
 
-Each month has its own folder organized by type:
+Each month has its own JSON file organized by type:
 
 ```
 data/
 ├── solar/
-│   └── 2026-01/
-│       ├── input.json     # Raw data scraped from timeanddate.com
-│       └── schedule.json  # Processed schedule with Bolivia times
+│   ├── 2026-01.json      # Solar schedule for January 2026
+│   ├── 2026-02.json      # Solar schedule for February 2026
+│   └── ...
 └── lunar/
-    └── 2026-01/
-        ├── input.json
-        └── schedule.json
+    ├── 2026-01.json      # Lunar schedule for January 2026
+    ├── 2026-02.json      # Lunar schedule for February 2026
+    └── ...
 ```
 
-To add a new month, create `data/solar/YYYY-MM/` and `data/lunar/YYYY-MM/` with schedule files.
+To add a new month, create `data/solar/YYYY-MM.json` and `data/lunar/YYYY-MM.json` files.
 
 ### Schedule Entry Format
 
 ```json
 {
-  "date": "2026-01-11",
-  "time": "15:35",
-  "phoenix_time": "12:35",
-  "illumination": "41.3%"
+  "phx.date": "2026-01-27",
+  "phx.time": "21:30",
+  "bob.date": "2026-01-28",
+  "bob.time": "00:30",
+  "dir": "southwest"
 }
 ```
 
 | Field | Description |
 |-------|-------------|
-| `date` | Capture date in Bolivia timezone (YYYY-MM-DD) |
-| `time` | Capture time in Bolivia timezone (HH:MM, 24h) |
-| `phoenix_time` | Original Phoenix time (for reference) |
-| `illumination` | Moon illumination percentage (lunar only) |
+| `phx.date` | Capture date in Phoenix timezone (YYYY-MM-DD) |
+| `phx.time` | Capture time in Phoenix timezone (HH:MM, 24h, UTC-7) |
+| `bob.date` | Capture date in Bolivia timezone (YYYY-MM-DD) |
+| `bob.time` | Capture time in Bolivia timezone (HH:MM, 24h, UTC-4) |
+| `dir` | Cardinal direction where celestial body is located |
+
+> **Note**: When `phx.time + 3h` crosses midnight, `bob.date` advances to the next day.
 
 ## 📸 Output
 
