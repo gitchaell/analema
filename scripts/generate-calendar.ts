@@ -2,15 +2,10 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 interface ScheduleEntry {
-	date: string;
-	time: string;
-	phoenix_time?: string;
-	illumination?: string;
-}
-
-interface ScheduleFile {
-	type: string;
-	schedule: ScheduleEntry[];
+	'phx.date': string;
+	'phx.time': string;
+	'bob.date': string;
+	'bob.time': string;
 }
 
 function formatICSDate(date: string, time: string): string {
@@ -36,44 +31,47 @@ function generateICS(): string {
 		'X-WR-TIMEZONE:America/La_Paz',
 	];
 
-	const types = ['solar', 'lunar'];
+	const types = ['solar', 'lunar'] as const;
 
 	for (const type of types) {
 		const typeDir = path.join(dataDir, type);
 		if (!fs.existsSync(typeDir)) continue;
 
-		const months = fs.readdirSync(typeDir).filter(d => d.match(/^\d{4}-\d{2}$/));
+		// Find all YYYY-MM.json files
+		const files = fs.readdirSync(typeDir).filter((f) => f.match(/^\d{4}-\d{2}\.json$/));
 
-		for (const month of months) {
-			const scheduleFile = path.join(typeDir, month, 'schedule.json');
-			if (!fs.existsSync(scheduleFile)) continue;
+		for (const file of files) {
+			const filePath = path.join(typeDir, file);
+			const entries: ScheduleEntry[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
-			const data: ScheduleFile = JSON.parse(fs.readFileSync(scheduleFile, 'utf-8'));
+			for (const entry of entries) {
+				// Skip placeholder entries (00:00)
+				if (entry['bob.time'] === '00:00') continue;
 
-			for (const entry of data.schedule) {
 				const emoji = type === 'solar' ? '☀️' : '🌙';
 				const summary = `${emoji} ${type.charAt(0).toUpperCase() + type.slice(1)} Capture`;
-				const description = entry.illumination
-					? `Moon illumination: ${entry.illumination}\\nPhoenix time: ${entry.phoenix_time}`
-					: `Phoenix time: ${entry.phoenix_time}`;
+				const description = `Phoenix: ${entry['phx.date']} ${entry['phx.time']}`;
 
-				const dtstart = formatICSDate(entry.date, entry.time);
-				const [h, m] = entry.time.split(':').map(Number);
+				const dtstart = formatICSDate(entry['bob.date'], entry['bob.time']);
+				const [h, m] = entry['bob.time'].split(':').map(Number);
 				const endMin = m + 5;
 				const endHour = endMin >= 60 ? h + 1 : h;
 				const endMinFinal = endMin % 60;
-				const dtend = formatICSDate(entry.date, `${String(endHour).padStart(2, '0')}:${String(endMinFinal).padStart(2, '0')}`);
+				const dtend = formatICSDate(
+					entry['bob.date'],
+					`${String(endHour).padStart(2, '0')}:${String(endMinFinal).padStart(2, '0')}`,
+				);
 
 				icsContent.push(
 					'BEGIN:VEVENT',
-					`UID:${generateUID(entry.date, entry.time, type)}`,
-					`DTSTAMP:${formatICSDate('2026-01-12', '12:00')}Z`,
+					`UID:${generateUID(entry['bob.date'], entry['bob.time'], type)}`,
+					`DTSTAMP:${formatICSDate('2026-01-14', '12:00')}Z`,
 					`DTSTART;TZID=America/La_Paz:${dtstart}`,
 					`DTEND;TZID=America/La_Paz:${dtend}`,
 					`SUMMARY:${summary}`,
 					`DESCRIPTION:${description}`,
 					type === 'solar' ? 'CATEGORIES:Solar' : 'CATEGORIES:Lunar',
-					'END:VEVENT'
+					'END:VEVENT',
 				);
 			}
 		}
