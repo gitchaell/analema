@@ -4,8 +4,8 @@
  * =============================================================================
  */
 
-/** Camera type - north, northeast, southeast, or west */
-export type CameraType = 'north' | 'northeast' | 'southeast' | 'west';
+/** Camera type - north, northeast, multiple (4-view), or west */
+export type CameraType = 'north' | 'northeast' | 'multiple' | 'west';
 
 /** Capture type - solar or lunar */
 export type CaptureType = 'solar' | 'lunar';

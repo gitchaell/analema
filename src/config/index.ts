@@ -18,10 +18,10 @@ import type { CameraType } from '../types';
  * Camera URLs for the Phoenix, Arizona webcam
  */
 export const CAMERAS: Record<CameraType, string> = {
+	west: 'https://myearthcam.com/insideoutaerial',
 	north: 'https://www.myearthcam.com/insideoutaerial/lowercam2',
 	northeast: 'https://www.myearthcam.com/insideoutaerial/lowercam3',
-	southeast: 'https://www.myearthcam.com/insideoutaerial/phxweather',
-	west: 'https://myearthcam.com/insideoutaerial',
+	multiple: 'https://www.myearthcam.com/insideoutaerial/phxweather',
 };
 
 /** Time to wait for the webcam stream to fully load (in milliseconds) */

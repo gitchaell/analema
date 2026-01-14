@@ -12,7 +12,7 @@
  *
  * Examples:
  *   npx ts-node scripts/generate-animation.ts solar north gif
- *   npx ts-node scripts/generate-animation.ts lunar southeast mp4
+ *   npx ts-node scripts/generate-animation.ts lunar multiple mp4
  *   npx ts-node scripts/generate-animation.ts all all gif
  */
 
@@ -24,7 +24,7 @@ const CAPTURES_DIR = path.join(__dirname, '..', 'captures');
 const OUTPUT_DIR = path.join(__dirname, '..', 'animations');
 
 const TYPES = ['solar', 'lunar'] as const;
-const CAMERAS = ['north', 'northeast', 'southeast', 'west'] as const;
+const CAMERAS = ['north', 'northeast', 'multiple', 'west'] as const;
 
 type CaptureType = typeof TYPES[number];
 type CameraType = typeof CAMERAS[number];
@@ -164,7 +164,7 @@ if (type !== 'all' && !TYPES.includes(type as CaptureType)) {
 	process.exit(1);
 }
 if (camera !== 'all' && !CAMERAS.includes(camera as CameraType)) {
-	console.error(`Invalid camera: ${camera}. Use: north, northeast, southeast, west, or all`);
+	console.error(`Invalid camera: ${camera}. Use: north, northeast, multiple, west, or all`);
 	process.exit(1);
 }
 if (format !== 'gif' && format !== 'mp4') {
