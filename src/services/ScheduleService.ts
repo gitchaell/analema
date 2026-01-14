@@ -5,17 +5,14 @@
  */
 
 import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { getCurrentYearMonth, getScheduleFile } from '../config';
-import type { CombinedEntry, ScheduledCapture, ScheduleFile } from '../types';
+import type { CombinedEntry, ScheduledCapture, ScheduleEntry } from '../types';
 import { Logger } from '../utils/Logger';
 
 /**
  * Service for loading and querying capture schedules
  */
 export class ScheduleService {
-	private solarSchedule: ScheduleFile | null = null;
-	private lunarSchedule: ScheduleFile | null = null;
 	private currentYear: number;
 	private currentMonth: number;
 
@@ -26,65 +23,45 @@ export class ScheduleService {
 	}
 
 	/**
-	 * Load a schedule file from disk
+	 * Load a schedule file from disk and transform to CombinedEntry format
 	 */
-	private loadFile(filePath: string): ScheduleFile | null {
+	private loadSchedule(type: 'solar' | 'lunar'): CombinedEntry[] {
+		const filePath = getScheduleFile(type, this.currentYear, this.currentMonth);
+		const monthStr = `${this.currentYear}-${this.currentMonth.toString().padStart(2, '0')}`;
+
 		try {
 			const rawData = fs.readFileSync(filePath, 'utf-8');
-			return JSON.parse(rawData) as ScheduleFile;
+			const entries: ScheduleEntry[] = JSON.parse(rawData);
+
+			Logger.log(`📂 Loaded: data/${type}/${monthStr}.json (${entries.length} entries)`);
+
+			return entries.map((entry) => ({
+				type,
+				date: entry['bob.date'],
+				time: entry['bob.time'],
+				phoenixDate: entry['phx.date'],
+				phoenixTime: entry['phx.time'],
+			}));
 		} catch (error) {
-			Logger.warn(`Could not load ${path.basename(filePath)}: ${error}`);
-			return null;
+			Logger.warn(`Could not load data/${type}/${monthStr}.json: ${error}`);
+			return [];
 		}
-	}
-
-	/**
-	 * Load solar schedule for the current month
-	 */
-	loadSolarSchedule(): ScheduleFile | null {
-		const filePath = getScheduleFile('solar', this.currentYear, this.currentMonth);
-		Logger.log(
-			`📂 Loading from: data/solar/${this.currentYear}-${this.currentMonth.toString().padStart(2, '0')}/`,
-		);
-		this.solarSchedule = this.loadFile(filePath);
-		if (this.solarSchedule) {
-			Logger.log(`☀️  Loaded ${this.solarSchedule.schedule.length} solar entries`);
-		}
-		return this.solarSchedule;
-	}
-
-	/**
-	 * Load lunar schedule for the current month
-	 */
-	loadLunarSchedule(): ScheduleFile | null {
-		const filePath = getScheduleFile('lunar', this.currentYear, this.currentMonth);
-		this.lunarSchedule = this.loadFile(filePath);
-		if (this.lunarSchedule) {
-			Logger.log(`🌙 Loaded ${this.lunarSchedule.schedule.length} lunar entries`);
-		}
-		return this.lunarSchedule;
 	}
 
 	/**
 	 * Load both schedules and return combined entries
 	 */
 	getAllSchedules(): CombinedEntry[] {
-		const allEntries: CombinedEntry[] = [];
+		const solarEntries = this.loadSchedule('solar');
+		const lunarEntries = this.loadSchedule('lunar');
 
-		// Load and combine solar entries
-		const solar = this.loadSolarSchedule();
-		if (solar) {
-			for (const entry of solar.schedule) {
-				allEntries.push({ ...entry, type: 'solar' });
-			}
+		const allEntries = [...solarEntries, ...lunarEntries];
+
+		if (solarEntries.length > 0) {
+			Logger.log(`☀️  Solar: ${solarEntries.length} entries`);
 		}
-
-		// Load and combine lunar entries
-		const lunar = this.loadLunarSchedule();
-		if (lunar) {
-			for (const entry of lunar.schedule) {
-				allEntries.push({ ...entry, type: 'lunar' });
-			}
+		if (lunarEntries.length > 0) {
+			Logger.log(`🌙 Lunar: ${lunarEntries.length} entries`);
 		}
 
 		Logger.success(`Total: ${allEntries.length} scheduled entries loaded.`);
@@ -137,7 +114,6 @@ export class ScheduleService {
 			const waitMs = scheduledTime.getTime() - now.getTime();
 
 			// Always return the capture if it's in the current hour
-			// waitMs may be negative if we're past the scheduled time
 			Logger.success(`✅ Found: ${entry.type} at ${entry.time}`);
 			return { entry, waitMs: Math.max(0, waitMs) };
 		}

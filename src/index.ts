@@ -66,13 +66,8 @@ async function main(): Promise<void> {
 	Logger.log('🎯 CAPTURE SCHEDULED');
 	Logger.log(`   Type: ${entry.type.toUpperCase()}`);
 	Logger.log(`   Scheduled photo time: ${entry.time} (Bolivia, UTC-4)`);
-	Logger.log(`   Cameras: ALL (north, northeast, west)`);
-	if (entry.phoenix_time) {
-		Logger.log(`   Phoenix time: ${entry.phoenix_time} (UTC-7)`);
-	}
-	if (entry.illumination) {
-		Logger.log(`   Moon illumination: ${entry.illumination}`);
-	}
+	Logger.log(`   Cameras: ALL (north, northeast, multiple, west)`);
+	Logger.log(`   Phoenix time: ${entry.phoenixTime} (UTC-7)`);
 	console.log('');
 
 	Logger.log('⏱️  TIMING CALCULATION');

@@ -32,30 +32,13 @@ export const CAPTURES_DIR = path.join(process.cwd(), 'captures');
 
 /** Base directory for schedule data */
 export const DATA_DIR = path.join(process.cwd(), 'data');
-
-/**
- * Get the path to the data directory for a specific type and month
- * Format: data/solar/YYYY-MM/ or data/lunar/YYYY-MM/
- */
-export function getMonthDir(type: 'solar' | 'lunar', year: number, month: number): string {
-	const monthStr = month.toString().padStart(2, '0');
-	return path.join(DATA_DIR, type, `${year}-${monthStr}`);
-}
-
 /**
  * Get the path to the schedule file for a specific type and month
- * Format: data/solar/YYYY-MM/schedule.json
+ * Format: data/solar/YYYY-MM.json or data/lunar/YYYY-MM.json
  */
 export function getScheduleFile(type: 'solar' | 'lunar', year: number, month: number): string {
-	return path.join(getMonthDir(type, year, month), 'schedule.json');
-}
-
-/**
- * Get the path to the input file for a specific type and month
- * Format: data/solar/YYYY-MM/input.json
- */
-export function getInputFile(type: 'solar' | 'lunar', year: number, month: number): string {
-	return path.join(getMonthDir(type, year, month), 'input.json');
+	const monthStr = month.toString().padStart(2, '0');
+	return path.join(DATA_DIR, type, `${year}-${monthStr}.json`);
 }
 
 /**
