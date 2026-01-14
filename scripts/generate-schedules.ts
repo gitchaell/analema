@@ -67,8 +67,8 @@ function saveSchedule(type: 'solar' | 'lunar', year: number, month: number, entr
 	const filename = `${year}-${String(month).padStart(2, '0')}.json`;
 	const filepath = path.join(dir, filename);
 
-	// Format with tabs for consistency
-	const content = JSON.stringify(entries, null, '\t');
+	// Compact format (no tabs/newlines)
+	const content = JSON.stringify(entries);
 	fs.writeFileSync(filepath, content + '\n');
 
 	console.log(`  ✅ Created: data/${type}/${filename} (${entries.length} entries)`);
