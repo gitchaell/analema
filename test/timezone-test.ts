@@ -9,11 +9,11 @@
  * =============================================================================
  */
 
-import { getCurrentYearMonth, getScheduleFile } from '../src/config';
-import { ScheduleService } from '../src/services/ScheduleService';
+import { LOCATIONS } from '../src/config/locations';
+import { JsonScheduleRepository } from '../src/infrastructure/repositories/JsonScheduleRepository';
 import { Logger } from '../src/utils/Logger';
 
-function testTimezone(): void {
+async function testTimezone(): Promise<void> {
 	Logger.header('TIMEZONE TEST');
 
 	const now = new Date();
@@ -43,49 +43,44 @@ function testTimezone(): void {
 	const utcMinutes = now.getUTCMinutes();
 	const localMinutes = now.getMinutes();
 
-	Logger.log(`⏰ UTC Time: ${utcHours}:${String(utcMinutes).padStart(2, '0')}`);
-	Logger.log(`⏰ Local Time: ${localHours}:${String(localMinutes).padStart(2, '0')}`);
-	Logger.log(`⏰ Expected Offset: ${(localHours - utcHours + 24) % 24} hours`);
+	Logger.log(
+		`⏰ UTC Time: ${utcHours}:${String(utcMinutes).padStart(2, '0')}`,
+	);
+	Logger.log(
+		`⏰ Local Time: ${localHours}:${String(localMinutes).padStart(2, '0')}`,
+	);
+	Logger.log(
+		`⏰ Expected Offset: ${(localHours - utcHours + 24) % 24} hours`,
+	);
 
 	console.log('');
 
 	// Test 4: Check schedule loading
 	Logger.log('📂 Testing schedule loading...');
-	const { year, month } = getCurrentYearMonth();
-	Logger.log(`   Current year/month: ${year}-${String(month).padStart(2, '0')}`);
+	const year = localYear;
+	const month = Number(localMonth);
+	Logger.log(`   Current year/month: ${year}-${localMonth}`);
 
-	const solarPath = getScheduleFile('solar', year, month);
-	const lunarPath = getScheduleFile('lunar', year, month);
-	Logger.log(`   Solar schedule path: ${solarPath}`);
-	Logger.log(`   Lunar schedule path: ${lunarPath}`);
+	const repo = new JsonScheduleRepository();
 
-	console.log('');
+	for (const location of LOCATIONS) {
+		Logger.log(`   Checking location: ${location.name}`);
+		const schedule = await repo.getSchedule(location.id, year, month);
 
-	// Test 5: Test window detection
-	Logger.log('🔍 Testing window detection for today...');
-	const scheduleService = new ScheduleService();
-	const allSchedules = scheduleService.getAllSchedules();
-
-	// Find today's entries
-	const todayEntries = allSchedules.filter((e) => e.date === localDate);
-	Logger.log(`   Found ${todayEntries.length} entries for today (${localDate}):`);
-	for (const entry of todayEntries) {
-		Logger.log(`      - ${entry.type} at ${entry.time}`);
-	}
-
-	console.log('');
-
-	// Test 6: Check if any capture should happen now
-	const scheduled = scheduleService.findScheduledCaptureThisWindow(allSchedules);
-	if (scheduled) {
-		Logger.success(`🎯 Capture scheduled: ${scheduled.entry.type} at ${scheduled.entry.time}`);
-		Logger.log(`   Wait time: ${Math.round(scheduled.waitMs / 1000)} seconds`);
-	} else {
-		Logger.log(`⏸️  No capture scheduled in current 30-min window.`);
+		const todayEntries = schedule.filter((e) => e.date === localDate);
+		Logger.log(
+			`      Found ${todayEntries.length} entries for today (${localDate}):`,
+		);
+		for (const entry of todayEntries) {
+			Logger.log(`         - ${entry.type} at ${entry.time}`);
+		}
 	}
 
 	console.log('');
 	Logger.success('Test complete!');
 }
 
-testTimezone();
+testTimezone().catch((error) => {
+	console.error('Unhandled error:', error);
+	process.exit(1);
+});
