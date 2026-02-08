@@ -10,9 +10,9 @@
  * =============================================================================
  */
 
-import { CaptureService } from '../src/services/CaptureService';
-import { ScheduleService } from '../src/services/ScheduleService';
-import type { CaptureType } from '../src/types';
+import { LOCATIONS } from '../src/config/locations';
+import { PuppeteerCaptureService } from '../src/infrastructure/services/PuppeteerCaptureService';
+import { CelestialObject } from '../src/domain/entities/Types';
 import { Logger } from '../src/utils/Logger';
 
 async function test(): Promise<void> {
@@ -22,35 +22,34 @@ async function test(): Promise<void> {
 	console.log('');
 
 	// Initialize services
-	const scheduleService = new ScheduleService();
-	const captureService = new CaptureService();
+	// Use 5 seconds wait time for test instead of 3 minutes
+	const captureService = new PuppeteerCaptureService(5000);
 
-	// Try to get a random schedule entry for the type, or use default
-	Logger.log('📖 Loading schedules...');
-	const randomEntry = scheduleService.getRandomEntry();
-
-	let type: CaptureType;
-
-	if (randomEntry) {
-		type = randomEntry.type;
-		Logger.success(`Using schedule entry type: ${type.toUpperCase()}`);
-	} else {
-		type = 'solar';
-		Logger.warn('No schedule entries found. Using default: solar');
+	// Use Phoenix location (updated ID)
+	const location = LOCATIONS.find((l) => l.id === 'usa-arizona-phoenix');
+	if (!location) {
+		Logger.error('Phoenix location not found');
+		process.exit(1);
 	}
+
+	// Use solar as default type
+	const object: CelestialObject = 'sun';
 
 	console.log('');
 	Logger.log('🎯 TEST CAPTURE CONFIGURATION');
-	Logger.log(`   Type: ${type.toUpperCase()}`);
-	Logger.log('   Cameras: ALL (north, northeast, west)');
+	Logger.log(`   Object: ${object.toUpperCase()}`);
+	Logger.log(`   Location: ${location.name}`);
+	Logger.log('   Cameras: ALL available');
 	console.log('');
 
 	// Execute capture on ALL cameras immediately
 	try {
-		Logger.log('🚀 Starting immediate capture on all cameras...');
+		Logger.log(
+			`🚀 Starting immediate capture on ${location.cameras.length} cameras...`,
+		);
 		console.log('');
 
-		const filepaths = await captureService.captureAll(type);
+		const filepaths = await captureService.capture(location, object);
 
 		console.log('');
 		Logger.log('🎉 TEST CAPTURE COMPLETE');
@@ -58,7 +57,6 @@ async function test(): Promise<void> {
 		for (const fp of filepaths) {
 			Logger.log(`   - ${fp}`);
 		}
-		captureService.logTimezoneInfo();
 		console.log('');
 
 		Logger.success('Test completed successfully!');
