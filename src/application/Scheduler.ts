@@ -1,9 +1,9 @@
 import { STREAM_LOAD_WAIT_MS } from '../config';
 import { getCamerasForLocation, LOCATIONS } from '../config/locations';
-import type { Location } from '../domain/entities/Location';
-import type { ScheduleEntry } from '../domain/entities/ScheduleEntry';
-import type { ScheduleRepository } from '../domain/repositories/ScheduleRepository';
-import type { CaptureService } from '../domain/services/CaptureService';
+import { Location } from '../domain/entities/Location';
+import { ScheduleEntry } from '../domain/entities/ScheduleEntry';
+import { ScheduleRepository } from '../domain/repositories/ScheduleRepository';
+import { CaptureService } from '../domain/services/CaptureService';
 import { Logger } from '../utils/Logger';
 
 export class Scheduler {
@@ -17,17 +17,21 @@ export class Scheduler {
 	 */
 	async checkAndCapture(): Promise<void> {
 		const now = new Date();
-		const year = now.getFullYear();
-		const month = now.getMonth() + 1;
 
 		Logger.log(`📅 System time: ${now.toString()}`);
 		Logger.log(`🔍 Checking schedules for ${LOCATIONS.length} locations...`);
 
 		const promises = LOCATIONS.map(async (location) => {
 			try {
-				const schedule = await this.scheduleRepository.getSchedule(location.id, year, month);
+				const schedule = await this.scheduleRepository.getSchedule(
+					location.id,
+					now,
+				);
 
-				const scheduledCapture = this.findScheduledCaptureThisWindow(schedule, now);
+				const scheduledCapture = this.findScheduledCaptureThisWindow(
+					schedule,
+					now,
+				);
 
 				if (scheduledCapture) {
 					const { entry, totalWaitMs } = scheduledCapture;
@@ -63,7 +67,9 @@ export class Scheduler {
 			if (entry.date !== currentDate) continue;
 
 			// Check hour
-			const [scheduledHour, scheduledMinute] = entry.time.split(':').map(Number);
+			const [scheduledHour, scheduledMinute] = entry.time
+				.split(':')
+				.map(Number);
 			if (scheduledHour !== currentHour) continue;
 
 			// Calculate wait time
@@ -97,12 +103,18 @@ export class Scheduler {
 		Logger.log(`⏱️  TIMING CALCULATION for ${location.name}`);
 		Logger.log(`   Scheduled time: ${entry.time}`);
 		Logger.log(`   Time until shot: ${Math.round(totalWaitMs / 60000)} min`);
-		Logger.log(`   Stream load time: ${Math.round(STREAM_LOAD_WAIT_MS / 60000)} min`);
-		Logger.log(`   Start browser in: ${Math.round(startCaptureInMs / 60000)} min`);
+		Logger.log(
+			`   Stream load time: ${Math.round(STREAM_LOAD_WAIT_MS / 60000)} min`,
+		);
+		Logger.log(
+			`   Start browser in: ${Math.round(startCaptureInMs / 60000)} min`,
+		);
 
 		if (startCaptureInMs > 0) {
 			const waitMinutes = Math.round(startCaptureInMs / 60000);
-			Logger.log(`⏳ Waiting ${waitMinutes} minutes before launching browsers...`);
+			Logger.log(
+				`⏳ Waiting ${waitMinutes} minutes before launching browsers...`,
+			);
 			await new Promise((resolve) => setTimeout(resolve, startCaptureInMs));
 		}
 

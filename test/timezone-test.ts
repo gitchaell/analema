@@ -10,7 +10,7 @@
  */
 
 import { LOCATIONS } from '../src/config/locations';
-import { JsonScheduleRepository } from '../src/infrastructure/repositories/JsonScheduleRepository';
+import { ConfigScheduleRepository } from '../src/infrastructure/repositories/ConfigScheduleRepository';
 import { Logger } from '../src/utils/Logger';
 
 async function testTimezone(): Promise<void> {
@@ -55,24 +55,22 @@ async function testTimezone(): Promise<void> {
 
 	console.log('');
 
-	// Test 4: Check schedule loading
-	Logger.log('📂 Testing schedule loading...');
-	const year = localYear;
-	const month = Number(localMonth);
-	Logger.log(`   Current year/month: ${year}-${localMonth}`);
-
-	const repo = new JsonScheduleRepository();
+	// Test 4: Check schedule loading (Dynamic)
+	Logger.log('📂 Testing schedule loading (Config-based)...');
+	const repo = new ConfigScheduleRepository();
 
 	for (const location of LOCATIONS) {
 		Logger.log(`   Checking location: ${location.name}`);
-		const schedule = await repo.getSchedule(location.id, year, month);
+		const schedule = await repo.getSchedule(location.id, now);
 
-		const todayEntries = schedule.filter((e) => e.date === localDate);
+		const todayEntries = schedule; // getSchedule now returns entries for the given day
 		Logger.log(
 			`      Found ${todayEntries.length} entries for today (${localDate}):`,
 		);
 		for (const entry of todayEntries) {
-			Logger.log(`         - ${entry.object} at ${entry.time}`);
+			Logger.log(
+				`         - ${entry.object} at ${entry.time} (Target: ${entry.targetTime})`,
+			);
 		}
 	}
 

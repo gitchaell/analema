@@ -11,7 +11,7 @@
  */
 
 import { Scheduler } from './application/Scheduler';
-import { JsonScheduleRepository } from './infrastructure/repositories/JsonScheduleRepository';
+import { ConfigScheduleRepository } from './infrastructure/repositories/ConfigScheduleRepository';
 import { PuppeteerCaptureService } from './infrastructure/services/PuppeteerCaptureService';
 import { Logger } from './utils/Logger';
 
@@ -22,7 +22,8 @@ async function main(): Promise<void> {
 	console.log('');
 
 	// Initialize new DDD components
-	const scheduleRepository = new JsonScheduleRepository();
+	// Use configuration-based repository instead of JSON files
+	const scheduleRepository = new ConfigScheduleRepository();
 	const captureService = new PuppeteerCaptureService(); // Uses default wait time from config
 	const scheduler = new Scheduler(scheduleRepository, captureService);
 

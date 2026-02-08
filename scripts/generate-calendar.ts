@@ -1,5 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { ConfigScheduleRepository } from '../src/infrastructure/repositories/ConfigScheduleRepository';
+import { LOCATIONS } from '../src/config/locations';
 import { ScheduleEntry } from '../src/domain/entities/ScheduleEntry';
 
 function formatICSDate(date: string, time: string): string {
@@ -12,9 +14,7 @@ function generateUID(date: string, time: string, type: string, locationId: strin
 	return `${date}-${time.replace(':', '')}-${type}-${locationId}@analema`;
 }
 
-function generateICS(): string {
-	const dataDir = path.join(__dirname, '..', 'data');
-
+async function generateICS(): Promise<string> {
 	const icsContent = [
 		'BEGIN:VCALENDAR',
 		'VERSION:2.0',
@@ -25,63 +25,67 @@ function generateICS(): string {
 		'X-WR-TIMEZONE:America/La_Paz',
 	];
 
-	// Iterate through all locations in dataDir
-	if (!fs.existsSync(dataDir)) return '';
-	const locations = fs.readdirSync(dataDir).filter(f => fs.statSync(path.join(dataDir, f)).isDirectory());
+    const repository = new ConfigScheduleRepository();
+    const YEAR = 2026;
+    const DAYS_IN_MONTH = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-	const objects = ['sun', 'moon'] as const;
+	for (const location of LOCATIONS) {
+        console.log(`Generating events for ${location.name}...`);
 
-	for (const locationId of locations) {
-		for (const object of objects) {
-			const typeDir = path.join(dataDir, locationId, object);
-			if (!fs.existsSync(typeDir)) continue;
+        // Loop through the whole year
+        for (let month = 1; month <= 12; month++) {
+            const days = DAYS_IN_MONTH[month];
 
-			// Find all YYYY-MM.json files
-			const files = fs.readdirSync(typeDir).filter((f) => f.match(/^\d{4}-\d{2}\.json$/));
+            for (let day = 1; day <= days; day++) {
+                // Create a Date object for this day (at noon UTC to avoid boundary issues)
+                // ConfigScheduleRepository expects a Date object to identify the day.
+                // It will recalculate system times based on config.
 
-			for (const file of files) {
-				const filePath = path.join(typeDir, file);
-				const entries: ScheduleEntry[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+                const date = new Date(Date.UTC(YEAR, month - 1, day, 12, 0, 0));
 
-				for (const entry of entries) {
-					const emoji = object === 'sun' ? '☀️' : '🌙';
-					const summary = `${emoji} ${object.charAt(0).toUpperCase() + object.slice(1)} Capture (${locationId})`;
+                const entries = await repository.getSchedule(location.id, date);
 
-					// Description showing Target Time (Location) vs System Time (Bolivia)
-					const description = `Target: ${entry.targetDate} ${entry.targetTime}\nSystem: ${entry.date} ${entry.time}`;
+                for (const entry of entries) {
+                    const object = entry.object;
+                    const emoji = object === 'sun' ? '☀️' : '🌙';
+                    const summary = `${emoji} ${object.charAt(0).toUpperCase() + object.slice(1)} Capture (${location.id})`;
 
-					const dtstart = formatICSDate(entry.date, entry.time);
-					const [h, m] = entry.time.split(':').map(Number);
-					const endMin = m + 5;
-					const endHour = endMin >= 60 ? h + 1 : h;
-					const endMinFinal = endMin % 60;
-					const dtend = formatICSDate(
-						entry.date,
-						`${String(endHour).padStart(2, '0')}:${String(endMinFinal).padStart(2, '0')}`,
-					);
+                    // Description showing Target Time (Location) vs System Time (Bolivia)
+                    const description = `Target: ${entry.targetDate} ${entry.targetTime}\nSystem: ${entry.date} ${entry.time}`;
 
-					icsContent.push(
-						'BEGIN:VEVENT',
-						`UID:${generateUID(entry.date, entry.time, object, locationId)}`,
-						`DTSTAMP:${formatICSDate('2026-01-01', '12:00')}Z`, // Simplified stamp
-						`DTSTART;TZID=America/La_Paz:${dtstart}`,
-						`DTEND;TZID=America/La_Paz:${dtend}`,
-						`SUMMARY:${summary}`,
-						`DESCRIPTION:${description}`,
-						object === 'sun' ? 'CATEGORIES:Solar' : 'CATEGORIES:Lunar',
-						'END:VEVENT',
-					);
-				}
-			}
-		}
-	}
+                    const dtstart = formatICSDate(entry.date, entry.time);
+                    const [h, m] = entry.time.split(':').map(Number);
+                    const endMin = m + 5;
+                    const endHour = endMin >= 60 ? h + 1 : h;
+                    const endMinFinal = endMin % 60;
+                    const dtend = formatICSDate(
+                        entry.date,
+                        `${String(endHour).padStart(2, '0')}:${String(endMinFinal).padStart(2, '0')}`,
+                    );
+
+                    icsContent.push(
+                        'BEGIN:VEVENT',
+                        `UID:${generateUID(entry.date, entry.time, object, location.id)}`,
+                        `DTSTAMP:${formatICSDate('2026-01-01', '12:00')}Z`, // Simplified stamp
+                        `DTSTART;TZID=America/La_Paz:${dtstart}`,
+                        `DTEND;TZID=America/La_Paz:${dtend}`,
+                        `SUMMARY:${summary}`,
+                        `DESCRIPTION:${description}`,
+                        object === 'sun' ? 'CATEGORIES:Solar' : 'CATEGORIES:Lunar',
+                        'END:VEVENT',
+                    );
+                }
+            }
+        }
+    }
 
 	icsContent.push('END:VCALENDAR');
 	return icsContent.join('\r\n');
 }
 
-const ics = generateICS();
-const outputPath = path.join(__dirname, '..', 'analema-2026.ics');
-fs.writeFileSync(outputPath, ics);
-console.log(`✅ Calendar generated: ${outputPath}`);
-console.log(`   Import this file to Google Calendar`);
+generateICS().then(ics => {
+    const outputPath = path.join(__dirname, '..', 'analema-2026.ics');
+    fs.writeFileSync(outputPath, ics);
+    console.log(`✅ Calendar generated: ${outputPath}`);
+    console.log(`   Import this file to Google Calendar`);
+}).catch(console.error);

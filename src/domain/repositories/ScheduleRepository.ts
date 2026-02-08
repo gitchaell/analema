@@ -1,8 +1,11 @@
-import type { ScheduleEntry } from '../entities/ScheduleEntry';
+import { ScheduleEntry } from '../entities/ScheduleEntry';
 
 export interface ScheduleRepository {
 	/**
-	 * Get schedule entries for a specific location, year and month
+	 * Get schedule entries for a specific location on a given day
 	 */
-	getSchedule(locationId: string, year: number, month: number): Promise<ScheduleEntry[]>;
+	getSchedule(
+		locationId: string,
+		date: Date,
+	): Promise<ScheduleEntry[]>;
 }

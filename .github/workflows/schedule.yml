@@ -7,17 +7,13 @@
 # TIMEZONE CONFIGURATION:
 # - This workflow runs in Bolivian time (America/La_Paz, UTC-4)
 # - The TZ environment variable ensures the container runs in Bolivian time
-# - Target location: Phoenix, Arizona (UTC-7, no DST)
-# - Offset: Bolivia is +3 hours ahead of Phoenix
+# - Target location: Multiple (Defined in src/config/locations.ts)
 #
 # SCHEDULE:
 # - Runs every hour at minute 0
-# - The script checks if there's a capture scheduled within that hour
+# - The script checks if there's a capture scheduled within that hour (based on config)
 # - If no capture is scheduled, it exits immediately to save resources
 #
-# CAPTURE WINDOWS (Bolivian Time):
-# - Solar: 10:32 - 20:38 | Ideal: 15:35
-# - Lunar: 03:28 - 14:50 | Ideal: 08:40
 # =============================================================================
 
 name: Sky Photographer - Scheduled Capture
@@ -44,7 +40,7 @@ permissions:
 env:
   # CRITICAL: Set timezone to Bolivia (UTC-4)
   # This ensures all Date operations in Node.js use Bolivian time
-  # The script relies on this to match scheduled times in data/horarios.json
+  # The script relies on this to match scheduled times.
   TZ: 'America/La_Paz'
 
 jobs:
@@ -97,7 +93,6 @@ jobs:
           echo "TZ Environment Variable: $TZ"
           echo "System date: $(date)"
           echo "Bolivia time (should match above): $(TZ='America/La_Paz' date)"
-          echo "Phoenix time (target location): $(TZ='America/Phoenix' date)"
           echo "=============================="
 
       # =========================================================================
@@ -148,7 +143,7 @@ jobs:
           # Create commit with timestamp and timezone info
           CAPTURE_TIME=$(date '+%Y-%m-%d %H:%M:%S')
           git commit -m "📸 Sky capture: ${CAPTURE_TIME} (Bolivia, UTC-4)" \
-                     -m "Automated capture from Ahwatukee - Phoenix, Arizona webcam." \
+                     -m "Automated capture from webcam." \
                      -m "System timezone: America/La_Paz (Bolivia)"
 
           # Push to repository
