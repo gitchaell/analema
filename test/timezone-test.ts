@@ -72,7 +72,7 @@ async function testTimezone(): Promise<void> {
 			`      Found ${todayEntries.length} entries for today (${localDate}):`,
 		);
 		for (const entry of todayEntries) {
-			Logger.log(`         - ${entry.type} at ${entry.time}`);
+			Logger.log(`         - ${entry.object} at ${entry.time}`);
 		}
 	}
 

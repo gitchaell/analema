@@ -4,14 +4,14 @@ import puppeteer, { type Browser, type Page } from 'puppeteer';
 import { CAPTURES_DIR, PUPPETEER_OPTIONS, STREAM_LOAD_WAIT_MS, VIEWPORT } from '../../config';
 import type { Camera } from '../../domain/entities/Camera';
 import type { Location } from '../../domain/entities/Location';
-import type { ICaptureService } from '../../domain/services/ICaptureService';
-import type { CaptureType } from '../../types';
+import type { CelestialObject } from '../../domain/entities/Types';
+import type { CaptureService } from '../../domain/services/CaptureService';
 import { Logger } from '../../utils/Logger';
 
 /**
  * Service for capturing screenshots from webcams using Puppeteer
  */
-export class PuppeteerCaptureService implements ICaptureService {
+export class PuppeteerCaptureService implements CaptureService {
 	private readonly waitMs: number;
 
 	constructor(waitMs: number = STREAM_LOAD_WAIT_MS) {
@@ -19,18 +19,18 @@ export class PuppeteerCaptureService implements ICaptureService {
 	}
 
 	/**
-	 * Get the capture directory for a specific location, type and camera
-	 * Structure: captures/[locationId]/[type]/[cameraType]
+	 * Get the capture directory for a specific location, object and camera direction
+	 * Structure: captures/[locationId]/[object]/[direction]
 	 */
-	private getCaptureDir(locationId: string, type: CaptureType, cameraType: string): string {
-		return path.join(CAPTURES_DIR, locationId, type, cameraType);
+	private getCaptureDir(locationId: string, object: CelestialObject, direction: string): string {
+		return path.join(CAPTURES_DIR, locationId, object, direction);
 	}
 
 	/**
 	 * Ensure the captures subdirectory exists
 	 */
-	private ensureCaptureDir(locationId: string, type: CaptureType, cameraType: string): string {
-		const dir = this.getCaptureDir(locationId, type, cameraType);
+	private ensureCaptureDir(locationId: string, object: CelestialObject, direction: string): string {
+		const dir = this.getCaptureDir(locationId, object, direction);
 		if (!fs.existsSync(dir)) {
 			fs.mkdirSync(dir, { recursive: true });
 			Logger.log(`📁 Created directory: ${dir}`);
@@ -39,10 +39,14 @@ export class PuppeteerCaptureService implements ICaptureService {
 	}
 
 	/**
-	 * Get the next sequential number for a capture type/camera combo
+	 * Get the next sequential number for a capture object/camera combo
 	 */
-	private getNextSequenceNumber(locationId: string, type: CaptureType, cameraType: string): number {
-		const dir = this.getCaptureDir(locationId, type, cameraType);
+	private getNextSequenceNumber(
+		locationId: string,
+		object: CelestialObject,
+		direction: string,
+	): number {
+		const dir = this.getCaptureDir(locationId, object, direction);
 
 		try {
 			if (!fs.existsSync(dir)) return 1;
@@ -57,11 +61,11 @@ export class PuppeteerCaptureService implements ICaptureService {
 	/**
 	 * Generate filename for the screenshot
 	 */
-	private generateFilename(locationId: string, type: CaptureType, cameraType: string): string {
+	private generateFilename(locationId: string, object: CelestialObject, direction: string): string {
 		const now = new Date();
 		const date = now.toISOString().split('T')[0].replace(/-/g, '');
 		const time = now.toTimeString().split(' ')[0].replace(/:/g, '').slice(0, 4);
-		const seq = this.getNextSequenceNumber(locationId, type, cameraType)
+		const seq = this.getNextSequenceNumber(locationId, object, direction)
 			.toString()
 			.padStart(3, '0');
 		return `${seq}_${date}_${time}.png`;
@@ -72,10 +76,15 @@ export class PuppeteerCaptureService implements ICaptureService {
 	 */
 	private async prepareCamera(
 		camera: Camera,
-		type: CaptureType,
-	): Promise<{ browser: Browser; page: Page; camera: Camera; type: CaptureType }> {
+		object: CelestialObject,
+	): Promise<{
+		browser: Browser;
+		page: Page;
+		camera: Camera;
+		object: CelestialObject;
+	}> {
 		Logger.log(
-			`📍 [${camera.type.toUpperCase()}] Launching browser and navigating to ${camera.url}...`,
+			`📍 [${camera.direction.toUpperCase()}] Launching browser and navigating to ${camera.url}...`,
 		);
 
 		const browser = await puppeteer.launch(PUPPETEER_OPTIONS);
@@ -87,9 +96,9 @@ export class PuppeteerCaptureService implements ICaptureService {
 			timeout: 2 * 60 * 1000, // 2 minute timeout
 		});
 
-		Logger.log(`⏳ [${camera.type.toUpperCase()}] Page loaded, waiting for stream...`);
+		Logger.log(`⏳ [${camera.direction.toUpperCase()}] Page loaded, waiting for stream...`);
 
-		return { browser, page, camera, type };
+		return { browser, page, camera, object };
 	}
 
 	/**
@@ -98,14 +107,14 @@ export class PuppeteerCaptureService implements ICaptureService {
 	private async takeScreenshot(
 		page: Page,
 		camera: Camera,
-		type: CaptureType,
+		object: CelestialObject,
 		locationId: string,
 	): Promise<string> {
 		// Ensure captures subdirectory exists
-		const captureDir = this.ensureCaptureDir(locationId, type, camera.type);
+		const captureDir = this.ensureCaptureDir(locationId, object, camera.direction);
 
 		// Generate filename and take screenshot
-		const filename = this.generateFilename(locationId, type, camera.type);
+		const filename = this.generateFilename(locationId, object, camera.direction);
 		const filepath = path.join(captureDir, filename);
 
 		await page.screenshot({
@@ -114,7 +123,7 @@ export class PuppeteerCaptureService implements ICaptureService {
 		});
 
 		Logger.success(
-			`📸 [${camera.type.toUpperCase()}] Saved: ${locationId}/${type}/${camera.type}/${filename}`,
+			`📸 [${camera.direction.toUpperCase()}] Saved: ${locationId}/${object}/${camera.direction}/${filename}`,
 		);
 		return filepath;
 	}
@@ -122,15 +131,15 @@ export class PuppeteerCaptureService implements ICaptureService {
 	/**
 	 * Capture screenshots from ALL provided cameras - IN PARALLEL
 	 */
-	async capture(location: Location, cameras: Camera[], type: CaptureType): Promise<string[]> {
-		Logger.log(`🚀 Starting PARALLEL capture for ${type.toUpperCase()} at ${location.name}...`);
-		Logger.log(`   Cameras: ${cameras.map((c) => c.type).join(', ')}`);
+	async capture(location: Location, cameras: Camera[], object: CelestialObject): Promise<string[]> {
+		Logger.log(`🚀 Starting PARALLEL capture for ${object.toUpperCase()} at ${location.name}...`);
+		Logger.log(`   Cameras: ${cameras.map((c) => c.direction).join(', ')}`);
 		Logger.log(`   Stream wait time: ${this.waitMs / 60000} minutes`);
 		console.log('');
 
 		// Step 1: Launch all browsers in PARALLEL
 		Logger.log(`🔄 Launching ${cameras.length} browsers in parallel...`);
-		const preparePromises = cameras.map((camera) => this.prepareCamera(camera, type));
+		const preparePromises = cameras.map((camera) => this.prepareCamera(camera, object));
 
 		let preparedCameras: Awaited<ReturnType<typeof this.prepareCamera>>[] = [];
 		try {
@@ -165,14 +174,16 @@ export class PuppeteerCaptureService implements ICaptureService {
 		Logger.log(`   Capture timestamp: ${captureTime.toLocaleString()}`);
 
 		const results: string[] = [];
-		const screenshotPromises = preparedCameras.map(async ({ page, camera, type: captureType }) => {
-			try {
-				const filepath = await this.takeScreenshot(page, camera, captureType, location.id);
-				results.push(filepath);
-			} catch (error) {
-				Logger.error(`[${camera.type.toUpperCase()}] Screenshot failed: ${error}`);
-			}
-		});
+		const screenshotPromises = preparedCameras.map(
+			async ({ page, camera, object: captureObject }) => {
+				try {
+					const filepath = await this.takeScreenshot(page, camera, captureObject, location.id);
+					results.push(filepath);
+				} catch (error) {
+					Logger.error(`[${camera.direction.toUpperCase()}] Screenshot failed: ${error}`);
+				}
+			},
+		);
 
 		await Promise.all(screenshotPromises);
 

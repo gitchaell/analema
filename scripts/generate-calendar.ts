@@ -1,12 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-
-interface ScheduleEntry {
-	'phx.date': string;
-	'phx.time': string;
-	'bob.date': string;
-	'bob.time': string;
-}
+import { ScheduleEntry } from '../src/domain/entities/ScheduleEntry';
 
 function formatICSDate(date: string, time: string): string {
 	const [year, month, day] = date.split('-');
@@ -14,8 +8,8 @@ function formatICSDate(date: string, time: string): string {
 	return `${year}${month}${day}T${hour}${min}00`;
 }
 
-function generateUID(date: string, time: string, type: string): string {
-	return `${date}-${time.replace(':', '')}-${type}@analema`;
+function generateUID(date: string, time: string, type: string, locationId: string): string {
+	return `${date}-${time.replace(':', '')}-${type}-${locationId}@analema`;
 }
 
 function generateICS(): string {
@@ -31,48 +25,53 @@ function generateICS(): string {
 		'X-WR-TIMEZONE:America/La_Paz',
 	];
 
-	const types = ['solar', 'lunar'] as const;
+	// Iterate through all locations in dataDir
+	if (!fs.existsSync(dataDir)) return '';
+	const locations = fs.readdirSync(dataDir).filter(f => fs.statSync(path.join(dataDir, f)).isDirectory());
 
-	for (const type of types) {
-		const typeDir = path.join(dataDir, type);
-		if (!fs.existsSync(typeDir)) continue;
+	const objects = ['sun', 'moon'] as const;
 
-		// Find all YYYY-MM.json files
-		const files = fs.readdirSync(typeDir).filter((f) => f.match(/^\d{4}-\d{2}\.json$/));
+	for (const locationId of locations) {
+		for (const object of objects) {
+			const typeDir = path.join(dataDir, locationId, object);
+			if (!fs.existsSync(typeDir)) continue;
 
-		for (const file of files) {
-			const filePath = path.join(typeDir, file);
-			const entries: ScheduleEntry[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+			// Find all YYYY-MM.json files
+			const files = fs.readdirSync(typeDir).filter((f) => f.match(/^\d{4}-\d{2}\.json$/));
 
-			for (const entry of entries) {
-				// Skip placeholder entries (00:00)
-				if (entry['bob.time'] === '00:00') continue;
+			for (const file of files) {
+				const filePath = path.join(typeDir, file);
+				const entries: ScheduleEntry[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
-				const emoji = type === 'solar' ? '☀️' : '🌙';
-				const summary = `${emoji} ${type.charAt(0).toUpperCase() + type.slice(1)} Capture`;
-				const description = `Phoenix: ${entry['phx.date']} ${entry['phx.time']}`;
+				for (const entry of entries) {
+					const emoji = object === 'sun' ? '☀️' : '🌙';
+					const summary = `${emoji} ${object.charAt(0).toUpperCase() + object.slice(1)} Capture (${locationId})`;
 
-				const dtstart = formatICSDate(entry['bob.date'], entry['bob.time']);
-				const [h, m] = entry['bob.time'].split(':').map(Number);
-				const endMin = m + 5;
-				const endHour = endMin >= 60 ? h + 1 : h;
-				const endMinFinal = endMin % 60;
-				const dtend = formatICSDate(
-					entry['bob.date'],
-					`${String(endHour).padStart(2, '0')}:${String(endMinFinal).padStart(2, '0')}`,
-				);
+					// Description showing Target Time (Location) vs System Time (Bolivia)
+					const description = `Target: ${entry.targetDate} ${entry.targetTime}\nSystem: ${entry.date} ${entry.time}`;
 
-				icsContent.push(
-					'BEGIN:VEVENT',
-					`UID:${generateUID(entry['bob.date'], entry['bob.time'], type)}`,
-					`DTSTAMP:${formatICSDate('2026-01-14', '12:00')}Z`,
-					`DTSTART;TZID=America/La_Paz:${dtstart}`,
-					`DTEND;TZID=America/La_Paz:${dtend}`,
-					`SUMMARY:${summary}`,
-					`DESCRIPTION:${description}`,
-					type === 'solar' ? 'CATEGORIES:Solar' : 'CATEGORIES:Lunar',
-					'END:VEVENT',
-				);
+					const dtstart = formatICSDate(entry.date, entry.time);
+					const [h, m] = entry.time.split(':').map(Number);
+					const endMin = m + 5;
+					const endHour = endMin >= 60 ? h + 1 : h;
+					const endMinFinal = endMin % 60;
+					const dtend = formatICSDate(
+						entry.date,
+						`${String(endHour).padStart(2, '0')}:${String(endMinFinal).padStart(2, '0')}`,
+					);
+
+					icsContent.push(
+						'BEGIN:VEVENT',
+						`UID:${generateUID(entry.date, entry.time, object, locationId)}`,
+						`DTSTAMP:${formatICSDate('2026-01-01', '12:00')}Z`, // Simplified stamp
+						`DTSTART;TZID=America/La_Paz:${dtstart}`,
+						`DTEND;TZID=America/La_Paz:${dtend}`,
+						`SUMMARY:${summary}`,
+						`DESCRIPTION:${description}`,
+						object === 'sun' ? 'CATEGORIES:Solar' : 'CATEGORIES:Lunar',
+						'END:VEVENT',
+					);
+				}
 			}
 		}
 	}

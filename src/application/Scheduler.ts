@@ -2,14 +2,14 @@ import { STREAM_LOAD_WAIT_MS } from '../config';
 import { getCamerasForLocation, LOCATIONS } from '../config/locations';
 import type { Location } from '../domain/entities/Location';
 import type { ScheduleEntry } from '../domain/entities/ScheduleEntry';
-import type { IScheduleRepository } from '../domain/repositories/IScheduleRepository';
-import type { ICaptureService } from '../domain/services/ICaptureService';
+import type { ScheduleRepository } from '../domain/repositories/ScheduleRepository';
+import type { CaptureService } from '../domain/services/CaptureService';
 import { Logger } from '../utils/Logger';
 
 export class Scheduler {
 	constructor(
-		private scheduleRepository: IScheduleRepository,
-		private captureService: ICaptureService,
+		private scheduleRepository: ScheduleRepository,
+		private captureService: CaptureService,
 	) {}
 
 	/**
@@ -32,7 +32,7 @@ export class Scheduler {
 				if (scheduledCapture) {
 					const { entry, totalWaitMs } = scheduledCapture;
 					Logger.success(
-						`✅ [${location.name}] Found scheduled capture: ${entry.type} at ${entry.time}`,
+						`✅ [${location.name}] Found scheduled capture: ${entry.object} at ${entry.time}`,
 					);
 
 					await this.executeCapture(location, entry, totalWaitMs);
@@ -108,6 +108,6 @@ export class Scheduler {
 
 		// Now trigger the service
 		// The service will launch browser, wait STREAM_LOAD_WAIT_MS, then snap.
-		await this.captureService.capture(location, cameras, entry.type);
+		await this.captureService.capture(location, cameras, entry.object);
 	}
 }

@@ -1,10 +1,10 @@
-import type { CameraType } from '../../types';
+import type { CameraDirection } from './Types';
 
 export class Camera {
 	constructor(
 		public readonly id: string,
 		public readonly url: string,
-		public readonly type: CameraType,
+		public readonly direction: CameraDirection,
 		public readonly locationId: string,
 	) {}
 }

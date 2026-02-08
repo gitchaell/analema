@@ -1,10 +1,10 @@
-import type { CaptureType } from '../../types';
+import type { CelestialObject } from './Types';
 
 export interface ScheduleEntry {
-	type: CaptureType;
-	date: string; // The date of the capture (Bolivia/local time)
-	time: string; // The time of the capture (Bolivia/local time)
-	phoenixDate: string;
-	phoenixTime: string;
+	object: CelestialObject;
+	date: string; // The date of the capture (System/Bolivia time)
+	time: string; // The time of the capture (System/Bolivia time)
+	targetDate?: string; // The date of the capture (Location time)
+	targetTime?: string; // The time of the capture (Location time)
 	locationId: string;
 }

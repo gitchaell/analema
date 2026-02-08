@@ -12,7 +12,7 @@
 
 import { getCamerasForLocation, LOCATIONS } from '../src/config/locations';
 import { PuppeteerCaptureService } from '../src/infrastructure/services/PuppeteerCaptureService';
-import { CaptureType } from '../src/types';
+import { CelestialObject } from '../src/domain/entities/Types';
 import { Logger } from '../src/utils/Logger';
 
 async function test(): Promise<void> {
@@ -33,11 +33,11 @@ async function test(): Promise<void> {
 	}
 
 	// Use solar as default type
-	const type: CaptureType = 'solar';
+	const object: CelestialObject = 'sun';
 
 	console.log('');
 	Logger.log('🎯 TEST CAPTURE CONFIGURATION');
-	Logger.log(`   Type: ${type.toUpperCase()}`);
+	Logger.log(`   Object: ${object.toUpperCase()}`);
 	Logger.log(`   Location: ${location.name}`);
 	Logger.log('   Cameras: ALL available');
 	console.log('');
@@ -50,7 +50,7 @@ async function test(): Promise<void> {
 		);
 		console.log('');
 
-		const filepaths = await captureService.capture(location, cameras, type);
+		const filepaths = await captureService.capture(location, cameras, object);
 
 		console.log('');
 		Logger.log('🎉 TEST CAPTURE COMPLETE');

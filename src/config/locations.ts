@@ -2,16 +2,20 @@ import { Camera } from '../domain/entities/Camera';
 import { Location } from '../domain/entities/Location';
 
 /**
- * Fixed time for Lunar captures (Bolivia time)
- * Format: HH:MM
- */
-export const FIXED_LUNAR_TIME = '20:00';
-
-/**
  * Registry of available locations
  */
 export const LOCATIONS: Location[] = [
-	new Location('phoenix', 'Ahwatukee - Phoenix', 'America/Phoenix', 'UTC-7'),
+	new Location(
+		'phoenix',
+		'Ahwatukee - Phoenix',
+		'America/Phoenix',
+		'UTC-7',
+		'USA',
+		'Arizona',
+		'Phoenix',
+		'15:30', // Sun capture time (local)
+		'20:00', // Moon capture time (local)
+	),
 ];
 
 /**
