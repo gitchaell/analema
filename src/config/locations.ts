@@ -15,22 +15,18 @@ export const LOCATIONS: Location[] = [
 		'20:00', // Moon capture time (local)
 		[
 			new Camera(
-				'west',
 				'https://myearthcam.com/insideoutaerial',
 				'west',
 			),
 			new Camera(
-				'north',
 				'https://www.myearthcam.com/insideoutaerial/lowercam2',
 				'north',
 			),
 			new Camera(
-				'northeast',
 				'https://www.myearthcam.com/insideoutaerial/lowercam3',
 				'northeast',
 			),
 			new Camera(
-				'multiple',
 				'https://www.myearthcam.com/insideoutaerial/phxweather',
 				'multiple',
 			),
