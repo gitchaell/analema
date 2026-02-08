@@ -10,7 +10,7 @@
  * =============================================================================
  */
 
-import { getCamerasForLocation, LOCATIONS } from '../src/config/locations';
+import { LOCATIONS } from '../src/config/locations';
 import { PuppeteerCaptureService } from '../src/infrastructure/services/PuppeteerCaptureService';
 import { CelestialObject } from '../src/domain/entities/Types';
 import { Logger } from '../src/utils/Logger';
@@ -25,8 +25,8 @@ async function test(): Promise<void> {
 	// Use 5 seconds wait time for test instead of 3 minutes
 	const captureService = new PuppeteerCaptureService(5000);
 
-	// Use Phoenix location
-	const location = LOCATIONS.find((l) => l.id === 'phoenix');
+	// Use Phoenix location (updated ID)
+	const location = LOCATIONS.find((l) => l.id === 'usa-arizona-phoenix');
 	if (!location) {
 		Logger.error('Phoenix location not found');
 		process.exit(1);
@@ -44,13 +44,12 @@ async function test(): Promise<void> {
 
 	// Execute capture on ALL cameras immediately
 	try {
-		const cameras = getCamerasForLocation(location.id);
 		Logger.log(
-			`🚀 Starting immediate capture on ${cameras.length} cameras...`,
+			`🚀 Starting immediate capture on ${location.cameras.length} cameras...`,
 		);
 		console.log('');
 
-		const filepaths = await captureService.capture(location, cameras, object);
+		const filepaths = await captureService.capture(location, object);
 
 		console.log('');
 		Logger.log('🎉 TEST CAPTURE COMPLETE');

@@ -60,7 +60,7 @@ async function testTimezone(): Promise<void> {
 	const repo = new ConfigScheduleRepository();
 
 	for (const location of LOCATIONS) {
-		Logger.log(`   Checking location: ${location.name}`);
+		Logger.log(`   Checking location: ${location.name} (ID: ${location.id})`);
 		const schedule = await repo.getSchedule(location.id, now);
 
 		const todayEntries = schedule; // getSchedule now returns entries for the given day

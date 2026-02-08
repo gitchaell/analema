@@ -11,9 +11,9 @@
  *   npx ts-node scripts/generate-animation.ts [location] [object] [camera] [format]
  *
  * Examples:
- *   npx ts-node scripts/generate-animation.ts phoenix sun north gif
- *   npx ts-node scripts/generate-animation.ts phoenix moon multiple mp4
- *   npx ts-node scripts/generate-animation.ts phoenix all all gif
+ *   npx ts-node scripts/generate-animation.ts usa-arizona-phoenix sun north gif
+ *   npx ts-node scripts/generate-animation.ts usa-arizona-phoenix moon multiple mp4
+ *   npx ts-node scripts/generate-animation.ts usa-arizona-phoenix all all gif
  */
 
 import { execSync } from 'node:child_process';
@@ -149,10 +149,6 @@ function generate(options: GenerateOptions): void {
 	const locationsToProcess =
 		locationId === 'all' ? LOCATIONS.map((l) => l.id) : [locationId];
 	const objectsToProcess = object === 'all' ? OBJECTS : [object];
-	// If direction is 'all', we technically should check available cameras, but we can iterate generic list too
-	// or specific cameras for the location. For simplicity, we can iterate all potential directions
-	// but better to just check what exists in filesystem or use known cameras.
-	// Since we are decoupling, checking filesystem (via getImages) is safer.
 	const directionsToProcess =
 		direction === 'all' ? CAMERAS : [direction];
 

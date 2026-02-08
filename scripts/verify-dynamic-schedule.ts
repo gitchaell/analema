@@ -8,8 +8,8 @@ async function verifyDynamicSchedule() {
     // Test Date: Feb 1st, 2026
     const testDate = new Date('2026-02-01T12:00:00Z'); // Noon UTC
 
-    // Get schedule for Phoenix
-    const entries = await repo.getSchedule('phoenix', testDate);
+    // Get schedule for Phoenix (using new ID)
+    const entries = await repo.getSchedule('usa-arizona-phoenix', testDate);
 
     console.log(`📅 Test Date: ${testDate.toISOString()}`);
     console.log(`📍 Location: Phoenix`);

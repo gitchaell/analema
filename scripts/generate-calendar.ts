@@ -30,17 +30,13 @@ async function generateICS(): Promise<string> {
     const DAYS_IN_MONTH = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 	for (const location of LOCATIONS) {
-        console.log(`Generating events for ${location.name}...`);
+        console.log(`Generating events for ${location.name} (ID: ${location.id})...`);
 
         // Loop through the whole year
         for (let month = 1; month <= 12; month++) {
             const days = DAYS_IN_MONTH[month];
 
             for (let day = 1; day <= days; day++) {
-                // Create a Date object for this day (at noon UTC to avoid boundary issues)
-                // ConfigScheduleRepository expects a Date object to identify the day.
-                // It will recalculate system times based on config.
-
                 const date = new Date(Date.UTC(YEAR, month - 1, day, 12, 0, 0));
 
                 const entries = await repository.getSchedule(location.id, date);

@@ -6,8 +6,6 @@ import { Location } from '../domain/entities/Location';
  */
 export const LOCATIONS: Location[] = [
 	new Location(
-		'phoenix',
-		'Ahwatukee - Phoenix',
 		'America/Phoenix',
 		'UTC-7',
 		'USA',
@@ -15,32 +13,27 @@ export const LOCATIONS: Location[] = [
 		'Phoenix',
 		'15:30', // Sun capture time (local)
 		'20:00', // Moon capture time (local)
+		[
+			new Camera(
+				'west',
+				'https://myearthcam.com/insideoutaerial',
+				'west',
+			),
+			new Camera(
+				'north',
+				'https://www.myearthcam.com/insideoutaerial/lowercam2',
+				'north',
+			),
+			new Camera(
+				'northeast',
+				'https://www.myearthcam.com/insideoutaerial/lowercam3',
+				'northeast',
+			),
+			new Camera(
+				'multiple',
+				'https://www.myearthcam.com/insideoutaerial/phxweather',
+				'multiple',
+			),
+		],
 	),
 ];
-
-/**
- * Registry of cameras per location
- */
-const CAMERA_REGISTRY: Camera[] = [
-	new Camera('west', 'https://myearthcam.com/insideoutaerial', 'west', 'phoenix'),
-	new Camera('north', 'https://www.myearthcam.com/insideoutaerial/lowercam2', 'north', 'phoenix'),
-	new Camera(
-		'northeast',
-		'https://www.myearthcam.com/insideoutaerial/lowercam3',
-		'northeast',
-		'phoenix',
-	),
-	new Camera(
-		'multiple',
-		'https://www.myearthcam.com/insideoutaerial/phxweather',
-		'multiple',
-		'phoenix',
-	),
-];
-
-/**
- * Get all cameras for a specific location
- */
-export function getCamerasForLocation(locationId: string): Camera[] {
-	return CAMERA_REGISTRY.filter((camera) => camera.locationId === locationId);
-}

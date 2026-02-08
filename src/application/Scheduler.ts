@@ -1,5 +1,5 @@
 import { STREAM_LOAD_WAIT_MS } from '../config';
-import { getCamerasForLocation, LOCATIONS } from '../config/locations';
+import { LOCATIONS } from '../config/locations';
 import { Location } from '../domain/entities/Location';
 import { ScheduleEntry } from '../domain/entities/ScheduleEntry';
 import { ScheduleRepository } from '../domain/repositories/ScheduleRepository';
@@ -91,8 +91,6 @@ export class Scheduler {
 		entry: ScheduleEntry,
 		totalWaitMs: number,
 	): Promise<void> {
-		const cameras = getCamerasForLocation(location.id);
-
 		// Calculate start time based on stream load wait
 		// We want to snap exactly at 'entry.time'.
 		// CaptureService takes 'STREAM_LOAD_WAIT_MS' to load stream before snapping.
@@ -120,6 +118,6 @@ export class Scheduler {
 
 		// Now trigger the service
 		// The service will launch browser, wait STREAM_LOAD_WAIT_MS, then snap.
-		await this.captureService.capture(location, cameras, entry.object);
+		await this.captureService.capture(location, entry.object);
 	}
 }
