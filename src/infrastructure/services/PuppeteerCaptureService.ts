@@ -9,7 +9,7 @@ import type { CaptureService } from '../../domain/services/CaptureService';
 import { Logger } from '../../utils/Logger';
 
 /** Time to wait for the webcam stream to fully load (in milliseconds) */
-export const STREAM_LOAD_WAIT_MS = 3 * 60 * 1000; // 3 minutes - camera service is slow to load
+export const STREAM_LOAD_WAIT_MS = 5 * 60 * 1000; // 5 minutes - camera service is slow to load
 
 /** Puppeteer launch options - optimized for GitHub Actions */
 const PUPPETEER_OPTIONS: PuppeteerLaunchOptions = {
