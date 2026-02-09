@@ -23,7 +23,26 @@ export class Scheduler {
 
 		const promises = LOCATIONS.map(async (location) => {
 			try {
-				const schedule = await this.scheduleRepository.getSchedule(location.id, now);
+				// Check Yesterday, Today, Tomorrow to catch timezone edge cases
+				// where a 'today' event in local time might be yesterday/tomorrow in system time.
+				const yesterday = new Date(now);
+				yesterday.setDate(now.getDate() - 1);
+
+				const tomorrow = new Date(now);
+				tomorrow.setDate(now.getDate() + 1);
+
+				const datesToCheck = [
+					yesterday,
+					now,
+					tomorrow,
+				];
+
+				const schedulePromises = datesToCheck.map(date =>
+					this.scheduleRepository.getSchedule(location.id, date)
+				);
+
+				const scheduleResults = await Promise.all(schedulePromises);
+				const schedule = scheduleResults.flat();
 
 				const scheduledCapture = this.findScheduledCaptureThisWindow(schedule, now);
 
