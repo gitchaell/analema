@@ -1,38 +1,53 @@
 #!/usr/bin/env npx ts-node
 /**
  * =============================================================================
- * ANALEMA SOLAR Y LUNAR - Animation Generator
+ * SOLAR AND LUNAR ANALEMMA - Animation Generator
  * =============================================================================
  *
  * Generates animated GIFs or MP4 videos from captured images.
  * Uses ffmpeg for video generation.
  *
  * Usage:
- *   npx ts-node scripts/generate-animation.ts [type] [camera] [format]
+ *   npx ts-node scripts/generate-animation.ts [location] [object] [camera] [format]
  *
  * Examples:
- *   npx ts-node scripts/generate-animation.ts solar north gif
- *   npx ts-node scripts/generate-animation.ts lunar multiple mp4
- *   npx ts-node scripts/generate-animation.ts all all gif
+ *   npx ts-node scripts/generate-animation.ts usa-arizona-phoenix sun north gif
+ *   npx ts-node scripts/generate-animation.ts usa-arizona-phoenix moon multiple mp4
+ *   npx ts-node scripts/generate-animation.ts usa-arizona-phoenix all all gif
  */
 
 import { execSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { LOCATIONS } from '../src/config/locations';
+import type {
+	CameraDirection,
+	CelestialObject,
+	LocationId
+} from '../src/domain/entities/Types';
 
 const CAPTURES_DIR = path.join(__dirname, '..', 'captures');
 const OUTPUT_DIR = path.join(__dirname, '..', 'animations');
 
-const TYPES = ['solar', 'lunar'] as const;
-const CAMERAS = ['north', 'northeast', 'multiple', 'west'] as const;
+const OBJECTS = ['sun', 'moon'] as const;
+const CAMERAS = [
+	'north',
+	'south',
+	'east',
+	'west',
+	'northeast',
+	'northwest',
+	'southeast',
+	'southwest',
+	'multiple',
+] as const;
 
-type CaptureType = typeof TYPES[number];
-type CameraType = typeof CAMERAS[number];
 type OutputFormat = 'gif' | 'mp4';
 
 interface GenerateOptions {
-	type: CaptureType | 'all';
-	camera: CameraType | 'all';
+	locationId: LocationId | 'all';
+	object: CelestialObject | 'all';
+	direction: CameraDirection | 'all';
 	format: OutputFormat;
 	fps?: number;
 }
@@ -52,21 +67,28 @@ function ensureDir(dir: string): void {
 	}
 }
 
-function getImages(type: CaptureType, camera: CameraType): string[] {
-	const dir = path.join(CAPTURES_DIR, type, camera);
+function getImages(
+	locationId: LocationId,
+	object: CelestialObject,
+	direction: CameraDirection,
+): string[] {
+	const dir = path.join(CAPTURES_DIR, locationId, object, direction);
 	if (!fs.existsSync(dir)) return [];
 
-	return fs.readdirSync(dir)
-		.filter(f => f.endsWith('.png') || f.endsWith('.jpg') || f.endsWith('.jpeg'))
+	return fs
+		.readdirSync(dir)
+		.filter(
+			(f) => f.endsWith('.png') || f.endsWith('.jpg') || f.endsWith('.jpeg'),
+		)
 		.sort() // Sort by filename (date-based naming ensures chronological order)
-		.map(f => path.join(dir, f));
+		.map((f) => path.join(dir, f));
 }
 
 function generateAnimation(
 	images: string[],
 	outputPath: string,
 	format: OutputFormat,
-	fps: number = 4
+	fps: number = 4,
 ): boolean {
 	if (images.length === 0) {
 		console.log(`   ⚠️  No images found, skipping...`);
@@ -77,7 +99,9 @@ function generateAnimation(
 
 	// Create a temporary file list for ffmpeg
 	const listFile = path.join(OUTPUT_DIR, 'temp_images.txt');
-	const listContent = images.map(img => `file '${img}'\nduration ${1/fps}`).join('\n');
+	const listContent = images
+		.map((img) => `file '${img}'\nduration ${1 / fps}`)
+		.join('\n');
 	fs.writeFileSync(listFile, listContent);
 
 	try {
@@ -86,18 +110,18 @@ function generateAnimation(
 			const paletteFile = path.join(OUTPUT_DIR, 'palette.png');
 			execSync(
 				`ffmpeg -y -f concat -safe 0 -i "${listFile}" -vf "fps=${fps},scale=640:-1:flags=lanczos,palettegen" "${paletteFile}"`,
-				{ stdio: 'pipe' }
+				{ stdio: 'pipe' },
 			);
 			execSync(
 				`ffmpeg -y -f concat -safe 0 -i "${listFile}" -i "${paletteFile}" -lavfi "fps=${fps},scale=640:-1:flags=lanczos[x];[x][1:v]paletteuse" "${outputPath}"`,
-				{ stdio: 'pipe' }
+				{ stdio: 'pipe' },
 			);
 			fs.unlinkSync(paletteFile);
 		} else {
 			// Generate MP4
 			execSync(
 				`ffmpeg -y -f concat -safe 0 -i "${listFile}" -vf "fps=${fps},scale=1280:-2" -c:v libx264 -pix_fmt yuv420p "${outputPath}"`,
-				{ stdio: 'pipe' }
+				{ stdio: 'pipe' },
 			);
 		}
 
@@ -112,7 +136,7 @@ function generateAnimation(
 }
 
 function generate(options: GenerateOptions): void {
-	const { type, camera, format, fps = 4 } = options;
+	const { locationId, object, direction, format, fps = 4 } = options;
 
 	// Check if ffmpeg is installed
 	if (!checkFfmpeg()) {
@@ -125,25 +149,39 @@ function generate(options: GenerateOptions): void {
 
 	ensureDir(OUTPUT_DIR);
 
-	const typesToProcess = type === 'all' ? TYPES : [type];
-	const camerasToProcess = camera === 'all' ? CAMERAS : [camera];
+	const locationsToProcess =
+		locationId === 'all' ? LOCATIONS.map((l) => l.id) : [locationId];
+	const objectsToProcess = object === 'all' ? OBJECTS : [object];
+	const directionsToProcess =
+		direction === 'all' ? CAMERAS : [direction];
 
-	console.log('\n🎬 ANALEMA ANIMATION GENERATOR\n');
+	console.log('\n🎬 SOLAR AND LUNAR ANALEMMA ANIMATION GENERATOR\n');
 	console.log(`Format: ${format.toUpperCase()}`);
 	console.log(`FPS: ${fps}`);
 	console.log(`Output: ${OUTPUT_DIR}\n`);
 
 	let generated = 0;
 
-	for (const t of typesToProcess) {
-		for (const c of camerasToProcess) {
-			console.log(`\n📁 ${t.toUpperCase()} / ${c.toUpperCase()}`);
+	for (const locId of locationsToProcess) {
+		for (const obj of objectsToProcess) {
+			for (const dir of directionsToProcess) {
+				// Only process if folder exists (optimization)
+				const dirPath = path.join(CAPTURES_DIR, locId, obj, dir);
+				if (!fs.existsSync(dirPath)) continue;
 
-			const images = getImages(t, c);
-			const outputFile = path.join(OUTPUT_DIR, `${t}-${c}.${format}`);
+				console.log(
+					`\n📁 ${locId.toUpperCase()} / ${obj.toUpperCase()} / ${dir.toUpperCase()}`,
+				);
 
-			if (generateAnimation(images, outputFile, format, fps)) {
-				generated++;
+				const images = getImages(locId, obj, dir);
+				const outputFile = path.join(
+					OUTPUT_DIR,
+					`${locId}-${obj}-${dir}.${format}`,
+				);
+
+				if (generateAnimation(images, outputFile, format, fps)) {
+					generated++;
+				}
 			}
 		}
 	}
@@ -153,23 +191,31 @@ function generate(options: GenerateOptions): void {
 
 // Parse command line arguments
 const args = process.argv.slice(2);
-const type = (args[0] || 'all') as CaptureType | 'all';
-const camera = (args[1] || 'all') as CameraType | 'all';
-const format = (args[2] || 'gif') as OutputFormat;
-const fps = parseInt(args[3] || '4', 10);
+const locationId = (args[0] || 'all') as LocationId | 'all';
+const object = (args[1] || 'all') as CelestialObject | 'all';
+const direction = (args[2] || 'all') as CameraDirection | 'all';
+const format = (args[3] || 'gif') as OutputFormat;
+const fps = parseInt(args[4] || '4', 10);
 
 // Validate
-if (type !== 'all' && !TYPES.includes(type as CaptureType)) {
-	console.error(`Invalid type: ${type}. Use: solar, lunar, or all`);
+const validLocationIds = LOCATIONS.map((l) => l.id);
+if (locationId !== 'all' && !validLocationIds.includes(locationId)) {
+	console.error(
+		`Invalid location: ${locationId}. Use: ${validLocationIds.join(', ')} or all`,
+	);
 	process.exit(1);
 }
-if (camera !== 'all' && !CAMERAS.includes(camera as CameraType)) {
-	console.error(`Invalid camera: ${camera}. Use: north, northeast, multiple, west, or all`);
+if (object !== 'all' && !OBJECTS.includes(object as CelestialObject)) {
+	console.error(`Invalid object: ${object}. Use: sun, moon, or all`);
 	process.exit(1);
+}
+// Basic validation for direction, though we support many
+if (direction !== 'all' && !CAMERAS.includes(direction as CameraDirection)) {
+	console.warn(`Warning: Unknown camera direction: ${direction}`);
 }
 if (format !== 'gif' && format !== 'mp4') {
 	console.error(`Invalid format: ${format}. Use: gif or mp4`);
 	process.exit(1);
 }
 
-generate({ type, camera, format, fps });
+generate({ locationId, object, direction, format, fps });

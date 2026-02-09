@@ -1,0 +1,126 @@
+import { LOCATIONS } from '../config/locations';
+import type { Location } from '../domain/entities/Location';
+import type { ScheduleEntry } from '../domain/entities/ScheduleEntry';
+import type { ScheduleRepository } from '../domain/repositories/ScheduleRepository';
+import type { CaptureService } from '../domain/services/CaptureService';
+import { STREAM_LOAD_WAIT_MS } from '../infrastructure/services/PuppeteerCaptureService';
+import { Logger } from '../utils/Logger';
+
+export class Scheduler {
+	constructor(
+		private readonly scheduleRepository: ScheduleRepository,
+		private readonly captureService: CaptureService,
+	) { }
+
+	/**
+	 * Check schedules for all locations and trigger captures if needed
+	 */
+	async checkAndCapture(): Promise<void> {
+		const now = new Date();
+
+		Logger.log(`📅 System time: ${now.toString()}`);
+		Logger.log(`🔍 Checking schedules for ${LOCATIONS.length} locations...`);
+
+		const promises = LOCATIONS.map(async (location) => {
+			try {
+				// Check Yesterday, Today, Tomorrow to catch timezone edge cases
+				// where a 'today' event in local time might be yesterday/tomorrow in system time.
+				const yesterday = new Date(now);
+				yesterday.setDate(now.getDate() - 1);
+
+				const tomorrow = new Date(now);
+				tomorrow.setDate(now.getDate() + 1);
+
+				const datesToCheck = [
+					yesterday,
+					now,
+					tomorrow,
+				];
+
+				const schedulePromises = datesToCheck.map(date =>
+					this.scheduleRepository.getSchedule(location.id, date)
+				);
+
+				const scheduleResults = await Promise.all(schedulePromises);
+				const schedule = scheduleResults.flat();
+
+				const scheduledCapture = this.findScheduledCaptureThisWindow(schedule, now);
+
+				if (scheduledCapture) {
+					const { entry, totalWaitMs } = scheduledCapture;
+					Logger.success(
+						`✅ [${location.name}] Found scheduled capture: ${entry.object} at ${entry.time}`,
+					);
+
+					await this.executeCapture(location, entry, totalWaitMs);
+				} else {
+					Logger.log(`   [${location.name}] No capture scheduled this hour.`);
+				}
+			} catch (error) {
+				Logger.error(`Error checking schedule for ${location.name}: ${error}`);
+			}
+		});
+
+		await Promise.all(promises);
+	}
+
+	private findScheduledCaptureThisWindow(
+		schedule: ScheduleEntry[],
+		now: Date,
+	): { entry: ScheduleEntry; totalWaitMs: number } | null {
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, '0');
+		const day = String(now.getDate()).padStart(2, '0');
+		const currentDate = `${year}-${month}-${day}`;
+
+		const currentHour = now.getHours();
+
+		for (const entry of schedule) {
+			// Check date
+			if (entry.date !== currentDate) continue;
+
+			// Check hour
+			const [scheduledHour, scheduledMinute] = entry.time.split(':').map(Number);
+			if (scheduledHour !== currentHour) continue;
+
+			// Calculate wait time
+			const scheduledTime = new Date(now);
+			scheduledTime.setHours(scheduledHour, scheduledMinute, 0, 0);
+			const totalWaitMs = scheduledTime.getTime() - now.getTime();
+
+			// If wait time is negative (already passed), but still in same hour/minute window?
+			// The original code uses Math.max(0, waitMs).
+			// If it's passed, it captures immediately.
+			return { entry, totalWaitMs: Math.max(0, totalWaitMs) };
+		}
+
+		return null;
+	}
+
+	private async executeCapture(
+		location: Location,
+		entry: ScheduleEntry,
+		totalWaitMs: number,
+	): Promise<void> {
+		// Calculate start time based on stream load wait
+		// We want to snap exactly at 'entry.time'.
+		// CaptureService takes 'STREAM_LOAD_WAIT_MS' to load stream before snapping.
+		// So we must start CaptureService at (entry.time - STREAM_LOAD_WAIT_MS).
+
+		const startCaptureInMs = Math.max(0, totalWaitMs - STREAM_LOAD_WAIT_MS);
+
+		Logger.log(`⏱️  TIMING CALCULATION for ${location.name}`);
+		Logger.log(`   Scheduled time: ${entry.time}`);
+		Logger.log(`   Time until shot: ${Math.round(totalWaitMs / 60000)} min`);
+		Logger.log(`   Stream load time: ${Math.round(STREAM_LOAD_WAIT_MS / 60000)} min`);
+		Logger.log(`   Start browser in: ${Math.round(startCaptureInMs / 60000)} min`);
+
+		if (startCaptureInMs > 0) {
+			const waitMinutes = Math.round(startCaptureInMs / 60000);
+			Logger.log(`⏳ Waiting ${waitMinutes} minutes before launching browsers...`);
+			await new Promise((resolve) => setTimeout(resolve, startCaptureInMs));
+		}
+
+		await this.captureService.capture(location, entry.object);
+	}
+}

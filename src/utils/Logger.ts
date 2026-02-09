@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * ANALEMA SOLAR Y LUNAR - Logger Utility
+ * SOLAR AND LUNAR ANALEMMA - Logger Utility
  * =============================================================================
  */
 
@@ -30,44 +30,26 @@ export class Logger {
 		});
 	}
 
-	/**
-	 * Log a message with timestamp
-	 */
 	static log(message: string): void {
 		console.log(`[${Logger.getTimestamp()}] ${message}`);
 	}
 
-	/**
-	 * Log an info message
-	 */
 	static info(message: string): void {
 		console.log(`[${Logger.getTimestamp()}] ℹ️  ${message}`);
 	}
 
-	/**
-	 * Log a success message
-	 */
 	static success(message: string): void {
 		console.log(`[${Logger.getTimestamp()}] ✅ ${message}`);
 	}
 
-	/**
-	 * Log a warning message
-	 */
 	static warn(message: string): void {
 		console.log(`[${Logger.getTimestamp()}] ⚠️  ${message}`);
 	}
 
-	/**
-	 * Log an error message
-	 */
 	static error(message: string): void {
 		console.error(`[${Logger.getTimestamp()}] ❌ ${message}`);
 	}
 
-	/**
-	 * Log a section header
-	 */
 	static header(title: string): void {
 		console.log('');
 		console.log('='.repeat(70));
