@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * ANALEMA SOLAR Y LUNAR - Capture Test Script
+ * SOLAR AND LUNAR ANALEMMA - Capture Test Script
  * =============================================================================
  *
  * Test script for immediate capture without waiting for scheduled time.
@@ -11,12 +11,12 @@
  */
 
 import { LOCATIONS } from '../src/config/locations';
-import { PuppeteerCaptureService } from '../src/infrastructure/services/PuppeteerCaptureService';
 import { CelestialObject } from '../src/domain/entities/Types';
+import { PuppeteerCaptureService } from '../src/infrastructure/services/PuppeteerCaptureService';
 import { Logger } from '../src/utils/Logger';
 
 async function test(): Promise<void> {
-	Logger.header('ANALEMA SOLAR Y LUNAR - Capture Test');
+	Logger.header('SOLAR AND LUNAR ANALEMMA - Capture Test');
 	Logger.log('🧪 Running in TEST MODE - Immediate capture on ALL cameras');
 	Logger.log(`📅 Current time: ${new Date().toString()}`);
 	console.log('');

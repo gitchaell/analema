@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * ANALEMA SOLAR Y LUNAR - Timezone Test Script
+ * SOLAR AND LUNAR ANALEMMA - Timezone Test Script
  * =============================================================================
  *
  * Test script to verify that date/time detection works correctly with TZ.

@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 /**
  * =============================================================================
- * ANALEMA SOLAR Y LUNAR - Animation Generator
+ * SOLAR AND LUNAR ANALEMMA - Animation Generator
  * =============================================================================
  *
  * Generates animated GIFs or MP4 videos from captured images.
@@ -20,6 +20,11 @@ import { execSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { LOCATIONS } from '../src/config/locations';
+import type {
+	CameraDirection,
+	CelestialObject,
+	LocationId
+} from '../src/domain/entities/Types';
 
 const CAPTURES_DIR = path.join(__dirname, '..', 'captures');
 const OUTPUT_DIR = path.join(__dirname, '..', 'animations');
@@ -37,12 +42,10 @@ const CAMERAS = [
 	'multiple',
 ] as const;
 
-type CelestialObject = (typeof OBJECTS)[number];
-type CameraDirection = (typeof CAMERAS)[number];
 type OutputFormat = 'gif' | 'mp4';
 
 interface GenerateOptions {
-	locationId: string;
+	locationId: LocationId | 'all';
 	object: CelestialObject | 'all';
 	direction: CameraDirection | 'all';
 	format: OutputFormat;
@@ -65,7 +68,7 @@ function ensureDir(dir: string): void {
 }
 
 function getImages(
-	locationId: string,
+	locationId: LocationId,
 	object: CelestialObject,
 	direction: CameraDirection,
 ): string[] {
@@ -152,7 +155,7 @@ function generate(options: GenerateOptions): void {
 	const directionsToProcess =
 		direction === 'all' ? CAMERAS : [direction];
 
-	console.log('\n🎬 ANALEMA ANIMATION GENERATOR\n');
+	console.log('\n🎬 SOLAR AND LUNAR ANALEMMA ANIMATION GENERATOR\n');
 	console.log(`Format: ${format.toUpperCase()}`);
 	console.log(`FPS: ${fps}`);
 	console.log(`Output: ${OUTPUT_DIR}\n`);
@@ -188,7 +191,7 @@ function generate(options: GenerateOptions): void {
 
 // Parse command line arguments
 const args = process.argv.slice(2);
-const locationId = (args[0] || 'all');
+const locationId = (args[0] || 'all') as LocationId | 'all';
 const object = (args[1] || 'all') as CelestialObject | 'all';
 const direction = (args[2] || 'all') as CameraDirection | 'all';
 const format = (args[3] || 'gif') as OutputFormat;

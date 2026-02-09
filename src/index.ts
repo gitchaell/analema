@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * ANALEMA SOLAR Y LUNAR - Sky Photographer (Production Entry)
+ * SOLAR AND LUNAR ANALEMMA - Sky Photographer (Production Entry)
  * =============================================================================
  *
  * Automated screenshot capture system for configured locations (e.g., Phoenix).
@@ -16,18 +16,15 @@ import { PuppeteerCaptureService } from './infrastructure/services/PuppeteerCapt
 import { Logger } from './utils/Logger';
 
 async function main(): Promise<void> {
-	Logger.header('ANALEMA SOLAR Y LUNAR - Sky Photographer');
+	Logger.header('SOLAR AND LUNAR ANALEMMA - Sky Photographer');
 	Logger.log('🌎 System timezone should be set to America/La_Paz (Bolivia, UTC-4)');
 	Logger.log(`📅 Current system date/time: ${new Date().toString()}`);
 	console.log('');
 
-	// Initialize new DDD components
-	// Use configuration-based repository instead of JSON files
 	const scheduleRepository = new ConfigScheduleRepository();
-	const captureService = new PuppeteerCaptureService(); // Uses default wait time from config
+	const captureService = new PuppeteerCaptureService();
 	const scheduler = new Scheduler(scheduleRepository, captureService);
 
-	// Run the check and capture process
 	try {
 		await scheduler.checkAndCapture();
 		Logger.success('✅ Scheduler run complete.');
@@ -38,7 +35,6 @@ async function main(): Promise<void> {
 	}
 }
 
-// Run the main function
 main().catch((error) => {
 	console.error('Unhandled error:', error);
 	process.exit(1);

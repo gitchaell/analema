@@ -1,4 +1,4 @@
-# 🌞🌙 Analema Solar y Lunar - Sky Photographer
+# 🌞🌙 Solar and Lunar Analemma - Sky Photographer
 
 Automated screenshot capture system for the **Ahwatukee - Phoenix, Arizona** webcam. This project captures images of the sun at solar noon and the moon at its meridian crossing, creating data for an [analemma](https://en.wikipedia.org/wiki/Analemma) photography project.
 

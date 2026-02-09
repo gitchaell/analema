@@ -1,12 +1,12 @@
 {
 	"name": "analema-sky-photographer",
 	"version": "1.0.0",
-	"description": "Automated Sky Photographer system for capturing webcam screenshots in Phoenix, Arizona (Analema Solar y Lunar project)",
+	"description": "Automated Sky Photographer system for capturing webcam screenshots in Phoenix, Arizona (Solar and Lunar Analemma project)",
 	"main": "src/index.ts",
 	"scripts": {
 		"start": "ts-node src/index.ts",
-		"test": "ts-node test/capture-test.ts",
-		"test:unit": "glob-cli -c \"node --loader ts-node/esm --test\" \"test/unit/**/*.test.ts\"",
+		"test": "npm run test:unit",
+		"test:unit": "node --require ts-node/register --test test/unit/**/*.test.ts",
 		"test:capture": "ts-node test/capture-test.ts",
 		"test:timezone": "ts-node test/timezone-test.ts",
 		"build": "tsc",

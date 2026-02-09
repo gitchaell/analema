@@ -11,25 +11,13 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Arizona',
 		'Phoenix',
-		'15:30', // Sun capture time (local)
-		'20:00', // Moon capture time (local)
+		'16:00', // Sun capture time (phoenix timezone)
+		'21:00', // Moon capture time (phoenix timezone)
 		[
-			new Camera(
-				'https://myearthcam.com/insideoutaerial',
-				'west',
-			),
-			new Camera(
-				'https://www.myearthcam.com/insideoutaerial/lowercam2',
-				'north',
-			),
-			new Camera(
-				'https://www.myearthcam.com/insideoutaerial/lowercam3',
-				'northeast',
-			),
-			new Camera(
-				'https://www.myearthcam.com/insideoutaerial/phxweather',
-				'multiple',
-			),
+			new Camera('west', 'https://myearthcam.com/insideoutaerial'),
+			new Camera('north', 'https://www.myearthcam.com/insideoutaerial/lowercam2'),
+			new Camera('northeast', 'https://www.myearthcam.com/insideoutaerial/lowercam3'),
+			new Camera('multiple', 'https://www.myearthcam.com/insideoutaerial/phxweather'),
 		],
 	),
 ];
