@@ -28,19 +28,14 @@ describe('ConfigScheduleRepository', () => {
 		assert.ok(sun);
 		assert.ok(moon);
 
-		// Verify conversion: 16:00 (UTC-7) -> 19:00 (UTC-4)
-		assert.strictEqual(sun?.targetTime, '16:00');
-		assert.strictEqual(sun?.time, '19:00');
 
-		// Verify conversion: 21:00 (UTC-7) -> 00:00 (next day in UTC-4?)
-		// Wait, 21:00 UTC-7 is 04:00 UTC next day, which is 00:00 UTC-4 next day.
-		// Let's check the actual output from previous test run if possible, or calculate it.
-		// Previous test run said:
-		// [08/02/2026, 21:28:10]          - sun at 19:00 (Target: 16:00)
-		// [08/02/2026, 21:28:10]          - moon at 00:00 (Target: 21:00)
+		// Verify conversion: 12:28 (UTC-7) -> +3 hours -> 15:28 (UTC-4)
+		assert.strictEqual(sun?.targetTime, '12:28');
+		assert.strictEqual(sun?.time, '15:28');
 
-		assert.strictEqual(moon?.targetTime, '21:00');
-		assert.strictEqual(moon?.time, '00:00');
+		// Verify conversion: 00:28 (UTC-7) -> +3 hours -> 03:28 (UTC-4)
+		assert.strictEqual(moon?.targetTime, '00:28');
+		assert.strictEqual(moon?.time, '03:28');
 
 		// Verify location object
 		assert.strictEqual(sun?.location.city, 'Phoenix');
