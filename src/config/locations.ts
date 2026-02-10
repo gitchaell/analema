@@ -11,8 +11,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Arizona',
 		'Phoenix',
-		'12:28', // Solar Noon (UTC-7)
-		'00:28', // Solar Midnight (UTC-7)
+		'17:30',
+		'23:30',
 		[
 			new Camera('west', 'https://myearthcam.com/insideoutaerial'),
 			new Camera('north', 'https://www.myearthcam.com/insideoutaerial/lowercam2'),
@@ -26,8 +26,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Florida',
 		'Englewood Beach',
-		'12:29', // Solar Noon (UTC-5)
-		'00:29', // Solar Midnight (UTC-5)
+		'17:30',
+		'03:00',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/florida/portcharlotte/?cam=englewoodbeach'),
 		],
@@ -38,8 +38,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'California',
 		'Ojai',
-		'11:56', // Solar Noon (UTC-8)
-		'23:56', // Solar Midnight (UTC-8)
+		'14:00',
+		'20:50',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/california/ojai/?cam=ojaivalley'),
 		],
@@ -50,8 +50,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Maine',
 		'Peaks Island',
-		'11:40', // Solar Noon (UTC-5)
-		'23:40', // Solar Midnight (UTC-5)
+		'15:30',
+		'06:00',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/maine/peaksisland/?cam=peaksisland#google_vignette'),
 		],
@@ -62,8 +62,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Arizona',
 		'Prescott',
-		'12:29', // Solar Noon (UTC-7)
-		'00:29', // Solar Midnight (UTC-7)
+		'18:40',
+		'02:20',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/prescott/?cam=prescott'),
 		],
@@ -74,8 +74,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Arizona',
 		'Fountain Hills',
-		'12:26', // Solar Noon (UTC-7)
-		'00:26', // Solar Midnight (UTC-7)
+		'10:40',
+		'23:30',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/fountainhills/?cam=fountainpark'),
 		],
