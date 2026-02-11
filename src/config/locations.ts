@@ -39,7 +39,7 @@ export const LOCATIONS: Location[] = [
 		'California',
 		'Ojai',
 		'14:00',
-		'20:50',
+		'22:40',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/california/ojai/?cam=ojaivalley'),
 		],
@@ -51,9 +51,9 @@ export const LOCATIONS: Location[] = [
 		'Maine',
 		'Peaks Island',
 		'15:30',
-		'06:00',
+		'06:30',
 		[
-			new Camera('unknown', 'https://www.earthcam.com/usa/maine/peaksisland/?cam=peaksisland#google_vignette'),
+			new Camera('unknown', 'https://www.earthcam.com/usa/maine/peaksisland/?cam=peaksisland'),
 		],
 	),
 	new Location(
