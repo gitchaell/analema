@@ -27,7 +27,7 @@ export const LOCATIONS: Location[] = [
 		'Florida',
 		'Englewood Beach',
 		'17:30',
-		'03:00',
+		'01:00',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/florida/portcharlotte/?cam=englewoodbeach'),
 		],
@@ -39,7 +39,7 @@ export const LOCATIONS: Location[] = [
 		'California',
 		'Ojai',
 		'14:00',
-		'22:40',
+		'20:50',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/california/ojai/?cam=ojaivalley'),
 		],
@@ -51,7 +51,7 @@ export const LOCATIONS: Location[] = [
 		'Maine',
 		'Peaks Island',
 		'15:30',
-		'06:30',
+		'06:00',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/maine/peaksisland/?cam=peaksisland'),
 		],
@@ -63,7 +63,7 @@ export const LOCATIONS: Location[] = [
 		'Arizona',
 		'Prescott',
 		'18:40',
-		'02:20',
+		'08:20',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/prescott/?cam=prescott'),
 		],
