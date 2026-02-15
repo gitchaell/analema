@@ -74,7 +74,7 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Arizona',
 		'Fountain Hills',
-		'10:15',
+		'11:00',
 		'23:30',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/fountainhills/?cam=fountainpark'),
