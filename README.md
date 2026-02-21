@@ -8,12 +8,12 @@ The system captures images from 6 different locations. All times are automatical
 
 | Location | Timezone | Sun Capture | Moon Capture | Cameras |
 |----------|----------|-------------|--------------|---------|
+| **Fountain Hills, Arizona** | UTC-7 | 10:00 | 05:00 | 1 |
 | **Phoenix, Arizona** | UTC-7 | 17:30 | 23:30 | 4 (West, North, NE, Multiple) |
-| **Englewood Beach, Florida** | UTC-5 | 17:30 | 03:00 | 1 |
-| **Ojai, California** | UTC-8 | 14:00 | 20:50 | 1 |
+| **Prescott, Arizona** | UTC-7 | 10:00 | 20:40 | 1 |
+| **Ojai, California** | UTC-8 | 10:30 | 19:30 | 1 |
+| **Englewood Beach, Florida** | UTC-5 | 17:30 | 22:30 | 1 |
 | **Peaks Island, Maine** | UTC-5 | 15:30 | 06:00 | 1 |
-| **Prescott, Arizona** | UTC-7 | 18:40 | 02:20 | 1 |
-| **Fountain Hills, Arizona** | UTC-7 | 10:40 | 23:30 | 1 |
 
 > **Note**: Capture times are in local time for each location.
 
@@ -27,7 +27,7 @@ The system captures images from 6 different locations. All times are automatical
 
 ## 📁 Project Structure
 
-```
+```txt
 analema/
 ├── .github/workflows/
 │   └── schedule.yml          # GitHub Actions workflow

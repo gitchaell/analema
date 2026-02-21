@@ -10,6 +10,18 @@ export const LOCATIONS: Location[] = [
 		'UTC-7',
 		'USA',
 		'Arizona',
+		'Fountain Hills',
+		'10:00',
+		'05:00',
+		[
+			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/fountainhills/?cam=fountainpark'),
+		],
+	),
+	new Location(
+		'America/Phoenix',
+		'UTC-7',
+		'USA',
+		'Arizona',
 		'Phoenix',
 		'17:30',
 		'23:30',
@@ -21,15 +33,15 @@ export const LOCATIONS: Location[] = [
 		],
 	),
 	new Location(
-		'America/New_York',
-		'UTC-5',
+		'America/Phoenix',
+		'UTC-7',
 		'USA',
-		'Florida',
-		'Englewood Beach',
-		'17:30',
-		'01:00',
+		'Arizona',
+		'Prescott',
+		'10:00',
+		'20:40',
 		[
-			new Camera('unknown', 'https://www.earthcam.com/usa/florida/portcharlotte/?cam=englewoodbeach'),
+			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/prescott/?cam=prescott'),
 		],
 	),
 	new Location(
@@ -38,10 +50,22 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'California',
 		'Ojai',
-		'14:00',
-		'20:50',
+		'10:30',
+		'19:30',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/california/ojai/?cam=ojaivalley'),
+		],
+	),
+	new Location(
+		'America/New_York',
+		'UTC-5',
+		'USA',
+		'Florida',
+		'Englewood Beach',
+		'17:30',
+		'22:30',
+		[
+			new Camera('unknown', 'https://www.earthcam.com/usa/florida/portcharlotte/?cam=englewoodbeach'),
 		],
 	),
 	new Location(
@@ -54,30 +78,6 @@ export const LOCATIONS: Location[] = [
 		'06:00',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/maine/peaksisland/?cam=peaksisland'),
-		],
-	),
-	new Location(
-		'America/Phoenix',
-		'UTC-7',
-		'USA',
-		'Arizona',
-		'Prescott',
-		'18:40',
-		'08:20',
-		[
-			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/prescott/?cam=prescott'),
-		],
-	),
-	new Location(
-		'America/Phoenix',
-		'UTC-7',
-		'USA',
-		'Arizona',
-		'Fountain Hills',
-		'11:00',
-		'23:30',
-		[
-			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/fountainhills/?cam=fountainpark'),
 		],
 	),
 ];
