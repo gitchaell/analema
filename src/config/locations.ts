@@ -11,8 +11,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Arizona',
 		'Fountain Hills',
-		'10:00',
-		'05:00',
+		'08:30',
+		'23:30',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/fountainhills/?cam=fountainpark'),
 		],
@@ -38,8 +38,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'Arizona',
 		'Prescott',
-		'10:00',
-		'20:40',
+		'17:30',
+		'23:30',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/arizona/prescott/?cam=prescott'),
 		],
@@ -50,8 +50,8 @@ export const LOCATIONS: Location[] = [
 		'USA',
 		'California',
 		'Ojai',
-		'10:30',
-		'19:30',
+		'08:30',
+		'23:30',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/california/ojai/?cam=ojaivalley'),
 		],
@@ -75,7 +75,7 @@ export const LOCATIONS: Location[] = [
 		'Maine',
 		'Peaks Island',
 		'15:30',
-		'06:00',
+		'23:30',
 		[
 			new Camera('unknown', 'https://www.earthcam.com/usa/maine/peaksisland/?cam=peaksisland'),
 		],
