@@ -1,0 +1,296 @@
+---
+interface Props {
+  images: string[];
+  id: string;
+}
+
+const { images, id } = Astro.props;
+---
+
+<div class="player-container" data-images={JSON.stringify(images)} id={`player-${id}`}>
+  <div class="loading-overlay">
+    <div class="spinner"></div>
+    <div class="progress-text">Loading 0%</div>
+  </div>
+
+  <div class="display-area">
+    <img src={images[0]} alt="Time lapse frame" class="current-frame" />
+  </div>
+
+  <div class="controls">
+    <button class="play-pause-btn" aria-label="Play">
+      <svg class="icon-play" viewBox="0 0 24 24" width="24" height="24">
+        <path fill="currentColor" d="M8 5v14l11-7z"/>
+      </svg>
+      <svg class="icon-pause" viewBox="0 0 24 24" width="24" height="24" style="display: none;">
+        <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+    </button>
+
+    <input type="range" class="timeline-slider" min="0" max={images.length - 1} value="0" step="1" />
+
+    <span class="frame-counter">1 / {images.length}</span>
+
+    <div class="speed-control">
+      <label for="speed">Speed:</label>
+      <select class="speed-select">
+        <option value="1000">1 FPS</option>
+        <option value="500">2 FPS</option>
+        <option value="250" selected>4 FPS</option>
+        <option value="100">10 FPS</option>
+        <option value="33">30 FPS</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<style>
+  .player-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    color: white;
+    transition: opacity 0.3s;
+  }
+
+  .loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .display-area {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+  }
+
+  .current-frame {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #222;
+    color: white;
+  }
+
+  .timeline-slider {
+    flex: 1;
+    cursor: pointer;
+  }
+
+  .play-pause-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play-pause-btn:hover {
+    opacity: 0.8;
+  }
+
+  .frame-counter {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    min-width: 8ch;
+    text-align: right;
+  }
+
+  .speed-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .speed-select {
+    background: #333;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 4px;
+    padding: 2px 4px;
+  }
+</style>
+
+<script>
+  class TimeLapsePlayer {
+    constructor(container) {
+      this.container = container;
+      this.imageUrls = JSON.parse(container.dataset.images);
+      this.images = [];
+      this.currentIndex = 0;
+      this.isPlaying = false;
+      this.intervalId = null;
+      this.fpsDelay = 250; // Default 4 FPS
+
+      // Elements
+      this.imgElement = container.querySelector('.current-frame');
+      this.slider = container.querySelector('.timeline-slider');
+      this.playBtn = container.querySelector('.play-pause-btn');
+      this.iconPlay = container.querySelector('.icon-play');
+      this.iconPause = container.querySelector('.icon-pause');
+      this.loadingOverlay = container.querySelector('.loading-overlay');
+      this.progressText = container.querySelector('.progress-text');
+      this.counter = container.querySelector('.frame-counter');
+      this.speedSelect = container.querySelector('.speed-select');
+
+      this.init();
+    }
+
+    async init() {
+      // Bind events
+      this.playBtn.addEventListener('click', () => this.togglePlay());
+      this.slider.addEventListener('input', (e) => this.seek(parseInt(e.target.value)));
+      this.speedSelect.addEventListener('change', (e) => this.setSpeed(parseInt(e.target.value)));
+
+      // Start loading
+      await this.preloadImages();
+    }
+
+    async preloadImages() {
+      let loadedCount = 0;
+      const total = this.imageUrls.length;
+
+      // Initialize array with explicit size
+      this.images = new Array(total);
+
+      const strictPromises = this.imageUrls.map((url, index) => {
+         return new Promise((resolve) => {
+            const img = new Image();
+            img.src = url;
+            img.onload = () => {
+                loadedCount++;
+                this.updateLoadingProgress(loadedCount, total);
+                resolve();
+            }
+            img.onerror = () => {
+                console.warn(`Failed to load: ${url}`);
+                loadedCount++;
+                this.updateLoadingProgress(loadedCount, total);
+                resolve();
+            }
+            this.images[index] = img;
+         })
+      });
+
+      await Promise.all(strictPromises);
+
+      this.loadingOverlay.classList.add('hidden');
+    }
+
+    updateLoadingProgress(current, total) {
+      const percentage = Math.round((current / total) * 100);
+      this.progressText.textContent = `Loading ${percentage}%`;
+    }
+
+    togglePlay() {
+      if (this.isPlaying) {
+        this.pause();
+      } else {
+        this.play();
+      }
+    }
+
+    play() {
+      if (this.currentIndex >= this.images.length - 1) {
+        this.currentIndex = 0;
+      }
+      this.isPlaying = true;
+      this.updatePlayIcon();
+
+      this.intervalId = setInterval(() => {
+        this.tick();
+      }, this.fpsDelay);
+    }
+
+    pause() {
+      this.isPlaying = false;
+      this.updatePlayIcon();
+      clearInterval(this.intervalId);
+    }
+
+    tick() {
+        if (this.currentIndex < this.images.length - 1) {
+            this.currentIndex++;
+            this.updateFrame();
+        } else {
+            this.pause();
+        }
+    }
+
+    seek(index) {
+      this.currentIndex = index;
+      this.updateFrame();
+    }
+
+    setSpeed(delay) {
+      this.fpsDelay = delay;
+      if (this.isPlaying) {
+        // Restart interval with new speed
+        clearInterval(this.intervalId);
+        this.intervalId = setInterval(() => this.tick(), this.fpsDelay);
+      }
+    }
+
+    updateFrame() {
+      // Update Image Source
+      if (this.images[this.currentIndex] && this.images[this.currentIndex].complete) {
+        this.imgElement.src = this.images[this.currentIndex].src;
+      } else if (this.images[this.currentIndex]) {
+        // Fallback if somehow not loaded fully, though we preload.
+        this.imgElement.src = this.images[this.currentIndex].src;
+      }
+
+      // Update Slider
+      this.slider.value = this.currentIndex;
+
+      // Update Counter
+      this.counter.textContent = `${this.currentIndex + 1} / ${this.images.length}`;
+    }
+
+    updatePlayIcon() {
+      if (this.isPlaying) {
+        this.iconPlay.style.display = 'none';
+        this.iconPause.style.display = 'block';
+      } else {
+        this.iconPlay.style.display = 'block';
+        this.iconPause.style.display = 'none';
+      }
+    }
+  }
+
+  // Initialize all players on the page
+  document.querySelectorAll('.player-container').forEach(container => {
+    new TimeLapsePlayer(container);
+  });
+</script>
