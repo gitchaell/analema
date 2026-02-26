@@ -1,0 +1,72 @@
+---
+import Player from '../../components/Player.astro';
+import manifest from '../../data/manifest.json';
+
+export function getStaticPaths() {
+  return manifest.map(item => ({
+    params: { id: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{item.location} - {item.object} - {item.camera}</title>
+		<style>
+			body {
+				background: #111;
+				color: #eee;
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				min-height: 100vh;
+                font-family: system-ui, sans-serif;
+			}
+			header {
+				padding: 1rem;
+				background: #000;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.back-link {
+				color: #aaa;
+				text-decoration: none;
+				font-weight: bold;
+			}
+			.back-link:hover { color: white; }
+			main {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				padding: 1rem;
+			}
+			h2 {
+				text-align: center;
+				margin-bottom: 1rem;
+				font-weight: normal;
+				color: #aaa;
+			}
+			strong { color: white; }
+		</style>
+	</head>
+	<body>
+		<header>
+			<a href="/" class="back-link">&larr; Back to Gallery</a>
+			<span>{item.id}</span>
+		</header>
+		<main>
+			<h2>
+				<strong>{item.location.split('-').slice(2).join(' ').replace(/\b\w/g, l => l.toUpperCase())}</strong>
+				/ {item.object.toUpperCase()} / {item.camera}
+			</h2>
+			<Player images={item.images} id={item.id} />
+		</main>
+	</body>
+</html>
