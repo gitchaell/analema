@@ -1,9 +1,11 @@
 ---
-import Player from '../../components/Player.astro';
-import manifest from '../../data/manifest.json';
+import { Camera, ChevronLeft, MapPin } from "lucide-astro";
+import Player from "../../components/Player.astro";
+import manifest from "../../data/manifest.json";
+import Layout from "../../layouts/Layout.astro";
 
 export function getStaticPaths() {
-  return manifest.map(item => ({
+  return manifest.map((item) => ({
     params: { id: item.id },
     props: { item },
   }));
@@ -12,61 +14,49 @@ export function getStaticPaths() {
 const { item } = Astro.props;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>{item.location} - {item.object} - {item.camera}</title>
-		<style>
-			body {
-				background: #111;
-				color: #eee;
-				margin: 0;
-				display: flex;
-				flex-direction: column;
-				min-height: 100vh;
-                font-family: system-ui, sans-serif;
-			}
-			header {
-				padding: 1rem;
-				background: #000;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-			}
-			.back-link {
-				color: #aaa;
-				text-decoration: none;
-				font-weight: bold;
-			}
-			.back-link:hover { color: white; }
-			main {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				padding: 1rem;
-			}
-			h2 {
-				text-align: center;
-				margin-bottom: 1rem;
-				font-weight: normal;
-				color: #aaa;
-			}
-			strong { color: white; }
-		</style>
-	</head>
-	<body>
-		<header>
-			<a href="/" class="back-link">&larr; Back to Gallery</a>
-			<span>{item.id}</span>
-		</header>
-		<main>
-			<h2>
-				<strong>{item.location.split('-').slice(2).join(' ').replace(/\b\w/g, l => l.toUpperCase())}</strong>
-				/ {item.object.toUpperCase()} / {item.camera}
-			</h2>
-			<Player images={item.images} id={item.id} />
-		</main>
-	</body>
-</html>
+<Layout title={`${item.location} - ${item.object} - ${item.camera}`}>
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-6 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-gray-500 hover:text-amber-500 dark:text-gray-400 dark:hover:text-amber-500 transition-colors font-medium">
+        <ChevronLeft class="w-5 h-5" />
+        Back to Gallery
+      </a>
+      <span class="text-xs font-mono text-gray-400 dark:text-zinc-600 uppercase tracking-widest hidden sm:block">{item.id}</span>
+    </div>
+
+    <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-sm border border-gray-200 dark:border-zinc-700 p-6 mb-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            {item.location.split('-').slice(2).join(' ').replace(/\b\w/g, l => l.toUpperCase())}
+          </h1>
+          <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+            <div class="flex items-center gap-1.5">
+              <MapPin class="w-4 h-4" />
+              <span class="uppercase tracking-wide">{item.location.split('-')[1]}</span>
+            </div>
+            <div class="w-px h-4 bg-gray-300 dark:bg-zinc-600"></div>
+            <div class="flex items-center gap-1.5">
+              <Camera class="w-4 h-4" />
+              <span>{item.camera}</span>
+            </div>
+          </div>
+        </div>
+
+        <span class={`px-3 py-1 rounded-full text-sm font-bold uppercase tracking-wider self-start md:self-auto ${
+          item.object === 'sun'
+            ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-500'
+            : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400'
+        }`}>
+          {item.object}
+        </span>
+      </div>
+
+      <Player images={item.images} id={item.id} />
+
+      <div class="mt-6 text-sm text-gray-500 dark:text-zinc-500 text-center font-mono">
+        Sequence contains {item.count} captured frames
+      </div>
+    </div>
+  </div>
+</Layout>

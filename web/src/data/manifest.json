@@ -4,7 +4,7 @@
     "location": "usa-arizona-fountain-hills",
     "object": "moon",
     "camera": "unknown",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-arizona-fountain-hills/moon/unknown/001_20260211_0230.png",
     "images": [
       "/captures/usa-arizona-fountain-hills/moon/unknown/001_20260211_0230.png",
@@ -21,7 +21,9 @@
       "/captures/usa-arizona-fountain-hills/moon/unknown/012_20260222_0812.png",
       "/captures/usa-arizona-fountain-hills/moon/unknown/013_20260223_0818.png",
       "/captures/usa-arizona-fountain-hills/moon/unknown/014_20260224_0819.png",
-      "/captures/usa-arizona-fountain-hills/moon/unknown/015_20260225_0818.png"
+      "/captures/usa-arizona-fountain-hills/moon/unknown/015_20260225_0818.png",
+      "/captures/usa-arizona-fountain-hills/moon/unknown/016_20260226_0230.png",
+      "/captures/usa-arizona-fountain-hills/moon/unknown/017_20260227_0230.png"
     ]
   },
   {
@@ -29,7 +31,7 @@
     "location": "usa-arizona-fountain-hills",
     "object": "sun",
     "camera": "unknown",
-    "count": 16,
+    "count": 18,
     "preview": "/captures/usa-arizona-fountain-hills/sun/unknown/001_20260210_1340.png",
     "images": [
       "/captures/usa-arizona-fountain-hills/sun/unknown/001_20260210_1340.png",
@@ -47,7 +49,9 @@
       "/captures/usa-arizona-fountain-hills/sun/unknown/013_20260222_1311.png",
       "/captures/usa-arizona-fountain-hills/sun/unknown/014_20260223_1330.png",
       "/captures/usa-arizona-fountain-hills/sun/unknown/015_20260224_1329.png",
-      "/captures/usa-arizona-fountain-hills/sun/unknown/016_20260225_1329.png"
+      "/captures/usa-arizona-fountain-hills/sun/unknown/016_20260225_1329.png",
+      "/captures/usa-arizona-fountain-hills/sun/unknown/017_20260226_1130.png",
+      "/captures/usa-arizona-fountain-hills/sun/unknown/018_20260227_1130.png"
     ]
   },
   {
@@ -55,7 +59,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "multiple",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/moon/multiple/001_20260211_0230.png",
     "images": [
       "/captures/usa-arizona-phoenix/moon/multiple/001_20260211_0230.png",
@@ -72,7 +76,9 @@
       "/captures/usa-arizona-phoenix/moon/multiple/012_20260222_0230.png",
       "/captures/usa-arizona-phoenix/moon/multiple/013_20260223_0230.png",
       "/captures/usa-arizona-phoenix/moon/multiple/014_20260224_0230.png",
-      "/captures/usa-arizona-phoenix/moon/multiple/015_20260225_0230.png"
+      "/captures/usa-arizona-phoenix/moon/multiple/015_20260225_0230.png",
+      "/captures/usa-arizona-phoenix/moon/multiple/016_20260226_0230.png",
+      "/captures/usa-arizona-phoenix/moon/multiple/017_20260227_0230.png"
     ]
   },
   {
@@ -80,7 +86,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "north",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/moon/north/001_20260211_0230.png",
     "images": [
       "/captures/usa-arizona-phoenix/moon/north/001_20260211_0230.png",
@@ -97,7 +103,9 @@
       "/captures/usa-arizona-phoenix/moon/north/012_20260222_0230.png",
       "/captures/usa-arizona-phoenix/moon/north/013_20260223_0230.png",
       "/captures/usa-arizona-phoenix/moon/north/014_20260224_0230.png",
-      "/captures/usa-arizona-phoenix/moon/north/015_20260225_0230.png"
+      "/captures/usa-arizona-phoenix/moon/north/015_20260225_0230.png",
+      "/captures/usa-arizona-phoenix/moon/north/016_20260226_0230.png",
+      "/captures/usa-arizona-phoenix/moon/north/017_20260227_0230.png"
     ]
   },
   {
@@ -105,7 +113,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "northeast",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/moon/northeast/001_20260211_0230.png",
     "images": [
       "/captures/usa-arizona-phoenix/moon/northeast/001_20260211_0230.png",
@@ -122,7 +130,9 @@
       "/captures/usa-arizona-phoenix/moon/northeast/012_20260222_0230.png",
       "/captures/usa-arizona-phoenix/moon/northeast/013_20260223_0230.png",
       "/captures/usa-arizona-phoenix/moon/northeast/014_20260224_0230.png",
-      "/captures/usa-arizona-phoenix/moon/northeast/015_20260225_0230.png"
+      "/captures/usa-arizona-phoenix/moon/northeast/015_20260225_0230.png",
+      "/captures/usa-arizona-phoenix/moon/northeast/016_20260226_0230.png",
+      "/captures/usa-arizona-phoenix/moon/northeast/017_20260227_0230.png"
     ]
   },
   {
@@ -130,7 +140,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "west",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/moon/west/001_20260211_0230.png",
     "images": [
       "/captures/usa-arizona-phoenix/moon/west/001_20260211_0230.png",
@@ -147,7 +157,9 @@
       "/captures/usa-arizona-phoenix/moon/west/012_20260222_0230.png",
       "/captures/usa-arizona-phoenix/moon/west/013_20260223_0230.png",
       "/captures/usa-arizona-phoenix/moon/west/014_20260224_0230.png",
-      "/captures/usa-arizona-phoenix/moon/west/015_20260225_0230.png"
+      "/captures/usa-arizona-phoenix/moon/west/015_20260225_0230.png",
+      "/captures/usa-arizona-phoenix/moon/west/016_20260226_0230.png",
+      "/captures/usa-arizona-phoenix/moon/west/017_20260227_0230.png"
     ]
   },
   {
@@ -155,7 +167,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "multiple",
-    "count": 16,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/sun/multiple/001_20260211_2031.png",
     "images": [
       "/captures/usa-arizona-phoenix/sun/multiple/001_20260211_2031.png",
@@ -173,7 +185,8 @@
       "/captures/usa-arizona-phoenix/sun/multiple/013_20260223_2030.png",
       "/captures/usa-arizona-phoenix/sun/multiple/014_20260224_2030.png",
       "/captures/usa-arizona-phoenix/sun/multiple/015_20260225_2030.png",
-      "/captures/usa-arizona-phoenix/sun/multiple/016_20260226_2030.png"
+      "/captures/usa-arizona-phoenix/sun/multiple/016_20260226_2030.png",
+      "/captures/usa-arizona-phoenix/sun/multiple/017_20260227_2030.png"
     ]
   },
   {
@@ -181,7 +194,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "north",
-    "count": 16,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/sun/north/001_20260211_2031.png",
     "images": [
       "/captures/usa-arizona-phoenix/sun/north/001_20260211_2031.png",
@@ -199,7 +212,8 @@
       "/captures/usa-arizona-phoenix/sun/north/013_20260223_2030.png",
       "/captures/usa-arizona-phoenix/sun/north/014_20260224_2030.png",
       "/captures/usa-arizona-phoenix/sun/north/015_20260225_2030.png",
-      "/captures/usa-arizona-phoenix/sun/north/016_20260226_2030.png"
+      "/captures/usa-arizona-phoenix/sun/north/016_20260226_2030.png",
+      "/captures/usa-arizona-phoenix/sun/north/017_20260227_2030.png"
     ]
   },
   {
@@ -207,7 +221,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "northeast",
-    "count": 16,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/sun/northeast/001_20260211_2031.png",
     "images": [
       "/captures/usa-arizona-phoenix/sun/northeast/001_20260211_2031.png",
@@ -225,7 +239,8 @@
       "/captures/usa-arizona-phoenix/sun/northeast/013_20260223_2030.png",
       "/captures/usa-arizona-phoenix/sun/northeast/014_20260224_2030.png",
       "/captures/usa-arizona-phoenix/sun/northeast/015_20260225_2030.png",
-      "/captures/usa-arizona-phoenix/sun/northeast/016_20260226_2030.png"
+      "/captures/usa-arizona-phoenix/sun/northeast/016_20260226_2030.png",
+      "/captures/usa-arizona-phoenix/sun/northeast/017_20260227_2030.png"
     ]
   },
   {
@@ -233,7 +248,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "west",
-    "count": 16,
+    "count": 17,
     "preview": "/captures/usa-arizona-phoenix/sun/west/001_20260211_2031.png",
     "images": [
       "/captures/usa-arizona-phoenix/sun/west/001_20260211_2031.png",
@@ -251,7 +266,8 @@
       "/captures/usa-arizona-phoenix/sun/west/013_20260223_2030.png",
       "/captures/usa-arizona-phoenix/sun/west/014_20260224_2030.png",
       "/captures/usa-arizona-phoenix/sun/west/015_20260225_2030.png",
-      "/captures/usa-arizona-phoenix/sun/west/016_20260226_2030.png"
+      "/captures/usa-arizona-phoenix/sun/west/016_20260226_2030.png",
+      "/captures/usa-arizona-phoenix/sun/west/017_20260227_2030.png"
     ]
   },
   {
@@ -259,7 +275,7 @@
     "location": "usa-arizona-prescott",
     "object": "moon",
     "camera": "unknown",
-    "count": 16,
+    "count": 18,
     "preview": "/captures/usa-arizona-prescott/moon/unknown/001_20260211_0523.png",
     "images": [
       "/captures/usa-arizona-prescott/moon/unknown/001_20260211_0523.png",
@@ -277,7 +293,9 @@
       "/captures/usa-arizona-prescott/moon/unknown/013_20260222_2340.png",
       "/captures/usa-arizona-prescott/moon/unknown/014_20260223_2340.png",
       "/captures/usa-arizona-prescott/moon/unknown/015_20260224_2340.png",
-      "/captures/usa-arizona-prescott/moon/unknown/016_20260225_2340.png"
+      "/captures/usa-arizona-prescott/moon/unknown/016_20260225_2340.png",
+      "/captures/usa-arizona-prescott/moon/unknown/017_20260226_0230.png",
+      "/captures/usa-arizona-prescott/moon/unknown/018_20260227_0230.png"
     ]
   },
   {
@@ -285,7 +303,7 @@
     "location": "usa-arizona-prescott",
     "object": "sun",
     "camera": "unknown",
-    "count": 16,
+    "count": 17,
     "preview": "/captures/usa-arizona-prescott/sun/unknown/001_20260211_2140.png",
     "images": [
       "/captures/usa-arizona-prescott/sun/unknown/001_20260211_2140.png",
@@ -303,7 +321,8 @@
       "/captures/usa-arizona-prescott/sun/unknown/013_20260223_1330.png",
       "/captures/usa-arizona-prescott/sun/unknown/014_20260224_1329.png",
       "/captures/usa-arizona-prescott/sun/unknown/015_20260225_1329.png",
-      "/captures/usa-arizona-prescott/sun/unknown/016_20260226_2030.png"
+      "/captures/usa-arizona-prescott/sun/unknown/016_20260226_2030.png",
+      "/captures/usa-arizona-prescott/sun/unknown/017_20260227_2030.png"
     ]
   },
   {
@@ -311,7 +330,7 @@
     "location": "usa-california-ojai",
     "object": "moon",
     "camera": "unknown",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-california-ojai/moon/unknown/001_20260211_0050.png",
     "images": [
       "/captures/usa-california-ojai/moon/unknown/001_20260211_0050.png",
@@ -328,7 +347,9 @@
       "/captures/usa-california-ojai/moon/unknown/012_20260222_2330.png",
       "/captures/usa-california-ojai/moon/unknown/013_20260223_2330.png",
       "/captures/usa-california-ojai/moon/unknown/014_20260224_2330.png",
-      "/captures/usa-california-ojai/moon/unknown/015_20260225_2330.png"
+      "/captures/usa-california-ojai/moon/unknown/015_20260225_2330.png",
+      "/captures/usa-california-ojai/moon/unknown/016_20260226_0330.png",
+      "/captures/usa-california-ojai/moon/unknown/017_20260227_0330.png"
     ]
   },
   {
@@ -336,7 +357,7 @@
     "location": "usa-california-ojai",
     "object": "sun",
     "camera": "unknown",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-california-ojai/sun/unknown/001_20260210_1819.png",
     "images": [
       "/captures/usa-california-ojai/sun/unknown/001_20260210_1819.png",
@@ -353,7 +374,9 @@
       "/captures/usa-california-ojai/sun/unknown/012_20260222_1430.png",
       "/captures/usa-california-ojai/sun/unknown/013_20260223_1430.png",
       "/captures/usa-california-ojai/sun/unknown/014_20260224_1430.png",
-      "/captures/usa-california-ojai/sun/unknown/015_20260225_1430.png"
+      "/captures/usa-california-ojai/sun/unknown/015_20260225_1430.png",
+      "/captures/usa-california-ojai/sun/unknown/016_20260226_1230.png",
+      "/captures/usa-california-ojai/sun/unknown/017_20260227_1230.png"
     ]
   },
   {
@@ -361,7 +384,7 @@
     "location": "usa-florida-englewood-beach",
     "object": "moon",
     "camera": "unknown",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-florida-englewood-beach/moon/unknown/001_20260211_0420.png",
     "images": [
       "/captures/usa-florida-englewood-beach/moon/unknown/001_20260211_0420.png",
@@ -378,7 +401,9 @@
       "/captures/usa-florida-englewood-beach/moon/unknown/012_20260222_2330.png",
       "/captures/usa-florida-englewood-beach/moon/unknown/013_20260223_2330.png",
       "/captures/usa-florida-englewood-beach/moon/unknown/014_20260224_2330.png",
-      "/captures/usa-florida-englewood-beach/moon/unknown/015_20260225_2330.png"
+      "/captures/usa-florida-englewood-beach/moon/unknown/015_20260225_2330.png",
+      "/captures/usa-florida-englewood-beach/moon/unknown/016_20260226_2358.png",
+      "/captures/usa-florida-englewood-beach/moon/unknown/017_20260227_2357.png"
     ]
   },
   {
@@ -386,7 +411,7 @@
     "location": "usa-florida-englewood-beach",
     "object": "sun",
     "camera": "unknown",
-    "count": 16,
+    "count": 17,
     "preview": "/captures/usa-florida-englewood-beach/sun/unknown/001_20260210_1830.png",
     "images": [
       "/captures/usa-florida-englewood-beach/sun/unknown/001_20260210_1830.png",
@@ -404,7 +429,8 @@
       "/captures/usa-florida-englewood-beach/sun/unknown/013_20260222_1830.png",
       "/captures/usa-florida-englewood-beach/sun/unknown/014_20260223_1830.png",
       "/captures/usa-florida-englewood-beach/sun/unknown/015_20260224_1830.png",
-      "/captures/usa-florida-englewood-beach/sun/unknown/016_20260225_1830.png"
+      "/captures/usa-florida-englewood-beach/sun/unknown/016_20260225_1830.png",
+      "/captures/usa-florida-englewood-beach/sun/unknown/017_20260226_1830.png"
     ]
   },
   {
@@ -412,7 +438,7 @@
     "location": "usa-maine-peaks-island",
     "object": "moon",
     "camera": "unknown",
-    "count": 15,
+    "count": 17,
     "preview": "/captures/usa-maine-peaks-island/moon/unknown/001_20260211_0723.png",
     "images": [
       "/captures/usa-maine-peaks-island/moon/unknown/001_20260211_0723.png",
@@ -429,7 +455,9 @@
       "/captures/usa-maine-peaks-island/moon/unknown/012_20260222_0710.png",
       "/captures/usa-maine-peaks-island/moon/unknown/013_20260223_0722.png",
       "/captures/usa-maine-peaks-island/moon/unknown/014_20260224_0721.png",
-      "/captures/usa-maine-peaks-island/moon/unknown/015_20260225_0722.png"
+      "/captures/usa-maine-peaks-island/moon/unknown/015_20260225_0722.png",
+      "/captures/usa-maine-peaks-island/moon/unknown/016_20260226_0041.png",
+      "/captures/usa-maine-peaks-island/moon/unknown/017_20260227_0040.png"
     ]
   },
   {
@@ -437,7 +465,7 @@
     "location": "usa-maine-peaks-island",
     "object": "sun",
     "camera": "unknown",
-    "count": 16,
+    "count": 17,
     "preview": "/captures/usa-maine-peaks-island/sun/unknown/001_20260210_1630.png",
     "images": [
       "/captures/usa-maine-peaks-island/sun/unknown/001_20260210_1630.png",
@@ -455,7 +483,8 @@
       "/captures/usa-maine-peaks-island/sun/unknown/013_20260222_1630.png",
       "/captures/usa-maine-peaks-island/sun/unknown/014_20260223_1630.png",
       "/captures/usa-maine-peaks-island/sun/unknown/015_20260224_1630.png",
-      "/captures/usa-maine-peaks-island/sun/unknown/016_20260225_1630.png"
+      "/captures/usa-maine-peaks-island/sun/unknown/016_20260225_1630.png",
+      "/captures/usa-maine-peaks-island/sun/unknown/017_20260226_1630.png"
     ]
   }
 ]
