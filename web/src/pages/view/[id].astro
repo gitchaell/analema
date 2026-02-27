@@ -1,14 +1,16 @@
 ---
-import { Camera, ChevronLeft, MapPin } from "lucide-astro";
+import Camera from "lucide-astro/Camera";
+import ChevronLeft from "lucide-astro/ChevronLeft";
+import MapPin from "lucide-astro/MapPin";
 import Player from "../../components/Player.astro";
 import manifest from "../../data/manifest.json";
 import Layout from "../../layouts/Layout.astro";
 
 export function getStaticPaths() {
-  return manifest.map((item) => ({
-    params: { id: item.id },
-    props: { item },
-  }));
+	return manifest.map((item) => ({
+		params: { id: item.id },
+		props: { item },
+	}));
 }
 
 const { item } = Astro.props;
@@ -52,7 +54,7 @@ const { item } = Astro.props;
         </span>
       </div>
 
-      <Player images={item.images} id={item.id} />
+      <Player images={item.images} id={item.id} preview={item.preview} />
 
       <div class="mt-6 text-sm text-gray-500 dark:text-zinc-500 text-center font-mono">
         Sequence contains {item.count} captured frames

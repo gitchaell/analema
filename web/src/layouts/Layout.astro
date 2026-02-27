@@ -1,10 +1,11 @@
 ---
-import { ViewTransitions } from "astro:transitions";
-import { Moon, Sun } from "lucide-astro";
+import { ClientRouter } from "astro:transitions";
+import Moon from "lucide-astro/Moon";
+import Sun from "lucide-astro/Sun";
 import "../styles/global.css";
 
 interface Props {
-  title: string;
+	title: string;
 }
 
 const { title } = Astro.props;
@@ -19,7 +20,7 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <ViewTransitions />
+    <ClientRouter />
     <script is:inline>
       // Initialize theme based on user preference or local storage
       const theme = (() => {
