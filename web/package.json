@@ -10,9 +10,13 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "lucide-astro": "^0.556.0",
+    "tailwindcss": "^4.2.1"
     "astro": "^5.18.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
     "typescript": "^5.3.3"
   }
 }
