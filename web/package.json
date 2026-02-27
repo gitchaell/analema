@@ -10,7 +10,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.0.0"
+    "astro": "^5.18.0"
   },
   "devDependencies": {
     "typescript": "^5.3.3"
