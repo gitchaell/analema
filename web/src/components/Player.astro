@@ -1,8 +1,10 @@
 ---
+import ChevronDown from 'lucide-astro/ChevronDown'
 import FastForward from 'lucide-astro/FastForward'
 import Loader2 from 'lucide-astro/Loader2'
 import Pause from 'lucide-astro/Pause'
 import Play from 'lucide-astro/Play'
+import Repeat from 'lucide-astro/Repeat'
 
 interface Props {
 	images: string[]
@@ -86,24 +88,7 @@ const { images, id, preview } = Astro.props
 				class="loop-toggle p-2 rounded-xl hover:bg-zinc-800 text-zinc-400 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
 				aria-label="Toggle Loop"
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="loop-icon"
-					aria-hidden="true"
-				>
-					<path d="m17 2 4 4-4 4"></path>
-					<path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
-					<path d="m7 22-4-4 4-4"></path>
-					<path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
-				</svg>
+				<Repeat class="w-5 h-5 loop-icon" aria-hidden="true" />
 			</button>
 
 			<div class="text-sm font-mono text-zinc-400 min-w-[6ch] text-right frame-counter">
@@ -112,15 +97,18 @@ const { images, id, preview } = Astro.props
 
 			<div class="speed-control flex items-center gap-2">
 				<FastForward class="w-4 h-4 text-zinc-500" />
-				<select
-					class="appearance-none speed-select bg-zinc-800 text-zinc-200 font-mono text-sm border border-zinc-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer hover:bg-zinc-700 transition-colors bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:1em_1em] bg-no-repeat bg-[position:right_0.25rem_center] pr-7"
-				>
-					<option value="1000">1x</option>
-					<option value="500">2x</option>
-					<option value="250" selected>4x</option>
-					<option value="100">10x</option>
-					<option value="33">30x</option>
-				</select>
+				<div class="relative inline-flex items-center">
+					<select
+						class="appearance-none speed-select bg-zinc-800 text-zinc-200 font-mono text-sm border border-zinc-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer hover:bg-zinc-700 transition-colors pr-7"
+					>
+						<option value="1000">1x</option>
+						<option value="500">2x</option>
+						<option value="250" selected>4x</option>
+						<option value="100">10x</option>
+						<option value="33">30x</option>
+					</select>
+					<ChevronDown class="absolute right-2 w-4 h-4 text-zinc-400 pointer-events-none" />
+				</div>
 			</div>
 		</div>
 	</div>
