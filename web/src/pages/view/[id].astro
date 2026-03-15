@@ -26,8 +26,7 @@ const { item } = Astro.props
 				<ChevronLeft class="w-5 h-5" />
 				Back to Gallery
 			</a>
-			<span
-				class="text-xs font-mono text-gray-400 dark:text-zinc-600   hidden sm:block"
+			<span class="text-xs font-mono text-gray-400 dark:text-zinc-600   hidden sm:block"
 				>{item.id}</span
 			>
 		</div>
@@ -37,7 +36,9 @@ const { item } = Astro.props
 		>
 			<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
 				<div>
-					<h1 class="font-heading text-4xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+					<h1
+						class="font-heading text-4xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight"
+					>
 						{item.location.split('-').slice(2).join(' ').replace(/\b\w/g, l => l.toUpperCase())}
 					</h1>
 					<div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">

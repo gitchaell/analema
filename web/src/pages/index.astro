@@ -39,7 +39,9 @@ const cameras = [...new Set(manifest.map((item) => item.camera))]
 								</option>
 							))}
 					</select>
-					<ChevronDown class="absolute right-2.5 w-4 h-4 text-gray-500 dark:text-gray-400 pointer-events-none" />
+					<ChevronDown
+						class="absolute right-2.5 w-4 h-4 text-gray-500 dark:text-gray-400 pointer-events-none"
+					/>
 				</div>
 
 				<!-- Object Filter -->
@@ -55,7 +57,9 @@ const cameras = [...new Set(manifest.map((item) => item.camera))]
 								</option>
 							))}
 					</select>
-					<ChevronDown class="absolute right-2.5 w-4 h-4 text-gray-500 dark:text-gray-400 pointer-events-none" />
+					<ChevronDown
+						class="absolute right-2.5 w-4 h-4 text-gray-500 dark:text-gray-400 pointer-events-none"
+					/>
 				</div>
 
 				<!-- Camera Filter -->
@@ -67,7 +71,9 @@ const cameras = [...new Set(manifest.map((item) => item.camera))]
 						<option value="all">All Cameras</option>
 						{cameras.map((cam) => <option value={cam}>{cam}</option>)}
 					</select>
-					<ChevronDown class="absolute right-2.5 w-4 h-4 text-gray-500 dark:text-gray-400 pointer-events-none" />
+					<ChevronDown
+						class="absolute right-2.5 w-4 h-4 text-gray-500 dark:text-gray-400 pointer-events-none"
+					/>
 				</div>
 			</div>
 		</div>

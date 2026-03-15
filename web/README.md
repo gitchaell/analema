@@ -1,17 +1,19 @@
-# 🌌 Analemma Web Viewer
+# Analemma Web Viewer
 
-Bienvenido al repositorio frontend del proyecto **Analemma**. Esta es una **Progressive Web App (PWA)** renderizada en el servidor (SSR) mediante **Astro 6** y embellecida con **Tailwind CSS v4**, concebida específicamente para visualizar fluida e interactivamente decenas de miles de capturas fotográficas (timelapses) generadas por el orquestador principal del proyecto.
+Esta es una **Progressive Web App (PWA)** renderizada en el servidor (SSR) mediante **Astro v6** y embellecida con **Tailwind CSS v4**, concebida específicamente para visualizar fluida e interactivamente decenas de miles de capturas fotográficas (timelapses) generadas por el orquestador principal del proyecto.
 
 ---
 
-## 🏗️ Arquitectura UI y Experiencia de Usuario (UX)
+## Arquitectura UI y Experiencia de Usuario (UX)
 
 La web no es un sitio común; ha sido diseñada con técnicas avanzadas de frontend para minimizar cuellos de botella al manipular un gran volumen de imágenes.
 
 ### Transiciones Fluidas (SPA-Like)
-Hemos implementado Astro `<ViewTransitions />`. Esto intercepta los clicks del usuario y pre-fetchea la siguiente página (`/view/[id].astro`), inyectándola dinámicamente en el DOM sin recargar la pantalla completa. Esto permite que el estado del layout (Navbar, Footer, Tema) se mantenga constante.
+
+Hemos implementado Astro `<ClientRouter />`. Esto intercepta los clicks del usuario y pre-fetchea la siguiente página (`/view/[id].astro`), inyectándola dinámicamente en el DOM sin recargar la pantalla completa. Esto permite que el estado del layout (Navbar, Footer, Tema) se mantenga constante.
 
 ### Persistencia del Modo Oscuro
+
 El esquema de color `dark/light` es detectado desde el Sistema Operativo y persistido en `localStorage`. Gracias a un listener de `astro:after-swap`, la clase `.dark` en el `<html>` nunca sufre de "flickering" durante la navegación SPA, entregando una experiencia visual impecable.
 
 ---
@@ -33,14 +35,16 @@ stateDiagram-v2
 ```
 
 ### 1. Carga Bufferizada Asíncrona (Buffered Loading)
+
 En lugar de forzar al DOM a procesar todas las imágenes en el HMTL inicial o esperar a que todas carguen para permitir el play, el player usa `requestIdleCallback` para descargar batches de 5 imágenes (`new Image()`) en background sin bloquear el hilo principal (Main Thread), y habilita la reproducción de manera inmediata usando la imagen de *preview* como "place-holder".
 
 ### 2. Control de Velocidad (FPS)
+
 El reproductor limpia y re-inicializa los `setInterval()` al vuelo cuando el usuario cambia la velocidad en el `<select>`, modificando dinámicamente el *delay* entre 33ms (30x) y 1000ms (1x).
 
 ---
 
-## 🗄️ Generación Estática sin Base de Datos (Manifest Indexing)
+## Generación Estática sin Base de Datos (Manifest Indexing)
 
 El motor principal almacena imágenes puras en el servidor bajo la ruta `/captures/`. ¿Cómo sabe Astro qué páginas compilar y qué filtros aplicar si no hay una base de datos relacional SQL/NoSQL conectada?
 
@@ -48,7 +52,7 @@ Astro utiliza un script nativo en Node.js de pre-build. Antes de arrancar el ser
 
 ```mermaid
 graph LR
-    A[Node.js (generate-manifest.js)] -->|Lee fs.readdirSync recursivo| B(Directorio estático '../captures/')
+    A["Node.js (generate-manifest.js)"] -->|Lee fs.readdirSync recursivo| B(Directorio estático '../captures/')
     B --> C{Parsea la estructura de carpetas}
     C -->|sun/usa-arizona-phoenix/north/YYYY-MM-DD.jpg| D[Agrupa por ID: 'sun-usa-arizona-phoenix-north']
     D --> E[Crea 'src/data/manifest.json']
@@ -59,9 +63,10 @@ Este `manifest.json` alimenta las tarjetas (Cards) en `index.astro`, donde filtr
 
 ---
 
-## 🚀 PWA & SEO Ready
+## PWA & SEO Ready
 
 El visor web no es solo rápido, está listo para ser instalado en dispositivos:
+
 - **Metadatos Open Graph y Twitter Cards** correctamente configurados en `Layout.astro` (apuntando al poster dinámico `og-image.png`).
 - Configuración PWA mediante `manifest.webmanifest`.
 - Íconos nativos y un Service Worker inicial (`sw.js`) para políticas de caché (offline mode básico).

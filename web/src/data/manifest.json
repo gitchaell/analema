@@ -736,7 +736,7 @@
     "location": "usa-maine-peaks-island",
     "object": "sun",
     "camera": "unknown",
-    "count": 33,
+    "count": 34,
     "preview": "/processed/usa-maine-peaks-island-sun-unknown/preview.webp",
     "images": [
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0000.webp",
@@ -771,7 +771,8 @@
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0029.webp",
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0030.webp",
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0031.webp",
-      "/processed/usa-maine-peaks-island-sun-unknown/frame_0032.webp"
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0032.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0033.webp"
     ]
   }
 ]
