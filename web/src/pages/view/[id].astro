@@ -27,7 +27,7 @@ const { item } = Astro.props
 				Back to Gallery
 			</a>
 			<span
-				class="text-xs font-mono text-gray-400 dark:text-zinc-600 uppercase tracking-widest hidden sm:block"
+				class="text-xs font-mono text-gray-400 dark:text-zinc-600   hidden sm:block"
 				>{item.id}</span
 			>
 		</div>
@@ -43,7 +43,7 @@ const { item } = Astro.props
 					<div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
 						<div class="flex items-center gap-1.5">
 							<MapPin class="w-4 h-4" />
-							<span class="uppercase tracking-wide">{item.location.split('-')[1]}</span>
+							<span class=" ">{item.location.split('-')[1]}</span>
 						</div>
 						<div class="w-px h-4 bg-gray-300 dark:bg-zinc-600"></div>
 						<div class="flex items-center gap-1.5">
@@ -54,9 +54,9 @@ const { item } = Astro.props
 				</div>
 
 				<span
-					class={`px-3 py-1 rounded-full text-sm font-bold uppercase tracking-wider self-start md:self-auto ${
+					class={`px-3 py-1 rounded-full text-sm font-bold   self-start md:self-auto ${
           item.object === 'sun'
-            ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-500'
+            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
             : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400'
         }`}
 				>

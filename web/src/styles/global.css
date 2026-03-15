@@ -46,4 +46,10 @@
   --font-mono: 'Geist Mono', monospace;
 }
 
+@layer base {
+  body {
+    font-feature-settings: "ss07";
+  }
+}
+
 @custom-variant dark (&:where(.dark, .dark *));

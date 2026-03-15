@@ -24,10 +24,10 @@ const { images, id, preview } = Astro.props
 	<div
 		class="loading-overlay absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-20 text-white transition-opacity duration-500"
 	>
-		<div class="relative mb-4"><Loader2 class="w-12 h-12 animate-spin text-amber-500" /></div>
+		<div class="relative mb-4"><Loader2 class="w-12 h-12 animate-spin text-green-400" /></div>
 		<div class="text-xl font-medium tracking-wide mb-2">Loading Timelapse</div>
 		<div class="progress-bar w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
-			<div class="progress-fill h-full bg-amber-500 w-0 transition-all duration-300"></div>
+			<div class="progress-fill h-full bg-green-400 w-0 transition-all duration-300"></div>
 		</div>
 		<div class="progress-text text-sm text-gray-400 mt-2 font-mono">0%</div>
 	</div>
@@ -64,7 +64,7 @@ const { images, id, preview } = Astro.props
 	>
 		<button
 			type="button"
-			class="play-pause-btn p-2 rounded-xl hover:bg-zinc-800 text-amber-500 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-500"
+			class="play-pause-btn p-2 rounded-xl hover:bg-zinc-800 text-green-400 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-400"
 			aria-label="Play"
 		>
 			<span class="icon-play block"> <Play class="w-6 h-6 fill-current" /> </span>
@@ -74,7 +74,7 @@ const { images, id, preview } = Astro.props
 		<div class="flex-1 flex flex-col gap-1">
 			<input
 				type="range"
-				class="timeline-slider w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+				class="timeline-slider w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-green-400 hover:accent-green-400 focus:outline-none focus:ring-2 focus:ring-green-400/50"
 				min="0"
 				max={images.length - 1}
 				value="0"
@@ -85,7 +85,7 @@ const { images, id, preview } = Astro.props
 		<div class="flex items-center gap-4 pl-4 border-l border-zinc-800">
 			<button
 				type="button"
-				class="loop-toggle p-2 rounded-xl hover:bg-zinc-800 text-zinc-400 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+				class="loop-toggle p-2 rounded-xl hover:bg-zinc-800 text-zinc-400 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-400/50"
 				aria-label="Toggle Loop"
 			>
 				<Repeat class="w-5 h-5 loop-icon" aria-hidden="true" />
@@ -99,7 +99,7 @@ const { images, id, preview } = Astro.props
 				<FastForward class="w-4 h-4 text-zinc-500" />
 				<div class="relative inline-flex items-center">
 					<select
-						class="appearance-none speed-select bg-zinc-800 text-zinc-200 font-mono text-sm border border-zinc-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer hover:bg-zinc-700 transition-colors pr-7"
+						class="appearance-none speed-select bg-zinc-800 text-zinc-200 font-mono text-sm border border-zinc-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-green-400 cursor-pointer hover:bg-zinc-700 transition-colors pr-7"
 					>
 						<option value="1000">1x</option>
 						<option value="500">2x</option>
@@ -204,10 +204,10 @@ class TimeLapsePlayer {
 	updateLoopIcon() {
 		if (this.isLooping) {
 			this.loopBtn.classList.remove('text-zinc-400')
-			this.loopBtn.classList.add('text-amber-500')
+			this.loopBtn.classList.add('text-green-400')
 		} else {
 			this.loopBtn.classList.add('text-zinc-400')
-			this.loopBtn.classList.remove('text-amber-500')
+			this.loopBtn.classList.remove('text-green-400')
 		}
 	}
 
