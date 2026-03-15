@@ -1,88 +1,84 @@
-# 🌞🌙 Solar and Lunar Analemma - Sky Photographer
+# Analemma
 
-Automated screenshot capture system for multiple webcams across the USA. This project captures images of the sun and moon at specific times to create [analemma](https://pegasus.portal.nom.br/analema-solar-estrada-ecp19-realidades-paralelas/) composites.
+Un sistema de captura automatizado y un visor web moderno para la generación de analemas solares y lunares mediante cámaras de vigilancia.
 
-## 📍 Locations & Schedule
-
-The system captures images from 6 different locations. All times are automatically converted to the system timezone (Bolivia, UTC-4).
-
-| Location | Timezone | Sun Capture | Moon Capture | Cameras |
-| -------- | -------- | ----------- | ------------ | ------- |
-| **Fountain Hills, Arizona** | UTC-7 | 08:30 | 23:30 | 1 |
-| **Phoenix, Arizona** | UTC-7 | 17:30 | 23:30 | 4 (West, North, NE, Multiple) |
-| **Prescott, Arizona** | UTC-7 | 17:30 | 23:30 | 1 |
-| **Ojai, California** | UTC-8 | 08:30 | 23:30 | 1 |
-| **Englewood Beach, Florida** | UTC-5 | 17:30 | 22:30 | 1 |
-| **Peaks Island, Maine** | UTC-5 | 15:30 | 23:30 | 1 |
-
-> **Note**: Capture times are in local time for each location.
-
-## 🛠️ Technology Stack
-
-- **Runtime**: Node.js 20
-- **Language**: TypeScript
-- **Browser Engine**: Puppeteer (Headless Chrome)
-- **Automation**: GitHub Actions (Scheduled Cron every 30 min)
-- **Linter/Formatter**: Biome
-
-## 📁 Project Structure
-
-```txt
-analema/
-├── .github/workflows/
-│   └── schedule.yml          # GitHub Actions workflow
-├── captures/                  # Screenshot output directory
-├── src/
-│   ├── index.ts              # Production entry
-│   ├── config/               # Configuration & Locations
-│   ├── domain/               # Entities & Repositories
-│   ├── infrastructure/       # Implementations
-│   └── services/             # Core Logic
-├── scripts/
-│   └── generate-calendar.ts  # ICS Generator
-└── ...
-```
-
-## 🚀 Getting Started
-
-### Installation
-
-```bash
-git clone https://github.com/YOUR_USERNAME/analema.git
-cd analema
-npm install
-```
-
-### Local Development
-
-```bash
-npm run test     # Immediate capture test
-npm start        # Run scheduled checks
-npm run format   # Format code
-npm run generate:calendar # Regenerate ICS file
-```
-
-## ⚙️ How It Works
-
-1. **Schedule**: The system checks `src/config/locations.ts` for capture times.
-2. **Conversion**: Calculates the precise capture time for each location, converted to system time.
-3. **Execution**: Launches Puppeteer browsers in parallel for all due captures.
-4. **Storage**: Saves screenshots in `captures/` organized by location and type.
-
-## 📅 Calendar Integration
-
-You can generate an ICS calendar file to subscribe to all capture events:
-
-```bash
-npm run generate:calendar
-```
-
-The file `analema-2026.ics` will be created in the root directory.
-
-## 📝 License
-
-MIT
+El proyecto está diseñado bajo los principios de **Arquitectura Clean y Domain-Driven Design (DDD)**. Consta de dos partes principales:
+1. Una aplicación Node.js que orquesta las capturas basada en coordenadas astronómicas dinámicas.
+2. Un visualizador web SSR/SSG desarrollado en **Astro**.
 
 ---
 
-Automated sky photography project 📸
+## 🏗️ Arquitectura del Sistema (DDD)
+
+El motor principal (`src/`) se organiza en capas estrictas para mantener el dominio aislado de la infraestructura:
+
+```mermaid
+graph TD
+    A[Application Layer] --> D[Domain Layer]
+    I[Infrastructure Layer] -.-> D
+    I -.-> A
+```
+
+| Capa | Descripción | Contenido |
+| --- | --- | --- |
+| **Domain** | Reglas de negocio puras | Entidades (`Location`, `Camera`), Value Objects, interfaces de repositorios (`CameraRepository`). |
+| **Application** | Casos de uso | Lógica de orquestación como `CaptureImagesUseCase`, interactuando con repositorios inyectados. |
+| **Infrastructure** | Implementaciones concretas | Adaptadores para API RTSP/HTTP de cámaras de vigilancia (`DahuaCameraAdapter`, `HikvisionCameraAdapter`), cálculo de efemérides (`ConfigScheduleRepository` usando `suncalc`). |
+
+---
+
+## 🚀 Cómo Funciona la Orquestación
+
+El sistema calcula los horarios precisos de captura cada día para cada ubicación.
+
+```mermaid
+sequenceDiagram
+    participant Cron
+    participant App as CaptureImagesUseCase
+    participant Repo as ConfigScheduleRepository
+    participant Cam as CameraAdapter
+
+    Cron->>App: Ejecuta ciclo de verificación
+    App->>Repo: Solicita horarios del día actual para 'usa-arizona-phoenix'
+    Repo-->>App: Retorna { sun: 12:05 PM, moon: 03:45 AM }
+    App->>App: Verifica si la hora actual coincide
+    alt Coincide con captura (ej: Sol)
+        App->>Cam: takeSnapshot()
+        Cam-->>App: Buffer de imagen (JPEG)
+        App->>App: Guarda en 'captures/sun/usa-arizona-phoenix/south/YYYY-MM-DD.jpg'
+    end
+```
+
+---
+
+## ⚙️ Configuración (Environment & Localizaciones)
+
+Las cámaras y horarios se definen en `src/config/locations.ts`. El sistema calcula dinámicamente las horas basado en coordenadas.
+
+### Variables de Entorno `.env`
+
+| Variable | Uso |
+| --- | --- |
+| `NODE_ENV` | `development` o `production` |
+| `CRON_SCHEDULE` | Expresión cron (ej. `*/1 * * * *` para cada minuto) |
+| `OUTPUT_DIR` | Directorio raíz para guardar las imágenes (ej. `./captures`) |
+
+*Nota: Requiere establecer la zona horaria del sistema a `America/La_Paz` para cálculos predecibles si el servidor difiere de la ubicación.*
+
+---
+
+## 📸 Visor Web (Astro)
+
+El directorio `web/` contiene una aplicación en **Astro** y **Tailwind CSS v4** para visualizar y reproducir los timelapses.
+Lee el [`web/README.md`](./web/README.md) para más detalles.
+
+---
+
+## 🛠️ Scripts Disponibles
+
+Ejecutar desde la raíz del proyecto:
+
+- `npm run dev`: Inicia el orquestador en modo desarrollo (nodemon).
+- `npm run start`: Inicia el proceso en producción.
+- `npm run test:unit`: Ejecuta los tests unitarios (`node:test`).
+- `npm run lint` / `npm run format`: Chequeos Biome.

@@ -62,7 +62,7 @@ const { images, id, preview } = Astro.props
 	>
 		<button
 			type="button"
-			class="play-pause-btn p-2 rounded-lg hover:bg-zinc-800 text-amber-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
+			class="play-pause-btn p-2 rounded-xl hover:bg-zinc-800 text-amber-500 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-500"
 			aria-label="Play"
 		>
 			<span class="icon-play block"> <Play class="w-6 h-6 fill-current" /> </span>
@@ -87,7 +87,7 @@ const { images, id, preview } = Astro.props
 		<div class="flex items-center gap-4 pl-4 border-l border-zinc-800">
 			<button
 				type="button"
-				class="loop-toggle p-2 rounded-lg hover:bg-zinc-800 text-zinc-400 transition-colors focus:outline-none"
+				class="loop-toggle p-2 rounded-xl hover:bg-zinc-800 text-zinc-400 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
 				aria-label="Toggle Loop"
 			>
 				<svg
@@ -117,7 +117,7 @@ const { images, id, preview } = Astro.props
 			<div class="speed-control flex items-center gap-2">
 				<FastForward class="w-4 h-4 text-zinc-500" />
 				<select
-					class="speed-select bg-zinc-800 text-zinc-200 text-sm border border-zinc-700 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor:pointer hover:bg-zinc-700 transition-colors"
+					class="appearance-none speed-select bg-zinc-800 text-zinc-200 font-mono text-sm border border-zinc-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer hover:bg-zinc-700 transition-colors bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:1em_1em] bg-no-repeat bg-[position:right_0.25rem_center] pr-7"
 				>
 					<option value="1000">1x</option>
 					<option value="500">2x</option>
