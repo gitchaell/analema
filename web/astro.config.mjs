@@ -1,13 +1,13 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@tailwindcss/vite";
+import { defineConfig } from 'astro/config'
+import tailwind from '@tailwindcss/vite'
 
 // https://astro.build/config
 export default defineConfig({
-	output: "static",
+	output: 'static',
 	build: {
-		assets: "assets",
+		assets: 'assets',
 	},
 	vite: {
 		plugins: [tailwind()],
 	},
-});
+})

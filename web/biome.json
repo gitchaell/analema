@@ -7,28 +7,87 @@
 			}
 		}
 	},
+	"css": {
+		"parser": {
+			"allowWrongLineComments": false,
+			"cssModules": true,
+			"tailwindDirectives": true
+		}
+	},
 	"files": {
-		"ignoreUnknown": false,
-		"includes": ["**"]
+		"includes": [
+			"**",
+			"!**/node_modules",
+			"!**/dist",
+			"!**/.astro",
+			"!**/.cucumber",
+			"!**/.github",
+			"!**/.playwright",
+			"!**/.sonda",
+			"!**/.vercel",
+			"!**/*.md"
+		]
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 100
+	},
+	"html": {
+		"experimentalFullSupportEnabled": true,
+		"formatter": {
+			"enabled": true
+		}
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
+			"arrowParentheses": "always",
+			"bracketSameLine": true,
+			"bracketSpacing": true,
+			"jsxQuoteStyle": "single",
+			"quoteStyle": "single",
+			"semicolons": "asNeeded",
+			"trailingCommas": "all"
 		}
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"correctness": {
+				"noUnusedImports": "warn",
+				"noUnusedVariables": "warn"
+			},
+			"recommended": true,
+			"style": {
+				"noNonNullAssertion": "off"
+			},
+			"suspicious": {
+				"noConfusingVoidType": "off"
+			}
 		}
 	},
+	"overrides": [
+		{
+			"includes": ["**/*.astro", "**/*.vue", "**/*.svelte"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedImports": "off",
+						"noUnusedVariables": "off"
+					},
+					"style": {
+						"useConst": "off",
+						"useImportType": "off"
+					}
+				}
+			}
+		}
+	],
 	"vcs": {
 		"clientKind": "git",
-		"enabled": false,
+		"enabled": true,
 		"useIgnoreFile": true
 	}
 }

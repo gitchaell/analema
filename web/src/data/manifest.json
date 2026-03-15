@@ -4,7 +4,7 @@
     "location": "usa-arizona-fountain-hills",
     "object": "moon",
     "camera": "unknown",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-fountain-hills-moon-unknown/preview.webp",
     "images": [
       "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0000.webp",
@@ -23,7 +23,23 @@
       "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0013.webp",
       "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0014.webp",
       "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0015.webp",
-      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0016.webp"
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0016.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0017.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0018.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0019.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0020.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0021.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0022.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0023.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0024.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0025.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0026.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0027.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0028.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0029.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0030.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0031.webp",
+      "/processed/usa-arizona-fountain-hills-moon-unknown/frame_0032.webp"
     ]
   },
   {
@@ -31,7 +47,7 @@
     "location": "usa-arizona-fountain-hills",
     "object": "sun",
     "camera": "unknown",
-    "count": 18,
+    "count": 34,
     "preview": "/processed/usa-arizona-fountain-hills-sun-unknown/preview.webp",
     "images": [
       "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0000.webp",
@@ -51,7 +67,23 @@
       "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0014.webp",
       "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0015.webp",
       "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0016.webp",
-      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0017.webp"
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0017.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0018.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0019.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0020.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0021.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0022.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0023.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0024.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0025.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0026.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0027.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0028.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0029.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0030.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0031.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0032.webp",
+      "/processed/usa-arizona-fountain-hills-sun-unknown/frame_0033.webp"
     ]
   },
   {
@@ -59,7 +91,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "multiple",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-moon-multiple/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-moon-multiple/frame_0000.webp",
@@ -78,7 +110,23 @@
       "/processed/usa-arizona-phoenix-moon-multiple/frame_0013.webp",
       "/processed/usa-arizona-phoenix-moon-multiple/frame_0014.webp",
       "/processed/usa-arizona-phoenix-moon-multiple/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-moon-multiple/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-moon-multiple/frame_0032.webp"
     ]
   },
   {
@@ -86,7 +134,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "north",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-moon-north/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-moon-north/frame_0000.webp",
@@ -105,7 +153,23 @@
       "/processed/usa-arizona-phoenix-moon-north/frame_0013.webp",
       "/processed/usa-arizona-phoenix-moon-north/frame_0014.webp",
       "/processed/usa-arizona-phoenix-moon-north/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-moon-north/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-moon-north/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-moon-north/frame_0032.webp"
     ]
   },
   {
@@ -113,7 +177,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "northeast",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-moon-northeast/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-moon-northeast/frame_0000.webp",
@@ -132,7 +196,23 @@
       "/processed/usa-arizona-phoenix-moon-northeast/frame_0013.webp",
       "/processed/usa-arizona-phoenix-moon-northeast/frame_0014.webp",
       "/processed/usa-arizona-phoenix-moon-northeast/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-moon-northeast/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-moon-northeast/frame_0032.webp"
     ]
   },
   {
@@ -140,7 +220,7 @@
     "location": "usa-arizona-phoenix",
     "object": "moon",
     "camera": "west",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-moon-west/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-moon-west/frame_0000.webp",
@@ -159,7 +239,23 @@
       "/processed/usa-arizona-phoenix-moon-west/frame_0013.webp",
       "/processed/usa-arizona-phoenix-moon-west/frame_0014.webp",
       "/processed/usa-arizona-phoenix-moon-west/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-moon-west/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-moon-west/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-moon-west/frame_0032.webp"
     ]
   },
   {
@@ -167,7 +263,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "multiple",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-sun-multiple/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-sun-multiple/frame_0000.webp",
@@ -186,7 +282,23 @@
       "/processed/usa-arizona-phoenix-sun-multiple/frame_0013.webp",
       "/processed/usa-arizona-phoenix-sun-multiple/frame_0014.webp",
       "/processed/usa-arizona-phoenix-sun-multiple/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-sun-multiple/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-sun-multiple/frame_0032.webp"
     ]
   },
   {
@@ -194,7 +306,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "north",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-sun-north/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-sun-north/frame_0000.webp",
@@ -213,7 +325,23 @@
       "/processed/usa-arizona-phoenix-sun-north/frame_0013.webp",
       "/processed/usa-arizona-phoenix-sun-north/frame_0014.webp",
       "/processed/usa-arizona-phoenix-sun-north/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-sun-north/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-sun-north/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-sun-north/frame_0032.webp"
     ]
   },
   {
@@ -221,7 +349,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "northeast",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-sun-northeast/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-sun-northeast/frame_0000.webp",
@@ -240,7 +368,23 @@
       "/processed/usa-arizona-phoenix-sun-northeast/frame_0013.webp",
       "/processed/usa-arizona-phoenix-sun-northeast/frame_0014.webp",
       "/processed/usa-arizona-phoenix-sun-northeast/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-sun-northeast/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-sun-northeast/frame_0032.webp"
     ]
   },
   {
@@ -248,7 +392,7 @@
     "location": "usa-arizona-phoenix",
     "object": "sun",
     "camera": "west",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-phoenix-sun-west/preview.webp",
     "images": [
       "/processed/usa-arizona-phoenix-sun-west/frame_0000.webp",
@@ -267,7 +411,23 @@
       "/processed/usa-arizona-phoenix-sun-west/frame_0013.webp",
       "/processed/usa-arizona-phoenix-sun-west/frame_0014.webp",
       "/processed/usa-arizona-phoenix-sun-west/frame_0015.webp",
-      "/processed/usa-arizona-phoenix-sun-west/frame_0016.webp"
+      "/processed/usa-arizona-phoenix-sun-west/frame_0016.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0017.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0018.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0019.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0020.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0021.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0022.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0023.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0024.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0025.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0026.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0027.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0028.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0029.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0030.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0031.webp",
+      "/processed/usa-arizona-phoenix-sun-west/frame_0032.webp"
     ]
   },
   {
@@ -275,7 +435,7 @@
     "location": "usa-arizona-prescott",
     "object": "moon",
     "camera": "unknown",
-    "count": 18,
+    "count": 34,
     "preview": "/processed/usa-arizona-prescott-moon-unknown/preview.webp",
     "images": [
       "/processed/usa-arizona-prescott-moon-unknown/frame_0000.webp",
@@ -295,7 +455,23 @@
       "/processed/usa-arizona-prescott-moon-unknown/frame_0014.webp",
       "/processed/usa-arizona-prescott-moon-unknown/frame_0015.webp",
       "/processed/usa-arizona-prescott-moon-unknown/frame_0016.webp",
-      "/processed/usa-arizona-prescott-moon-unknown/frame_0017.webp"
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0017.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0018.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0019.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0020.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0021.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0022.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0023.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0024.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0025.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0026.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0027.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0028.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0029.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0030.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0031.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0032.webp",
+      "/processed/usa-arizona-prescott-moon-unknown/frame_0033.webp"
     ]
   },
   {
@@ -303,7 +479,7 @@
     "location": "usa-arizona-prescott",
     "object": "sun",
     "camera": "unknown",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-arizona-prescott-sun-unknown/preview.webp",
     "images": [
       "/processed/usa-arizona-prescott-sun-unknown/frame_0000.webp",
@@ -322,7 +498,23 @@
       "/processed/usa-arizona-prescott-sun-unknown/frame_0013.webp",
       "/processed/usa-arizona-prescott-sun-unknown/frame_0014.webp",
       "/processed/usa-arizona-prescott-sun-unknown/frame_0015.webp",
-      "/processed/usa-arizona-prescott-sun-unknown/frame_0016.webp"
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0016.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0017.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0018.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0019.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0020.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0021.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0022.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0023.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0024.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0025.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0026.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0027.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0028.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0029.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0030.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0031.webp",
+      "/processed/usa-arizona-prescott-sun-unknown/frame_0032.webp"
     ]
   },
   {
@@ -330,7 +522,7 @@
     "location": "usa-california-ojai",
     "object": "moon",
     "camera": "unknown",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-california-ojai-moon-unknown/preview.webp",
     "images": [
       "/processed/usa-california-ojai-moon-unknown/frame_0000.webp",
@@ -349,7 +541,23 @@
       "/processed/usa-california-ojai-moon-unknown/frame_0013.webp",
       "/processed/usa-california-ojai-moon-unknown/frame_0014.webp",
       "/processed/usa-california-ojai-moon-unknown/frame_0015.webp",
-      "/processed/usa-california-ojai-moon-unknown/frame_0016.webp"
+      "/processed/usa-california-ojai-moon-unknown/frame_0016.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0017.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0018.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0019.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0020.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0021.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0022.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0023.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0024.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0025.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0026.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0027.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0028.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0029.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0030.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0031.webp",
+      "/processed/usa-california-ojai-moon-unknown/frame_0032.webp"
     ]
   },
   {
@@ -357,7 +565,7 @@
     "location": "usa-california-ojai",
     "object": "sun",
     "camera": "unknown",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-california-ojai-sun-unknown/preview.webp",
     "images": [
       "/processed/usa-california-ojai-sun-unknown/frame_0000.webp",
@@ -376,7 +584,23 @@
       "/processed/usa-california-ojai-sun-unknown/frame_0013.webp",
       "/processed/usa-california-ojai-sun-unknown/frame_0014.webp",
       "/processed/usa-california-ojai-sun-unknown/frame_0015.webp",
-      "/processed/usa-california-ojai-sun-unknown/frame_0016.webp"
+      "/processed/usa-california-ojai-sun-unknown/frame_0016.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0017.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0018.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0019.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0020.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0021.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0022.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0023.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0024.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0025.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0026.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0027.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0028.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0029.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0030.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0031.webp",
+      "/processed/usa-california-ojai-sun-unknown/frame_0032.webp"
     ]
   },
   {
@@ -384,7 +608,7 @@
     "location": "usa-florida-englewood-beach",
     "object": "moon",
     "camera": "unknown",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-florida-englewood-beach-moon-unknown/preview.webp",
     "images": [
       "/processed/usa-florida-englewood-beach-moon-unknown/frame_0000.webp",
@@ -403,7 +627,23 @@
       "/processed/usa-florida-englewood-beach-moon-unknown/frame_0013.webp",
       "/processed/usa-florida-englewood-beach-moon-unknown/frame_0014.webp",
       "/processed/usa-florida-englewood-beach-moon-unknown/frame_0015.webp",
-      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0016.webp"
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0016.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0017.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0018.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0019.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0020.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0021.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0022.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0023.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0024.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0025.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0026.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0027.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0028.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0029.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0030.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0031.webp",
+      "/processed/usa-florida-englewood-beach-moon-unknown/frame_0032.webp"
     ]
   },
   {
@@ -411,7 +651,7 @@
     "location": "usa-florida-englewood-beach",
     "object": "sun",
     "camera": "unknown",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-florida-englewood-beach-sun-unknown/preview.webp",
     "images": [
       "/processed/usa-florida-englewood-beach-sun-unknown/frame_0000.webp",
@@ -430,7 +670,23 @@
       "/processed/usa-florida-englewood-beach-sun-unknown/frame_0013.webp",
       "/processed/usa-florida-englewood-beach-sun-unknown/frame_0014.webp",
       "/processed/usa-florida-englewood-beach-sun-unknown/frame_0015.webp",
-      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0016.webp"
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0016.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0017.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0018.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0019.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0020.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0021.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0022.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0023.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0024.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0025.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0026.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0027.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0028.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0029.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0030.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0031.webp",
+      "/processed/usa-florida-englewood-beach-sun-unknown/frame_0032.webp"
     ]
   },
   {
@@ -438,7 +694,7 @@
     "location": "usa-maine-peaks-island",
     "object": "moon",
     "camera": "unknown",
-    "count": 17,
+    "count": 32,
     "preview": "/processed/usa-maine-peaks-island-moon-unknown/preview.webp",
     "images": [
       "/processed/usa-maine-peaks-island-moon-unknown/frame_0000.webp",
@@ -457,7 +713,22 @@
       "/processed/usa-maine-peaks-island-moon-unknown/frame_0013.webp",
       "/processed/usa-maine-peaks-island-moon-unknown/frame_0014.webp",
       "/processed/usa-maine-peaks-island-moon-unknown/frame_0015.webp",
-      "/processed/usa-maine-peaks-island-moon-unknown/frame_0016.webp"
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0016.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0017.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0018.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0019.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0020.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0021.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0022.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0023.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0024.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0025.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0026.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0027.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0028.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0029.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0030.webp",
+      "/processed/usa-maine-peaks-island-moon-unknown/frame_0031.webp"
     ]
   },
   {
@@ -465,7 +736,7 @@
     "location": "usa-maine-peaks-island",
     "object": "sun",
     "camera": "unknown",
-    "count": 17,
+    "count": 33,
     "preview": "/processed/usa-maine-peaks-island-sun-unknown/preview.webp",
     "images": [
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0000.webp",
@@ -484,7 +755,23 @@
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0013.webp",
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0014.webp",
       "/processed/usa-maine-peaks-island-sun-unknown/frame_0015.webp",
-      "/processed/usa-maine-peaks-island-sun-unknown/frame_0016.webp"
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0016.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0017.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0018.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0019.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0020.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0021.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0022.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0023.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0024.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0025.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0026.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0027.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0028.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0029.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0030.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0031.webp",
+      "/processed/usa-maine-peaks-island-sun-unknown/frame_0032.webp"
     ]
   }
 ]

@@ -10,7 +10,7 @@ export class Scheduler {
 	constructor(
 		private readonly scheduleRepository: ScheduleRepository,
 		private readonly captureService: CaptureService,
-	) { }
+	) {}
 
 	/**
 	 * Check schedules for all locations and trigger captures if needed
@@ -31,14 +31,10 @@ export class Scheduler {
 				const tomorrow = new Date(now);
 				tomorrow.setDate(now.getDate() + 1);
 
-				const datesToCheck = [
-					yesterday,
-					now,
-					tomorrow,
-				];
+				const datesToCheck = [yesterday, now, tomorrow];
 
-				const schedulePromises = datesToCheck.map(date =>
-					this.scheduleRepository.getSchedule(location.id, date)
+				const schedulePromises = datesToCheck.map((date) =>
+					this.scheduleRepository.getSchedule(location.id, date),
 				);
 
 				const scheduleResults = await Promise.all(schedulePromises);

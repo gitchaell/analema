@@ -1,373 +1,412 @@
 ---
-import FastForward from "lucide-astro/FastForward";
-import Loader2 from "lucide-astro/Loader2";
-import Pause from "lucide-astro/Pause";
-import Play from "lucide-astro/Play";
+import FastForward from 'lucide-astro/FastForward'
+import Loader2 from 'lucide-astro/Loader2'
+import Pause from 'lucide-astro/Pause'
+import Play from 'lucide-astro/Play'
 
 interface Props {
-	images: string[];
-	id: string;
-	preview?: string;
+	images: string[]
+	id: string
+	preview?: string
 }
 
-const { images, id, preview } = Astro.props;
+const { images, id, preview } = Astro.props
 ---
 
-<div class="player-container relative w-full max-w-5xl mx-auto bg-black rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10" data-images={JSON.stringify(images)} id={`player-${id}`}>
-  <!-- Loading Overlay -->
-  <div class="loading-overlay absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-20 text-white transition-opacity duration-500">
-    <div class="relative mb-4">
-        <Loader2 class="w-12 h-12 animate-spin text-amber-500" />
-    </div>
-    <div class="text-xl font-medium tracking-wide mb-2">Loading Timelapse</div>
-    <div class="progress-bar w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
-        <div class="progress-fill h-full bg-amber-500 w-0 transition-all duration-300"></div>
-    </div>
-    <div class="progress-text text-sm text-gray-400 mt-2 font-mono">0%</div>
-  </div>
+<div
+	class="player-container relative w-full max-w-5xl mx-auto bg-black rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+	data-images={JSON.stringify(images)}
+	id={`player-${id}`}
+>
+	<!-- Loading Overlay -->
+	<div
+		class="loading-overlay absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-20 text-white transition-opacity duration-500"
+	>
+		<div class="relative mb-4"><Loader2 class="w-12 h-12 animate-spin text-amber-500" /></div>
+		<div class="text-xl font-medium tracking-wide mb-2">Loading Timelapse</div>
+		<div class="progress-bar w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
+			<div class="progress-fill h-full bg-amber-500 w-0 transition-all duration-300"></div>
+		</div>
+		<div class="progress-text text-sm text-gray-400 mt-2 font-mono">0%</div>
+	</div>
 
-  <!-- Display Area -->
-  <div class="display-area w-full aspect-video flex items-center justify-center bg-zinc-950 relative group">
-    <img
-      src={preview || images[0]}
-      alt="Time lapse frame"
-      class="current-frame max-w-full max-h-full object-contain"
-      loading="eager"
-      decoding="async"
-      transition:name={`img-${id}`}
-    />
+	<!-- Display Area -->
+	<div
+		class="display-area w-full aspect-video flex items-center justify-center bg-zinc-950 relative group"
+	>
+		<img
+			src={preview || images[0]}
+			alt="Time lapse frame"
+			class="current-frame max-w-full max-h-full object-contain"
+			loading="eager"
+			decoding="async"
+			transition:name={`img-${id}`}
+		>
 
-    <!-- Big Play Button Overlay -->
-    <button class="big-play-btn absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:opacity-100">
-        <div class="p-4 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 hover:scale-110 transition-all">
-            <Play class="w-12 h-12 text-white fill-white" />
-        </div>
-    </button>
-  </div>
+		<!-- Big Play Button Overlay -->
+		<button
+			type="button"
+			class="big-play-btn absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:opacity-100"
+		>
+			<div
+				class="p-4 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 hover:scale-110 transition-all"
+			>
+				<Play class="w-12 h-12 text-white fill-white" />
+			</div>
+		</button>
+	</div>
 
-  <!-- Controls -->
-  <div class="controls flex items-center gap-4 p-4 bg-zinc-900/95 border-t border-zinc-800 text-gray-100">
-    <button class="play-pause-btn p-2 rounded-lg hover:bg-zinc-800 text-amber-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" aria-label="Play">
-      <span class="icon-play block">
-        <Play class="w-6 h-6 fill-current" />
-      </span>
-      <span class="icon-pause hidden">
-        <Pause class="w-6 h-6 fill-current" />
-      </span>
-    </button>
+	<!-- Controls -->
+	<div
+		class="controls flex items-center gap-4 p-4 bg-zinc-900/95 border-t border-zinc-800 text-gray-100"
+	>
+		<button
+			type="button"
+			class="play-pause-btn p-2 rounded-lg hover:bg-zinc-800 text-amber-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
+			aria-label="Play"
+		>
+			<span class="icon-play block"> <Play class="w-6 h-6 fill-current" /> </span>
+			<span class="icon-pause hidden"> <Pause class="w-6 h-6 fill-current" /> </span>
+		</button>
 
-    <div class="flex-1 flex flex-col gap-1">
-        <input
-            type="range"
-            class="timeline-slider w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
-            min="0"
-            max={images.length - 1}
-            value="0"
-            step="1"
-        />
-        <div class="flex justify-between text-xs text-zinc-500 font-mono">
-            <span>START</span>
-            <span>END</span>
-        </div>
-    </div>
+		<div class="flex-1 flex flex-col gap-1">
+			<input
+				type="range"
+				class="timeline-slider w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+				min="0"
+				max={images.length - 1}
+				value="0"
+				step="1"
+			>
+			<div class="flex justify-between text-xs text-zinc-500 font-mono">
+				<span>START</span>
+				<span>END</span>
+			</div>
+		</div>
 
-    <div class="flex items-center gap-4 pl-4 border-l border-zinc-800">
-        <button class="loop-toggle p-2 rounded-lg hover:bg-zinc-800 text-zinc-400 transition-colors focus:outline-none" aria-label="Toggle Loop">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loop-icon"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
-        </button>
+		<div class="flex items-center gap-4 pl-4 border-l border-zinc-800">
+			<button
+				type="button"
+				class="loop-toggle p-2 rounded-lg hover:bg-zinc-800 text-zinc-400 transition-colors focus:outline-none"
+				aria-label="Toggle Loop"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="loop-icon"
+					aria-hidden="true"
+				>
+					<path d="m17 2 4 4-4 4"></path>
+					<path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
+					<path d="m7 22-4-4 4-4"></path>
+					<path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
+				</svg>
+			</button>
 
-        <div class="text-sm font-mono text-zinc-400 min-w-[6ch] text-right frame-counter">
-            1 / {images.length}
-        </div>
+			<div class="text-sm font-mono text-zinc-400 min-w-[6ch] text-right frame-counter">
+				1 / {images.length}
+			</div>
 
-        <div class="speed-control flex items-center gap-2">
-            <FastForward class="w-4 h-4 text-zinc-500" />
-            <select class="speed-select bg-zinc-800 text-zinc-200 text-sm border border-zinc-700 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor:pointer hover:bg-zinc-700 transition-colors">
-                <option value="1000">1x</option>
-                <option value="500">2x</option>
-                <option value="250" selected>4x</option>
-                <option value="100">10x</option>
-                <option value="33">30x</option>
-            </select>
-        </div>
-    </div>
-  </div>
+			<div class="speed-control flex items-center gap-2">
+				<FastForward class="w-4 h-4 text-zinc-500" />
+				<select
+					class="speed-select bg-zinc-800 text-zinc-200 text-sm border border-zinc-700 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor:pointer hover:bg-zinc-700 transition-colors"
+				>
+					<option value="1000">1x</option>
+					<option value="500">2x</option>
+					<option value="250" selected>4x</option>
+					<option value="100">10x</option>
+					<option value="33">30x</option>
+				</select>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script>
-  class TimeLapsePlayer {
-    container: HTMLElement;
-    imageUrls: string[];
-    images: HTMLImageElement[];
-    currentIndex: number;
-    isPlaying: boolean;
-    intervalId: NodeJS.Timeout |null;
-    fpsDelay: number;
-    bufferThreshold: number;
-    isReady: boolean;
-    isLooping: boolean;
-    imgElement: HTMLImageElement;
-    slider: HTMLInputElement;
-    playBtn: HTMLButtonElement;
-    bigPlayBtn: HTMLButtonElement;
-    iconPlay: HTMLSpanElement;
-    iconPause: HTMLSpanElement;
-    loadingOverlay: HTMLElement;
-    progressText: HTMLElement;
-    progressFill: HTMLElement;
-    counter: HTMLElement;
-    speedSelect: HTMLSelectElement;
-    loopBtn: HTMLButtonElement;
+class TimeLapsePlayer {
+	container: HTMLElement
+	imageUrls: string[]
+	images: HTMLImageElement[]
+	currentIndex: number
+	isPlaying: boolean
+	intervalId: NodeJS.Timeout | null
+	fpsDelay: number
+	bufferThreshold: number
+	isReady: boolean
+	isLooping: boolean
+	imgElement: HTMLImageElement
+	slider: HTMLInputElement
+	playBtn: HTMLButtonElement
+	bigPlayBtn: HTMLButtonElement
+	iconPlay: HTMLSpanElement
+	iconPause: HTMLSpanElement
+	loadingOverlay: HTMLElement
+	progressText: HTMLElement
+	progressFill: HTMLElement
+	counter: HTMLElement
+	speedSelect: HTMLSelectElement
+	loopBtn: HTMLButtonElement
 
-    constructor(container: HTMLElement) {
-      this.container = container;
-      this.imageUrls = JSON.parse(container.dataset.images || '[]');
-      this.images = []; // Will hold Image objects
-      this.currentIndex = 0;
-      this.isPlaying = false;
-      this.isLooping = true; // Default to loop
-      this.intervalId = null;
-      this.fpsDelay = 250;
-      this.bufferThreshold = 0.2; // 20%
-      this.isReady = false;
+	constructor(container: HTMLElement) {
+		this.container = container
+		this.imageUrls = JSON.parse(container.dataset.images || '[]')
+		this.images = [] // Will hold Image objects
+		this.currentIndex = 0
+		this.isPlaying = false
+		this.isLooping = true // Default to loop
+		this.intervalId = null
+		this.fpsDelay = 250
+		this.bufferThreshold = 0.2 // 20%
+		this.isReady = false
 
-      // Elements
-      this.imgElement = container.querySelector('.current-frame')!;
-      this.slider = container.querySelector('.timeline-slider')!;
-      this.playBtn = container.querySelector('.play-pause-btn')!;
-      this.bigPlayBtn = container.querySelector('.big-play-btn')!;
-      this.iconPlay = container.querySelector('.icon-play')!;
-      this.iconPause = container.querySelector('.icon-pause')!;
-      this.loadingOverlay = container.querySelector('.loading-overlay')!;
-      this.progressText = container.querySelector('.progress-text')!;
-      this.progressFill = container.querySelector('.progress-fill')!;
-      this.counter = container.querySelector('.frame-counter')!;
-      this.speedSelect = container.querySelector('.speed-select')!;
-      this.loopBtn = container.querySelector('.loop-toggle')!;
+		// Elements
+		this.imgElement = container.querySelector('.current-frame')!
+		this.slider = container.querySelector('.timeline-slider')!
+		this.playBtn = container.querySelector('.play-pause-btn')!
+		this.bigPlayBtn = container.querySelector('.big-play-btn')!
+		this.iconPlay = container.querySelector('.icon-play')!
+		this.iconPause = container.querySelector('.icon-pause')!
+		this.loadingOverlay = container.querySelector('.loading-overlay')!
+		this.progressText = container.querySelector('.progress-text')!
+		this.progressFill = container.querySelector('.progress-fill')!
+		this.counter = container.querySelector('.frame-counter')!
+		this.speedSelect = container.querySelector('.speed-select')!
+		this.loopBtn = container.querySelector('.loop-toggle')!
 
-      this.init();
-    }
+		this.init()
+	}
 
-    async init() {
-      // Bind events
-      this.playBtn.addEventListener('click', () => this.togglePlay());
-      this.bigPlayBtn.addEventListener('click', () => this.togglePlay());
-      this.slider.addEventListener('input', (e) => this.seek(parseInt((e.target as HTMLInputElement)?.value)));
-      this.speedSelect.addEventListener('change', (e) => this.setSpeed(parseInt((e.target as HTMLSelectElement)?.value)));
-      this.loopBtn.addEventListener('click', () => this.toggleLoop());
+	async init() {
+		// Bind events
+		this.playBtn.addEventListener('click', () => this.togglePlay())
+		this.bigPlayBtn.addEventListener('click', () => this.togglePlay())
+		this.slider.addEventListener('input', (e) =>
+			this.seek(parseInt((e.target as HTMLInputElement)?.value)),
+		)
+		this.speedSelect.addEventListener('change', (e) =>
+			this.setSpeed(parseInt((e.target as HTMLSelectElement)?.value)),
+		)
+		this.loopBtn.addEventListener('click', () => this.toggleLoop())
 
-      this.updateLoopIcon();
+		this.updateLoopIcon()
 
-      // Initialize image array
-      this.images = new Array(this.imageUrls.length).fill(null);
+		// Initialize image array
+		this.images = new Array(this.imageUrls.length).fill(null)
 
-      // Start loading
-      await this.startBufferedLoading();
-    }
+		// Start loading
+		await this.startBufferedLoading()
+	}
 
-    destroy() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-            this.intervalId = null;
-        }
-    }
+	destroy() {
+		if (this.intervalId) {
+			clearInterval(this.intervalId)
+			this.intervalId = null
+		}
+	}
 
-    toggleLoop() {
-        this.isLooping = !this.isLooping;
-        this.updateLoopIcon();
-    }
+	toggleLoop() {
+		this.isLooping = !this.isLooping
+		this.updateLoopIcon()
+	}
 
-    updateLoopIcon() {
-        if (this.isLooping) {
-            this.loopBtn.classList.remove('text-zinc-400');
-            this.loopBtn.classList.add('text-amber-500');
-        } else {
-            this.loopBtn.classList.add('text-zinc-400');
-            this.loopBtn.classList.remove('text-amber-500');
-        }
-    }
+	updateLoopIcon() {
+		if (this.isLooping) {
+			this.loopBtn.classList.remove('text-zinc-400')
+			this.loopBtn.classList.add('text-amber-500')
+		} else {
+			this.loopBtn.classList.add('text-zinc-400')
+			this.loopBtn.classList.remove('text-amber-500')
+		}
+	}
 
-    async startBufferedLoading() {
-      const total = this.imageUrls.length;
+	async startBufferedLoading() {
+		const total = this.imageUrls.length
 
-      // Update progress
-      this.updateLoadingProgress(0, total);
+		// Update progress
+		this.updateLoadingProgress(0, total)
 
-      // Load the very first frame to ensure smooth transition from preview, but don't block
-      this.loadSingleImage(0).then(() => {
-          this.images[0] = this.images[0]; // just to trigger reactivity if needed
-      });
+		// Load the very first frame to ensure smooth transition from preview, but don't block
+		this.loadSingleImage(0).then(() => {
+			this.images[0] = this.images[0] // just to trigger reactivity if needed
+		})
 
-      // Enable playback instantly (preview image covers us)
-      this.enablePlayback();
+		// Enable playback instantly (preview image covers us)
+		this.enablePlayback()
 
-      // Start loading the rest in the background without awaiting them here
-      this.loadRemainingFrames(0);
-    }
+		// Start loading the rest in the background without awaiting them here
+		this.loadRemainingFrames(0)
+	}
 
-    async loadRemainingFrames(startIndex: number) {
-      const total = this.imageUrls.length;
-      const batchSize = 5;
+	async loadRemainingFrames(startIndex: number) {
+		const total = this.imageUrls.length
+		const batchSize = 5
 
-      for (let i = startIndex; i < total; i += batchSize) {
-        // Yield to main thread to keep UI responsive
-        if ('requestIdleCallback' in window) {
-           await new Promise(resolve => (window as any).requestIdleCallback(() => resolve(null)));
-        } else {
-           await new Promise(resolve => setTimeout(resolve, 50));
-        }
+		for (let i = startIndex; i < total; i += batchSize) {
+			// Yield to main thread to keep UI responsive
+			if ('requestIdleCallback' in window) {
+				await new Promise((resolve) => window.requestIdleCallback(() => resolve(null)))
+			} else {
+				await new Promise((resolve) => setTimeout(resolve, 50))
+			}
 
-        const tasks = [];
-        for (let j = i; j < Math.min(i + batchSize, total); j++) {
-          tasks.push(this.loadSingleImage(j));
-        }
-        await Promise.all(tasks);
-      }
-    }
+			const tasks = []
+			for (let j = i; j < Math.min(i + batchSize, total); j++) {
+				tasks.push(this.loadSingleImage(j))
+			}
+			await Promise.all(tasks)
+		}
+	}
 
-    private loadSingleImage(index: number): Promise<void> {
-      if (this.images[index]) return Promise.resolve();
+	private loadSingleImage(index: number): Promise<void> {
+		if (this.images[index]) return Promise.resolve()
 
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = this.imageUrls[index];
+		return new Promise((resolve) => {
+			const img = new Image()
+			img.src = this.imageUrls[index]
 
-        const onComplete = async () => {
-          try {
-            // Pre-decode to avoid jank on first render
-            if ('decode' in img) await img.decode();
-          } catch (e) {
-            // Decode might fail but we can still use the image
-          }
-          this.images[index] = img;
-          const loadedCount = this.images.filter(img => img !== null).length;
-          this.updateLoadingProgress(loadedCount, this.imageUrls.length);
-          resolve();
-        };
+			const onComplete = async () => {
+				try {
+					// Pre-decode to avoid jank on first render
+					if ('decode' in img) await img.decode()
+				} catch (e) {
+					// Decode might fail but we can still use the image
+				}
+				this.images[index] = img
+				const loadedCount = this.images.filter((img) => img !== null).length
+				this.updateLoadingProgress(loadedCount, this.imageUrls.length)
+				resolve()
+			}
 
-        img.onload = onComplete;
-        img.onerror = () => {
-          console.warn(`Failed to load frame ${index}`);
-          resolve();
-        };
-      });
-    }
+			img.onload = onComplete
+			img.onerror = () => {
+				console.warn(`Failed to load frame ${index}`)
+				resolve()
+			}
+		})
+	}
 
-    updateLoadingProgress(current: number, total: number) {
-      const percentage = Math.round((current / total) * 100);
-      if (this.progressText) this.progressText.textContent = `${percentage}%`;
-      if (this.progressFill) this.progressFill.style.width = `${percentage}%`;
+	updateLoadingProgress(current: number, total: number) {
+		const percentage = Math.round((current / total) * 100)
+		if (this.progressText) this.progressText.textContent = `${percentage}%`
+		if (this.progressFill) this.progressFill.style.width = `${percentage}%`
 
-      // If we are already playing and the current frame just loaded, update it
-      if (this.isPlaying && this.images[this.currentIndex]) {
-          this.updateFrame();
-      }
-    }
+		// If we are already playing and the current frame just loaded, update it
+		if (this.isPlaying && this.images[this.currentIndex]) {
+			this.updateFrame()
+		}
+	}
 
-    enablePlayback() {
-        this.isReady = true;
-        this.loadingOverlay.classList.add('opacity-0', 'pointer-events-none');
-    }
+	enablePlayback() {
+		this.isReady = true
+		this.loadingOverlay.classList.add('opacity-0', 'pointer-events-none')
+	}
 
-    onLoadComplete() {
-        if (!this.isReady) this.enablePlayback();
-    }
+	onLoadComplete() {
+		if (!this.isReady) this.enablePlayback()
+	}
 
+	togglePlay() {
+		if (!this.isReady) return
 
-    togglePlay() {
-      if (!this.isReady) return;
+		if (this.isPlaying) {
+			this.pause()
+		} else {
+			this.play()
+		}
+	}
 
-      if (this.isPlaying) {
-        this.pause();
-      } else {
-        this.play();
-      }
-    }
+	play() {
+		if (this.currentIndex >= this.images.length - 1) {
+			this.currentIndex = 0
+		}
+		this.isPlaying = true
+		this.updatePlayIcon()
+		this.bigPlayBtn.style.display = 'none'
 
-    play() {
-      if (this.currentIndex >= this.images.length - 1) {
-        this.currentIndex = 0;
-      }
-      this.isPlaying = true;
-      this.updatePlayIcon();
-      this.bigPlayBtn.style.display = 'none';
+		this.intervalId = setInterval(() => {
+			this.tick()
+		}, this.fpsDelay)
+	}
 
-      this.intervalId = setInterval(() => {
-        this.tick();
-      }, this.fpsDelay);
-    }
+	pause() {
+		this.isPlaying = false
+		this.updatePlayIcon()
+		this.bigPlayBtn.style.display = 'flex'
+		clearInterval(this.intervalId!)
+	}
 
-    pause() {
-      this.isPlaying = false;
-      this.updatePlayIcon();
-      this.bigPlayBtn.style.display = 'flex';
-      clearInterval(this.intervalId!);
-    }
+	tick() {
+		if (this.currentIndex < this.images.length - 1) {
+			this.currentIndex++
+			this.updateFrame()
+		} else {
+			if (this.isLooping) {
+				this.currentIndex = 0
+				this.updateFrame()
+			} else {
+				this.pause()
+			}
+		}
+	}
 
-    tick() {
-        if (this.currentIndex < this.images.length - 1) {
-            this.currentIndex++;
-            this.updateFrame();
-        } else {
-            if (this.isLooping) {
-                this.currentIndex = 0;
-                this.updateFrame();
-            } else {
-                this.pause();
-            }
-        }
-    }
+	seek(index: number) {
+		this.currentIndex = index
+		this.updateFrame()
+	}
 
-    seek(index: number) {
-      this.currentIndex = index;
-      this.updateFrame();
-    }
+	setSpeed(delay: number) {
+		this.fpsDelay = delay
+		if (this.isPlaying) {
+			clearInterval(this.intervalId!)
+			this.intervalId = setInterval(() => this.tick(), this.fpsDelay)
+		}
+	}
 
-    setSpeed(delay: number) {
-      this.fpsDelay = delay;
-      if (this.isPlaying) {
-        clearInterval(this.intervalId!);
-        this.intervalId = setInterval(() => this.tick(), this.fpsDelay);
-      }
-    }
+	updateFrame() {
+		const imgObj = this.images[this.currentIndex]
 
-    updateFrame() {
-      const imgObj = this.images[this.currentIndex];
+		if (imgObj?.complete) {
+			this.imgElement.src = imgObj.src
+		} else {
+			// Fallback to URL if Image object isn't ready yet (should be rare with buffering)
+			this.imgElement.src = this.imageUrls[this.currentIndex]
+		}
 
-      if (imgObj && imgObj.complete) {
-        this.imgElement.src = imgObj.src;
-      } else {
-         // Fallback to URL if Image object isn't ready yet (should be rare with buffering)
-         this.imgElement.src = this.imageUrls[this.currentIndex];
-      }
+		this.slider.value = this.currentIndex.toString()
+		this.counter.textContent = `${this.currentIndex + 1} / ${this.images.length}`
+	}
 
-      this.slider.value = this.currentIndex.toString();
-      this.counter.textContent = `${this.currentIndex + 1} / ${this.images.length}`;
-    }
+	updatePlayIcon() {
+		if (this.isPlaying) {
+			this.iconPlay.classList.add('hidden')
+			this.iconPause.classList.remove('hidden')
+		} else {
+			this.iconPlay.classList.remove('hidden')
+			this.iconPause.classList.add('hidden')
+		}
+	}
+}
 
-    updatePlayIcon() {
-      if (this.isPlaying) {
-        this.iconPlay.classList.add('hidden');
-        this.iconPause.classList.remove('hidden');
-      } else {
-        this.iconPlay.classList.remove('hidden');
-        this.iconPause.classList.add('hidden');
-      }
-    }
-  }
+const players: TimeLapsePlayer[] = []
 
-  const players: TimeLapsePlayer[] = [];
+document.addEventListener('astro:page-load', () => {
+	document.querySelectorAll('.player-container').forEach((container) => {
+		players.push(new TimeLapsePlayer(container as HTMLElement))
+	})
+})
 
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll('.player-container').forEach(container => {
-        players.push(new TimeLapsePlayer(container as HTMLElement));
-    });
-  });
-
-  document.addEventListener('astro:before-preparation', () => {
-    while (players.length > 0) {
-        const player = players.pop();
-        player?.destroy();
-    }
-  });
+document.addEventListener('astro:before-preparation', () => {
+	while (players.length > 0) {
+		const player = players.pop()
+		player?.destroy()
+	}
+})
 </script>
