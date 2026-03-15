@@ -1,8 +1,10 @@
 ---
+import ChevronDown from 'lucide-astro/ChevronDown'
 import FastForward from 'lucide-astro/FastForward'
 import Loader2 from 'lucide-astro/Loader2'
 import Pause from 'lucide-astro/Pause'
 import Play from 'lucide-astro/Play'
+import Repeat from 'lucide-astro/Repeat'
 
 interface Props {
 	images: string[]
@@ -22,10 +24,10 @@ const { images, id, preview } = Astro.props
 	<div
 		class="loading-overlay absolute inset-0 bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center z-20 text-white transition-opacity duration-500"
 	>
-		<div class="relative mb-4"><Loader2 class="w-12 h-12 animate-spin text-amber-500" /></div>
+		<div class="relative mb-4"><Loader2 class="w-12 h-12 animate-spin text-green-400" /></div>
 		<div class="text-xl font-medium tracking-wide mb-2">Loading Timelapse</div>
 		<div class="progress-bar w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
-			<div class="progress-fill h-full bg-amber-500 w-0 transition-all duration-300"></div>
+			<div class="progress-fill h-full bg-green-400 w-0 transition-all duration-300"></div>
 		</div>
 		<div class="progress-text text-sm text-gray-400 mt-2 font-mono">0%</div>
 	</div>
@@ -62,7 +64,7 @@ const { images, id, preview } = Astro.props
 	>
 		<button
 			type="button"
-			class="play-pause-btn p-2 rounded-lg hover:bg-zinc-800 text-amber-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
+			class="play-pause-btn p-2 rounded-xl hover:bg-zinc-800 text-green-400 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-400"
 			aria-label="Play"
 		>
 			<span class="icon-play block"> <Play class="w-6 h-6 fill-current" /> </span>
@@ -72,42 +74,21 @@ const { images, id, preview } = Astro.props
 		<div class="flex-1 flex flex-col gap-1">
 			<input
 				type="range"
-				class="timeline-slider w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-amber-500 hover:accent-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+				class="timeline-slider w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-green-400 hover:accent-green-400 focus:outline-none focus:ring-2 focus:ring-green-400/50"
 				min="0"
 				max={images.length - 1}
 				value="0"
 				step="1"
 			>
-			<div class="flex justify-between text-xs text-zinc-500 font-mono">
-				<span>START</span>
-				<span>END</span>
-			</div>
 		</div>
 
 		<div class="flex items-center gap-4 pl-4 border-l border-zinc-800">
 			<button
 				type="button"
-				class="loop-toggle p-2 rounded-lg hover:bg-zinc-800 text-zinc-400 transition-colors focus:outline-none"
+				class="loop-toggle p-2 rounded-xl hover:bg-zinc-800 text-zinc-400 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-400/50"
 				aria-label="Toggle Loop"
 			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="loop-icon"
-					aria-hidden="true"
-				>
-					<path d="m17 2 4 4-4 4"></path>
-					<path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
-					<path d="m7 22-4-4 4-4"></path>
-					<path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
-				</svg>
+				<Repeat class="w-5 h-5 loop-icon" aria-hidden="true" />
 			</button>
 
 			<div class="text-sm font-mono text-zinc-400 min-w-[6ch] text-right frame-counter">
@@ -116,15 +97,18 @@ const { images, id, preview } = Astro.props
 
 			<div class="speed-control flex items-center gap-2">
 				<FastForward class="w-4 h-4 text-zinc-500" />
-				<select
-					class="speed-select bg-zinc-800 text-zinc-200 text-sm border border-zinc-700 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor:pointer hover:bg-zinc-700 transition-colors"
-				>
-					<option value="1000">1x</option>
-					<option value="500">2x</option>
-					<option value="250" selected>4x</option>
-					<option value="100">10x</option>
-					<option value="33">30x</option>
-				</select>
+				<div class="relative inline-flex items-center">
+					<select
+						class="appearance-none speed-select bg-zinc-800 text-zinc-200 font-mono text-sm border border-zinc-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-green-400 cursor-pointer hover:bg-zinc-700 transition-colors pr-7"
+					>
+						<option value="1000">1x</option>
+						<option value="500">2x</option>
+						<option value="250" selected>4x</option>
+						<option value="100">10x</option>
+						<option value="33">30x</option>
+					</select>
+					<ChevronDown class="absolute right-2 w-4 h-4 text-zinc-400 pointer-events-none" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -220,10 +204,10 @@ class TimeLapsePlayer {
 	updateLoopIcon() {
 		if (this.isLooping) {
 			this.loopBtn.classList.remove('text-zinc-400')
-			this.loopBtn.classList.add('text-amber-500')
+			this.loopBtn.classList.add('text-green-400')
 		} else {
 			this.loopBtn.classList.add('text-zinc-400')
-			this.loopBtn.classList.remove('text-amber-500')
+			this.loopBtn.classList.remove('text-green-400')
 		}
 	}
 
