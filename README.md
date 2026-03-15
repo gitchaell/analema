@@ -2,7 +2,7 @@
 
 Un sistema completo para la captura fotográfica automatizada y visualización interactiva de analemas solares y lunares.
 
-Este proyecto ha sido concebido para funcionar de manera ininterrumpida, coordinando cámaras IP (RTSP/HTTP) repartidas por el mundo, y cuenta además con un **Visualizador Web Moderno** (SSG/SSR) construido en Astro para consumir los miles de fotogramas generados sin necesidad de bases de datos tradicionales.
+Este proyecto automatiza la captura periódica de imágenes provenientes de webcams públicas, generando secuencias (timelapses) que evidencian el movimiento aparente del Sol y la Luna a lo largo del tiempo. Las imágenes son capturadas en momentos astronómicos precisos mediante GitHub Actions y consumidas luego en un Visualizador Web Moderno (PWA) de alto rendimiento. Todo el sistema funciona sin requerir bases de datos tradicionales, basándose en el propio sistema de archivos de un repositorio Git.
 
 ---
 
@@ -12,48 +12,49 @@ Para mantener el código mantenible, escalable y testable, el núcleo del orques
 
 ### 1. Domain Layer
 
-Es el corazón del software. Aquí residen las reglas de negocio puras, sin dependencias externas:
+Es el corazón del software. Aquí residen las reglas de negocio puras, independientes de cualquier framework o infraestructura externa:
 
-- **Entidades (`Location`, `Camera`)**: Un `Location` encapsula datos geográficos (país, estado, ciudad) y genera slugs dinámicos como `usa-arizona-phoenix`. Una `Camera` pertenece a un `Location` y mantiene su orientación cardinal (ej: `north`, `south`).
-- **Value Objects**: Manejamos objetos como `CelestialObject` (`sun`, `moon`) que estandarizan el vocabulario de dominio.
-- **Contratos (Interfaces)**: Definimos cómo el dominio espera interactuar con el mundo exterior mediante interfaces como `CameraRepository` y `ScheduleRepository`.
+- **Entidades (`Location`, `Camera`)**: Un `Location` encapsula datos geográficos (país, estado, ciudad) y genera identificadores dinámicos. Una `Camera` está vinculada a un `Location` y mantiene su orientación cardinal.
+- **Value Objects**: Objetos como `CelestialObject` estandarizan el vocabulario de dominio.
+- **Contratos (Interfaces)**: Abstracciones como `ScheduleRepository` que definen cómo el dominio espera obtener o persistir datos.
 
 ### 2. Application Layer
 
-Contiene los casos de uso principales. Actúa como el orquestador entre el Dominio y la Infraestructura.
+Contiene los casos de uso principales. Actúa como el orquestador que coordina el Dominio y la Infraestructura para cumplir con los requerimientos del sistema.
 
-- **`CaptureImagesUseCase`**: Su labor es inquirir las horas de captura programadas para el día de hoy, iterar sobre las ubicaciones y, si la hora actual coincide con la hora astronómica esperada, solicitar a los repositorios de cámara inyectados que tomen una foto (`takeSnapshot()`), manejando su almacenamiento en disco.
+- **`Scheduler`**: Es el encargado de revisar los horarios programados de cada `Location`. Si la hora actual de ejecución coincide (o se encuentra en el umbral) de una captura programada, coordina al servicio de captura correspondiente para obtener la imagen.
 
 ### 3. Infrastructure Layer
 
-Donde el código interactúa con el mundo físico:
+Donde el código interactúa con servicios externos, I/O, y frameworks:
 
-- **Adaptadores de Cámara**: Implementaciones para diferentes fabricantes (`DahuaCameraAdapter`, `HikvisionCameraAdapter`).
-- **`ConfigScheduleRepository`**: Un repositorio dinámico que usa librerías astronómicas como `suncalc` para calcular efemérides (horas precisas del paso solar/lunar por el meridiano) usando las coordenadas de cada `Location` registradas en `src/config/locations.ts`, reemplazando por completo los viejos archivos JSON estáticos.
+- **Servicios de Captura**: Se utiliza Puppeteer (`PuppeteerCaptureService`) para visitar páginas web de webcams públicas, esperar la carga de componentes multimedia y extraer limpiamente los fotogramas (screenshots) del flujo de video o canvas sin incluir la interfaz web.
+- **`ConfigScheduleRepository`**: Un repositorio dinámico que usa configuraciones para calcular horarios precisos de captura en las coordenadas de cada `Location` registradas en `src/config/locations.ts`.
 
 ---
 
 ## Ciclo de Orquestación
 
-El orquestador está diseñado para ejecutarse cíclicamente y atrapar el milisegundo preciso.
+El orquestador está diseñado para ejecutarse cíclicamente a través de GitHub Actions, optimizando recursos mediante un cronjob.
 
 ```mermaid
 sequenceDiagram
-    participant OS as Sistema Operativo (Cron)
-    participant App as CaptureImagesUseCase
+    participant GH as GitHub Actions (Cron)
+    participant App as Scheduler
     participant Repo as ConfigScheduleRepository
-    participant Cam as Adapters (Cámaras IP)
-    participant FS as File System
+    participant Cam as PuppeteerCaptureService
+    participant FS as File System / Git
 
-    OS->>App: Ejecuta ciclo de verificación (ej. cada minuto)
+    GH->>App: Ejecuta ciclo horario (minuto 0)
     App->>Repo: Consulta horas de captura para el día
-    Repo-->>App: Retorna { sun: '12:05', moon: '03:45' } (Calculado via suncalc)
+    Repo-->>App: Retorna { sun: '12:05', moon: '03:45' }
     App->>App: Evalúa si la hora del sistema (America/La_Paz) coincide
 
-    alt Coincide con evento Solar (12:05)
-        App->>Cam: Inicia stream RTSP / API HTTP
-        Cam-->>App: Retorna buffer de imagen JPEG
+    alt Coincide con evento Solar en el umbral
+        App->>Cam: Lanza Puppeteer Headless
+        Cam-->>App: Extrae y retorna buffer de imagen (Screenshot)
         App->>FS: Guarda archivo en 'captures/sun/{location}/{camera}/{YYYY-MM-DD}.jpg'
+        GH->>FS: Realiza Git Commit y Push al repositorio
     end
 ```
 
@@ -61,27 +62,24 @@ sequenceDiagram
 
 ## Configuración y Variables de Entorno
 
-El sistema es altamente parametrizable. Asegura la configuración de la zona horaria del servidor en `America/La_Paz` (UTC-4), ya que la aplicación utiliza este ancla para sincronizar y comparar los horarios según la ubicación de cada cámara.
+El sistema se basa en configuraciones centralizadas, requiriendo muy poco para ejecutarse. Lo principal es la sincronización temporal.
 
 | Variable | Descripción |
 | :--- | :--- |
-| `NODE_ENV` | Define el entorno (`development`, `production`, `test`). |
-| `CRON_SCHEDULE` | Expresión Cron estándar. Recomendado `*/1 * * * *` para evaluación minuto a minuto. |
-| `OUTPUT_DIR` | Ruta raíz del File System donde se almacenarán jerárquicamente las capturas (ej. `./captures`). |
+| `TZ` | **Crítico:** Asegura la configuración de la zona horaria en `America/La_Paz` (UTC-4). La aplicación utiliza este ancla para sincronizar y comparar los horarios astronómicos esperados con el cronjob horario. |
 
 ---
 
-## 📸 Visor Web (PWA / SSR)
+## Visor Web (PWA / SSR)
 
-Dentro del directorio `web/`, encontrarás el **Analemma Web Viewer**. Es una Progressive Web App construida con Astro, diseñada para indexar el directorio de imágenes y reproducirlas como timelapses dinámicos en un UI elegante y personalizable.
+Dentro del directorio `web/`, encontrarás el Analemma Web Viewer. Es una Progressive Web App, diseñada para indexar el directorio estático de imágenes capturadas (`captures/`) y reproducirlas como timelapses dinámicos fluidos mediante una interfaz web.
 
 ---
 
-## 🛠️ Guía Rápida de Scripts
+## Guía Rápida de Scripts
 
 Ejecuta estos comandos desde la raíz del proyecto para tareas de desarrollo o despliegue:
 
-- `npm run dev`: Levanta el orquestador principal en modo desarrollo (nodemon activo).
-- `npm run start`: Inicia el orquestador para producción.
+- `npm run start`: Inicia el orquestador para evaluar horarios de captura y ejecutar.
 - `npm run test:unit`: Dispara la suite de pruebas unitarias (`node:test` nativo).
 - `npm run lint` / `npm run format`: Ejecuta comprobaciones estrictas de sintaxis y formateo de código mediante Biome.
