@@ -1,16 +1,14 @@
 # Analemma
 
-Un sistema de captura automatizado y un visor web moderno para la generación de analemas solares y lunares mediante cámaras de vigilancia.
+Bienvenidos al repositorio de **Analemma**, un sistema completo para la captura fotográfica automatizada y visualización interactiva de analemas solares y lunares.
 
-El proyecto está diseñado bajo los principios de **Arquitectura Clean y Domain-Driven Design (DDD)**. Consta de dos partes principales:
-1. Una aplicación Node.js que orquesta las capturas basada en coordenadas astronómicas dinámicas.
-2. Un visualizador web SSR/SSG desarrollado en **Astro**.
+Este proyecto ha sido concebido para funcionar de manera ininterrumpida, coordinando cámaras IP (RTSP/HTTP) repartidas globalmente, y cuenta además con un **Visualizador Web Moderno** (SSG/SSR) construido en Astro para consumir los miles de fotogramas generados sin necesidad de bases de datos tradicionales.
 
 ---
 
-## 🏗️ Arquitectura del Sistema (DDD)
+## 🏛️ Arquitectura del Software (Domain-Driven Design)
 
-El motor principal (`src/`) se organiza en capas estrictas para mantener el dominio aislado de la infraestructura:
+Para mantener el código mantenible, escalable y testable, el núcleo del orquestador fotográfico (`src/`) ha sido estructurado siguiendo estrictamente los preceptos de **Clean Architecture** y **Domain-Driven Design (DDD)**.
 
 ```mermaid
 graph TD
@@ -19,66 +17,74 @@ graph TD
     I -.-> A
 ```
 
-| Capa | Descripción | Contenido |
-| --- | --- | --- |
-| **Domain** | Reglas de negocio puras | Entidades (`Location`, `Camera`), Value Objects, interfaces de repositorios (`CameraRepository`). |
-| **Application** | Casos de uso | Lógica de orquestación como `CaptureImagesUseCase`, interactuando con repositorios inyectados. |
-| **Infrastructure** | Implementaciones concretas | Adaptadores para API RTSP/HTTP de cámaras de vigilancia (`DahuaCameraAdapter`, `HikvisionCameraAdapter`), cálculo de efemérides (`ConfigScheduleRepository` usando `suncalc`). |
+### 1. Domain Layer (`src/domain/`)
+Es el corazón del software. Aquí residen las reglas de negocio puras, sin dependencias externas:
+- **Entidades (`Location`, `Camera`)**: Un `Location` encapsula datos geográficos (país, estado, ciudad) y genera slugs dinámicos como `usa-arizona-phoenix`. Una `Camera` pertenece a un `Location` y mantiene su orientación cardinal (ej: `north`, `south`).
+- **Value Objects**: Manejamos objetos como `CelestialObject` (`sun`, `moon`) que estandarizan el vocabulario de dominio.
+- **Contratos (Interfaces)**: Definimos cómo el dominio espera interactuar con el mundo exterior mediante interfaces como `CameraRepository` y `ScheduleRepository`, usando la convención de no anteponer la letra "I" en TypeScript.
+
+### 2. Application Layer (`src/application/`)
+Contiene los casos de uso principales. Actúa como el orquestador entre el Dominio y la Infraestructura.
+- **`CaptureImagesUseCase`**: Su labor es inquirir las horas de captura programadas para el día de hoy, iterar sobre las ubicaciones y, si la hora actual coincide con la hora astronómica esperada, solicitar a los repositorios de cámara inyectados que tomen una foto (`takeSnapshot()`), manejando su almacenamiento en disco.
+
+### 3. Infrastructure Layer (`src/infrastructure/`)
+Donde el código interactúa con el mundo físico:
+- **Adaptadores de Cámara**: Implementaciones para diferentes fabricantes (`DahuaCameraAdapter`, `HikvisionCameraAdapter`).
+- **`ConfigScheduleRepository`**: Un repositorio dinámico que usa librerías astronómicas como `suncalc` para calcular efemérides (horas precisas del paso solar/lunar por el meridiano) usando las coordenadas de cada `Location` registradas en `src/config/locations.ts`, reemplazando por completo los viejos archivos JSON estáticos.
 
 ---
 
-## 🚀 Cómo Funciona la Orquestación
+## 🚀 Ciclo de Orquestación (Cron)
 
-El sistema calcula los horarios precisos de captura cada día para cada ubicación.
+El orquestador está diseñado para ejecutarse cíclicamente y atrapar el milisegundo preciso.
 
 ```mermaid
 sequenceDiagram
-    participant Cron
+    participant OS as Sistema Operativo (Cron)
     participant App as CaptureImagesUseCase
     participant Repo as ConfigScheduleRepository
-    participant Cam as CameraAdapter
+    participant Cam as Adapters (Cámaras IP)
+    participant FS as File System
 
-    Cron->>App: Ejecuta ciclo de verificación
-    App->>Repo: Solicita horarios del día actual para 'usa-arizona-phoenix'
-    Repo-->>App: Retorna { sun: 12:05 PM, moon: 03:45 AM }
-    App->>App: Verifica si la hora actual coincide
-    alt Coincide con captura (ej: Sol)
-        App->>Cam: takeSnapshot()
-        Cam-->>App: Buffer de imagen (JPEG)
-        App->>App: Guarda en 'captures/sun/usa-arizona-phoenix/south/YYYY-MM-DD.jpg'
+    OS->>App: Ejecuta ciclo de verificación (ej. cada minuto)
+    App->>Repo: Consulta horas de captura para el día
+    Repo-->>App: Retorna { sun: '12:05', moon: '03:45' } (Calculado via suncalc)
+    App->>App: Evalúa si la hora del sistema (America/La_Paz) coincide
+
+    alt Coincide con evento Solar (12:05)
+        App->>Cam: Inicia stream RTSP / API HTTP
+        Cam-->>App: Retorna buffer de imagen JPEG
+        App->>FS: Guarda archivo en 'captures/sun/{location}/{camera}/{YYYY-MM-DD}.jpg'
     end
 ```
 
 ---
 
-## ⚙️ Configuración (Environment & Localizaciones)
+## ⚙️ Configuración y Variables de Entorno (`.env`)
 
-Las cámaras y horarios se definen en `src/config/locations.ts`. El sistema calcula dinámicamente las horas basado en coordenadas.
+El sistema es altamente parametrizable. Asegúrate de configurar la zona horaria de tu servidor en `America/La_Paz` (UTC-4), ya que la aplicación utiliza este ancla para sincronizar y comparar los horarios globales.
 
-### Variables de Entorno `.env`
-
-| Variable | Uso |
-| --- | --- |
-| `NODE_ENV` | `development` o `production` |
-| `CRON_SCHEDULE` | Expresión cron (ej. `*/1 * * * *` para cada minuto) |
-| `OUTPUT_DIR` | Directorio raíz para guardar las imágenes (ej. `./captures`) |
-
-*Nota: Requiere establecer la zona horaria del sistema a `America/La_Paz` para cálculos predecibles si el servidor difiere de la ubicación.*
+| Variable | Descripción |
+| :--- | :--- |
+| `NODE_ENV` | Define el entorno (`development`, `production`, `test`). |
+| `CRON_SCHEDULE` | Expresión Cron estándar. Recomendado `*/1 * * * *` para evaluación minuto a minuto. |
+| `OUTPUT_DIR` | Ruta raíz del File System donde se almacenarán jerárquicamente las capturas (ej. `./captures`). |
 
 ---
 
-## 📸 Visor Web (Astro)
+## 📸 Visor Web (PWA / SSR)
 
-El directorio `web/` contiene una aplicación en **Astro** y **Tailwind CSS v4** para visualizar y reproducir los timelapses.
-Lee el [`web/README.md`](./web/README.md) para más detalles.
+Dentro del directorio `web/`, encontrarás el **Analemma Web Viewer**. Es una Progressive Web App construida con Astro, diseñada para indexar el directorio de imágenes y reproducirlas como timelapses dinámicos en un UI elegante y personalizable.
+
+Para detalles exhaustivos sobre la arquitectura frontend (manejo de memoria en buffers de imágenes, SEO, y ViewTransitions), por favor consulta el [`web/README.md`](./web/README.md).
 
 ---
 
-## 🛠️ Scripts Disponibles
+## 🛠️ Guía Rápida de Scripts
 
-Ejecutar desde la raíz del proyecto:
+Ejecuta estos comandos desde la raíz del proyecto para tareas de desarrollo o despliegue:
 
-- `npm run dev`: Inicia el orquestador en modo desarrollo (nodemon).
-- `npm run start`: Inicia el proceso en producción.
-- `npm run test:unit`: Ejecuta los tests unitarios (`node:test`).
-- `npm run lint` / `npm run format`: Chequeos Biome.
+- `npm run dev`: Levanta el orquestador principal en modo desarrollo (nodemon activo).
+- `npm run start`: Inicia el orquestador para producción.
+- `npm run test:unit`: Dispara la suite de pruebas unitarias (`node:test` nativo).
+- `npm run lint` / `npm run format`: Ejecuta comprobaciones estrictas de sintaxis y formateo de código mediante Biome.
