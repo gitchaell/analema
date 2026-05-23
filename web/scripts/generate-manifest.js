@@ -1,7 +1,7 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import sharp from 'sharp'
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'node:url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -24,7 +24,7 @@ function getDirectories(srcPath) {
 	return fs.readdirSync(srcPath).filter((file) => {
 		try {
 			return fs.statSync(path.join(srcPath, file)).isDirectory()
-		} catch (e) {
+		} catch {
 			return false
 		}
 	})
@@ -41,7 +41,7 @@ function getImages(srcPath) {
 		.sort()
 }
 
-async function processImage(inputPath, outputPath, width, quality = 80) {
+async function processImage(inputPath, outputPath, width, quality = 80, cropBox = null) {
 	if (fs.existsSync(outputPath)) return // Simple cache
 
 	const dir = path.dirname(outputPath)
@@ -50,7 +50,13 @@ async function processImage(inputPath, outputPath, width, quality = 80) {
 	}
 
 	try {
-		await sharp(inputPath)
+		let pipeline = sharp(inputPath)
+
+		if (cropBox) {
+			pipeline = pipeline.extract(cropBox)
+		}
+
+		await pipeline
 			.resize(width, null, { withoutEnlargement: true })
 			.webp({ quality })
 			.toFile(outputPath)
@@ -86,6 +92,13 @@ async function generate() {
 					const imageUrls = []
 					const processingTasks = []
 
+					const cropBox = {
+						left: 32,
+						top: 70,
+						width: 960,
+						height: 520,
+					}
+
 					// Process all images for the player (Optimized)
 					for (let i = 0; i < images.length; i++) {
 						const img = images[i]
@@ -96,13 +109,13 @@ async function generate() {
 						imageUrls.push(`/processed/${id}/${outputName}`)
 
 						// Resize for player (e.g., 1280px wide)
-						processingTasks.push(processImage(inputPath, outputPath, 1280, 75))
+						processingTasks.push(processImage(inputPath, outputPath, 1280, 75, cropBox))
 					}
 
 					// Process preview image (Thumbnail - 600px)
 					const previewInputPath = path.join(cameraPath, images[0])
 					const previewOutputPath = path.join(processedIdDir, 'preview.webp')
-					processingTasks.push(processImage(previewInputPath, previewOutputPath, 600, 80))
+					processingTasks.push(processImage(previewInputPath, previewOutputPath, 600, 80, cropBox))
 
 					// Wait for this batch to complete (or keep them async)
 					// To avoid overwhelming the system, we can process in batches or all at once
